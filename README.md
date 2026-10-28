@@ -1,6 +1,6 @@
 # 벨아벨팜 기업소개
 
-PHP 단일 페이지입니다. 사용자 작업지시서에 지정된 기업소개 9개 섹션만 구현했습니다.
+PHP 단일 페이지입니다. 본문은 9개 섹션으로 구성하며, 전체 메뉴·퀵 메뉴·푸터를 포함합니다.
 
 ## 실행
 
@@ -12,47 +12,43 @@ php -S 127.0.0.1:8086 -t public public/router.php
 
 <http://127.0.0.1:8086/>
 
-실제 호스팅에서도 웹 루트는 `public/`으로 지정합니다. `app/`, `config/`, `results/`, `tools/`는 웹에 노출하지 않습니다. Node 빌드, Composer, 데이터베이스는 필요하지 않습니다.
+웹 루트는 `public/`입니다. Composer, Node 빌드, 데이터베이스는 필요하지 않습니다.
 
-## 파일
+## 구성
 
-- `public/index.php`: 기업소개 한 페이지, 9개 섹션.
-- `app/chrome.php`, `public/assets/chrome.css`, `chrome.js`: 고정 헤더·전체 메뉴·푸터.
-- `public/assets/sections.css`: 사용자 지정 섹션 타이틀과 Lorem 서브카피 배치.
-- `public/assets/site.css`: 화면 스타일과 반응형 배치.
-- `public/assets/history.js`: 확정 연혁 탭과 설정된 사진 자동 슬라이드.
-- `public/assets/motion.js`, `motion.css`: 인트로 확대, 이미지 마스크 확장, 가로 핀스크롤, 브랜드 선택, 썸네일 전환 및 등장 효과.
-- `public/assets/vendor/`: 로컬 GSAP·ScrollTrigger, Lenis, Swiper, AOS와 라이선스.
-- `app/content.php`: 화면 노출 문구 및 비공개 연혁 후보 데이터.
-- `config/materials.php`: 확인된 소재와 빈 값 관리.
-- `app/history.php`: 확정 상태를 확인하는 연혁 렌더러.
-- `app/bootstrap.php`: 공통 이스케이프, 로컬 이미지 검사, 응답 헤더.
-- `results/작업결과.md`: 구현 항목, 비워둔 항목, 검수 결과.
+- `public/index.php`: 본문 9개 섹션과 PHP 콘텐츠 연결.
+- `includes/common.php`: 공통 함수·응답 헤더·로컬 이미지 검사.
+- `includes/head.php`: `<head>` 메타 태그·글꼴·CSS·JavaScript 연결.
+- `includes/header.php`: 상단 헤더·내비게이션·전체 메뉴.
+- `includes/contact-form.php`: B2B 문의 폼 화면. 유형·회사·담당자·연락처·제안 내용을 입력하며, 실제 제출 버튼은 비활성 상태입니다.
+- `includes/footer.php`: 하단 로고·인증 이미지 영역·회사 정보·연락처.
+- `includes/content.php`: 확정 카피와 비공개 연혁 후보.
+- `includes/company-history.php`: 회사 연혁 섹션.
+- `includes/research.php`: 조릿대 연구 본문·특허 출원사실증명원·파트너 로고 마키. 기존 연구 슬라이더는 숨김 상태로 보관합니다.
+- `public/assets/css/base.css`: 디자인 토큰·리셋·공통 스타일.
+- `public/assets/css/layout.css`: 헤더·전체 메뉴·푸터와 반응형 스타일.
+- `public/assets/css/main.css`: 메인페이지 전체 섹션·반응형·모션 접근성 스타일.
+- `public/assets/js/interaction.js`: 인트로, 핀스크롤, 제품 선택, 메뉴·드롭다운 동작.
+- `public/assets/js/contact-form.js`: 입력값 확인·오류 안내·문의 내용 글자 수 표시. 전송이나 저장은 하지 않습니다.
+- `public/assets/js/company-history.js`: 연도별 연혁 슬라이더. 화면에 보일 때 자동 재생하고 호버·포커스·모션 축소 설정에서는 정지합니다.
+- `public/assets/css/fonts.css`: 영문 Poppins·한글 Pretendard 로컬 폰트.
+- `public/assets/css/vendor/`, `public/assets/js/vendor/`: GSAP·ScrollTrigger·ScrollToPlugin 3.12.5, Lenis 1.3.4, Swiper 11.2.10.
+- UI 아이콘: 버전을 고정한 Lucide 1.63.0 CDN 라이브러리. 햄버거 버튼은 기존 형태를 유지합니다.
+- `tools/check.py`: 콘텐츠·구조·로컬 자산·비공개 경로 점검. Python 표준 라이브러리만 사용합니다.
+- `results/작업결과.md`: 구현·검수 결과.
 
-자료가 없는 항목은 `null` 또는 빈 배열입니다. 이미지 누락은 회색 영역으로 표시합니다. 추가 요청에 따라 타이틀 9개와 Lorem 서브카피 9곳을 표시하며, 원래 지정된 문구 18개는 그대로 유지합니다. Lorem은 `app/content.php`의 `lorem`, 섹션명은 `titles`에서 관리합니다. 미확정 원문·연혁·실적은 빈 값으로 유지합니다.
+제공 자료의 해녀·조릿대·봉봉이 사진만 연결했습니다. 확보되지 않은 이미지·영상의 콘텐츠 영역은 회색으로 표시합니다. 회색 SVG는 영역 비율을 유지하기 위한 단색 파일이며, 실제 인증증서나 제품 사진이 아닙니다.
 
-연혁은 `history_approved` 안에서 `status`가 `approved`인 항목만 렌더링합니다. 날짜·본문 형식은 `['date'=>'YYYY.MM.DD', 'text'=>'확정된 원문', 'status'=>'approved']`입니다. 현재 채택 자료가 없으므로 기본 화면에 연도 탭과 후보 연혁을 표시하지 않습니다. 후보 11건은 `app/content.php`의 비공개 데이터로만 보관합니다.
-
-사진 자동 전환은 연도별 확인된 로컬 사진이 2장 이상인 경우에 동작합니다. 현재 전환 간격 설정은 5초입니다. 공개 채택된 연혁과 사진이 없으므로 연혁 영역은 회색으로 표시합니다. 후보 데이터는 공개하지 않습니다.
-
-사진 슬라이더는 Swiper의 페이드 전환·드래그·자동재생을 사용합니다. Lenis의 부드러운 휠 스크롤과 GSAP ScrollTrigger의 핀 구간을 연결했습니다. 등장 효과에는 GSAP와 AOS를 사용합니다. 동작 줄이기 환경에서는 핀과 자동재생을 해제합니다.
-
-문의 필드·버튼·개인정보 문구·결과 문구·전송 API·수신 설정은 명세가 없어 구현하지 않았습니다. 화면 연락처는 표시용 문자열이며 메일 수신 설정으로 사용하지 않습니다.
+새로 필요한 텍스트는 Lorem입니다. 기존 확정 카피는 유지하고, 미채택 연혁·실적·회사 정보는 만들지 않았습니다. 제품 패널의 표와 세 가지 선택 도구는 레이아웃 확인용이며, 실제 제품 사양·추천 엔진·메일 전송 기능을 제공하지 않습니다.
 
 ## 검수
-
-PHP 서버 실행 후:
 
 ```powershell
 python -X utf8 tools/check.py
 Get-ChildItem -Recurse -Filter '*.php' | ForEach-Object { php -l $_.FullName }
-node --check public/assets/history.js
-node --check public/assets/motion.js
-node --check public/assets/chrome.js
+node --check public/assets/js/interaction.js
 ```
 
-Python 점검은 표준 라이브러리만 사용합니다. 결과는 `results/checks.json`에 기록됩니다.
+브라우저 검수 결과는 `results/responsive.json`, `results/interactions.json`과 화면 캡처에 기록합니다.
 
-## 사용 소재
-
-사용자 제공 로고 2종, 제주 해녀·조릿대·봉봉이·원물 사진을 사용했습니다. 인트로는 해녀와 수산 원물 사진, 조릿대 사진 순으로 구성했습니다. 사진은 방향·해상도·WebP 인코딩만 조정했습니다. 원본 폴더는 수정하지 않았습니다. 특허·협약·사회적 가치 증빙·연혁·아우아우·해외 박람회 이미지는 회색으로 처리했습니다. 아이콘은 Lucide의 Mail·Equal·X이며, 서체는 Pretendard Variable입니다. 라이브러리·서체·아이콘의 라이선스는 각 자산 폴더에 포함했습니다.
+B2B 문의 폼은 화면과 클라이언트 입력 검증만 구현했습니다. 실제 온라인 접수를 활성화하려면 발송 서버/API와 확정된 개인정보 수집·이용 안내를 연결해야 합니다.

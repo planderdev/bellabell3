@@ -1,126 +1,59 @@
 {
-  "date": "2026-10-28",
-  "swipeBefore": {
-    "index": "1",
-    "src": "/assets/media/hero-bamboo.webp"
+  "menuOpen": {
+    "focus": "all-menu-close",
+    "groups": 6,
+    "open": true
   },
-  "swipeAfter": {
-    "index": "0",
-    "src": "/assets/media/hero-haenyeo.webp"
+  "menuClose": {
+    "closed": true,
+    "focus": "menu-button"
   },
-  "diamondBefore": {
-    "top": 0,
-    "width": "430"
+  "quickOpen": {
+    "opacity": "1",
+    "width": 551.15625
   },
-  "diamondState": {
-    "clipWidth": "2110.820099",
-    "loremBottom": 852.0625,
-    "pinnedTop": 0,
-    "progress": "0.583",
-    "titleColor": "rgb(255, 255, 255)",
-    "titleOpacity": "1"
-  },
-  "horizontalBefore": {
-    "top": 90.203125,
-    "transform": "matrix(1, 0, 0, 1, -193, 0)"
-  },
-  "horizontalAfter": {
-    "progress": "0.829",
-    "top": 90.203125,
-    "transform": "matrix(1, 0, 0, 1, -373, 0)"
-  },
-  "aosState": {
-    "classes": [
-      "aos-init aos-animate",
-      "aos-init aos-animate",
-      "aos-init aos-animate",
-      "aos-init aos-animate",
-      "aos-init aos-animate"
+  "productSelection": {
+    "active": [
+      false,
+      true,
+      false
     ],
-    "title": 279.5
+    "description": "제주 로컬 공간사업",
+    "name": "아우아우",
+    "rows": 4
   },
-  "completedGlobal": {
-    "blue": "1",
-    "loremBottom": 702.359375,
-    "photoWidth": 235,
-    "progress": "0.820",
-    "title": {
-      "bottom": 568.078125,
-      "height": 58.59375,
-      "left": 489.59375,
-      "right": 1324.78125,
-      "top": 509.484375,
-      "width": 835.1875,
-      "x": 489.59375,
-      "y": 509.484375
-    }
+  "selectBefore": "Lorem ipsum dolor.",
+  "selectAfter": {
+    "closed": true,
+    "label": "Lorem ipsum dolor sit.",
+    "value": "2"
   },
-  "chrome": {
-    "open": {
-      "expanded": "true",
-      "focus": "site-menu-close",
-      "open": true,
-      "scrollStopped": true
-    },
-    "navigation": {
-      "focus": "research-title",
-      "hash": "#research",
-      "headerBackground": "rgb(255, 255, 255)",
-      "open": false,
-      "scrollStopped": false,
-      "title": {
-        "bottom": 331.4375,
-        "height": 57.984375,
-        "left": 47.4375,
-        "right": 1377.5625,
-        "top": 273.453125,
-        "width": 1330.125,
-        "x": 47.4375,
-        "y": 273.453125
-      }
-    },
-    "escape": {
-      "expanded": "false",
-      "focus": "site-menu-toggle",
-      "open": false
-    },
-    "footer": {
-      "background": "rgb(0, 18, 92)",
-      "height": 446,
-      "overflow": false,
-      "top": 454.234375
-    },
-    "mobileMenu": {
-      "headerHeight": 70,
-      "links": 9,
-      "open": true,
-      "overflow": false,
-      "width": 390
-    },
-    "mobileGlobal": {
-      "hash": "#global",
-      "opacity": "1",
-      "progress": "0.815",
-      "subcopy": {
-        "bottom": 658.171875,
-        "height": 103.984375,
-        "left": 127.5,
-        "right": 345,
-        "top": 554.1875,
-        "width": 217.5,
-        "x": 127.5,
-        "y": 554.1875
-      },
-      "title": {
-        "bottom": 481.390625,
-        "height": 39,
-        "left": 127.5,
-        "right": 345,
-        "top": 442.390625,
-        "width": 217.5,
-        "x": 127.5,
-        "y": 442.390625
-      }
-    }
-  }
+  "globalStage": {
+    "blueOpacity": "1",
+    "contentOpacity": "1",
+    "overflow": false,
+    "photoTop": 592.9375,
+    "photoWidth": 235.125,
+    "stats": [
+      "Lorem",
+      "Lorem",
+      "Lorem"
+    ]
+  },
+  "mobileMenu": {
+    "expanded": true,
+    "groups": 6,
+    "overflow": false
+  },
+  "staticStyles": {
+    "elements": 13,
+    "properties": 143,
+    "differences": []
+  },
+  "footer": {
+    "background": "rgb(0, 18, 92)",
+    "certificates": 11,
+    "overflow": false
+  },
+  "console": []
 }

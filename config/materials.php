@@ -4,7 +4,7 @@ declare(strict_types=1);
 return [
     'hero_images' => [
         ['src' => '/assets/media/hero-haenyeo.webp', 'alt' => '제주 해녀와 수산 원물'],
-        ['src' => '/assets/media/hero-bamboo.webp', 'alt' => '조릿대 숲'],
+        ['src' => '/assets/media/photo/farm/farm6.jpg', 'alt' => '농장에서 반려견과 함께한 두 사람'],
     ],
     'meaning_image' => ['src' => '/assets/media/meaning-bamboo.webp', 'alt' => '조릿대'],
     'mission_story' => null,

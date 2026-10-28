@@ -1,0 +1,91 @@
+<?php
+declare(strict_types=1);
+
+return [
+    'intro' => '프롬한라를 만드는 회사, 벨아벨팜입니다 / 한라산에서 찾은 천연물을 연구하는 반려동물 바이오기업',
+    'about_title' => "'벨아벨'은\n제주어로\n'다양하다'는 뜻입니다.",
+    'about_body' => '제주의 다양한 원료로 반려동물의 건강한 일상을 만듭니다',
+    'bongbong_title' => "반려동물과 사람이 함께\n행복하게 살아가는 세상",
+    'bongbong_body' => "프롬한라는 시한부 고양이 ‘봉봉이’를 구조하며 탄생하게 되었습니다.\n\n구조 당시 피를 흘리고 있던 봉봉이는 주인에게 버려진 후 차에 치여 횡경막이 터지고 신부전증, 피부염을 앓고 있어 병원에서 수술도 회복도 불가능한 시한부 선고를 받았지만\n\n현재는 제주의 건강한 먹거리를 통해 수술 없이 건강을 되찾았습니다.",
+    'research' => '한라산 조릿대를 반려동물 원료로 연구합니다',
+    'research_statement' => '우리는 자연에서 온 힘을 믿습니다.',
+    'research_body' => [
+        "사람에게만 사용되던 조릿대를 반려동물을 위해 사용한\n최초의 기업입니다.",
+        "아프고 나서 화학적인 개입을 하는 것이 아닌,\n아프기 전에 자연에서 온 원료들의 힘으로 건강을 유지하자는 것이\n벨아벨팜의 생각입니다.",
+        "한라산으로부터 얻은 조릿대는 AMPK 효소의 활성을 증가시켜\n지방 분해, 암과 당뇨 예방에 도움을 주며 항염, 진정, 보습 효과 등\n실내 생활을 하는 동물들의 피부 질환 개선에도 도움을 줍니다.",
+    ],
+    'research_partners' => [
+        ['src' => '/assets/media/partner/cms.png', 'alt' => '제주사회적경제네트워크'],
+        ['src' => '/assets/media/partner/jeju.svg', 'alt' => '제주특별자치도'],
+        ['src' => '/assets/media/partner/jjcci.svg', 'alt' => '제주상공회의소'],
+        ['src' => '/assets/media/partner/jjtech.svg', 'alt' => '제주테크노파크'],
+        ['src' => '/assets/media/partner/kstartup.webp', 'alt' => 'K-Startup'],
+        ['src' => '/assets/media/partner/sme.svg', 'alt' => '중소벤처기업부'],
+        ['src' => '/assets/media/partner/startup.svg', 'alt' => '창업진흥원'],
+    ],
+    'social' => '우리가 만드는 방식이 제주와 동물에게 돌아갑니다',
+    'family' => '벨아벨팜이 만드는 브랜드',
+    'global_title' => '제주에서 세계로',
+    'partner' => '함께할 파트너를 찾습니다',
+    'contact' => 'partner@jejubellabell.com · 064-803-0060',
+    'titles' => [
+        'intro' => '인트로',
+        'research' => '연구·기술',
+        'social' => '사회적 가치',
+        'history' => '연혁',
+        'family' => '브랜드 패밀리',
+        'global' => '글로벌',
+        'partner' => '제안 & 협업',
+    ],
+    'lorem' => '',
+    'values' => [
+        '인증 사회적기업·SVI 우수등급',
+        '지역 청년·취약계층 고용',
+        '플라스틱 제로 포장',
+        '지역 원물 제값 구매',
+        '유기동물 사회공헌',
+    ],
+    'value_descriptions' => [
+        "반려동물의 건강을 위한 연구와 실천으로\n제주와 함께하는 사회적 가치를 만듭니다.",
+        "지역 청년과 취약계층에게\n함께 일하고 성장할 기회를 만듭니다.",
+        "제품을 전하는 과정까지 환경을 생각합니다.",
+        "제주의 원물을 제값에 구매하며\n지역 생산자와 함께 성장합니다.",
+        "도움이 필요한 동물들을 위한 나눔으로\n사람과 동물의 행복한 공존을 이어갑니다.",
+    ],
+    'brands' => [
+        [
+            'name' => '프롬한라',
+            'description' => '펫 웰니스',
+            'photos' => [
+                ['src' => '/assets/media/brand-fromhalla-stick.jpg', 'alt' => '프롬한라스틱 제품과 제주 원료'],
+                ['src' => '/assets/media/brand-fromhalla-care.jpg', 'alt' => '프롬한라 펫 샴푸바와 타월'],
+                ['src' => '/assets/media/brand-ingredients.webp', 'alt' => '프롬한라의 수산물과 농산물 원료'],
+            ],
+            'logo' => ['src' => '/assets/fromhalla.svg', 'alt' => '프롬한라'],
+            'url' => null,
+        ],
+        [
+            'name' => '아우아우',
+            'description' => '제주 로컬 공간사업',
+            'photos' => [
+                ['src' => '/assets/media/brand-awoo-space.jpg', 'alt' => '제주 로컬 공간의 건물과 잔디 마당'],
+            ],
+            'logo' => null,
+            'url' => null,
+        ],
+    ],
+    // Private candidate data. The page renderer must not publish these records.
+    'history_candidates' => [
+        ['date' => '2025.12.17', 'text' => 'SVI 우수등급', 'status' => 'candidate'],
+        ['date' => '2025.11.05', 'text' => '농심과 제주 펫 산업 협력', 'status' => 'candidate'],
+        ['date' => '2025.10.28', 'text' => '제주대학교와 반려동물용 기능성 천연물 원료·제품 개발 업무협약', 'status' => 'candidate'],
+        ['date' => '2025.06.16', 'text' => '대만 30만 달러 수출 계약', 'status' => 'candidate'],
+        ['date' => '2025.05.08', 'text' => '싱가포르 박람회 100만 달러 수출 상담', 'status' => 'candidate'],
+        ['date' => '2025.04.09', 'text' => '펫 샴푸바 싱가포르 수출', 'status' => 'candidate'],
+        ['date' => '2025.02.12', 'text' => '개랑과자 싱가포르 수출', 'status' => 'candidate'],
+        ['date' => '2025.01.16', 'text' => '농촌융복합산업 인증', 'status' => 'candidate'],
+        ['date' => '2024.11.13', 'text' => '애월아빠들 MOU', 'status' => 'candidate'],
+        ['date' => '2024.10.17', 'text' => '대만 Meow Expo 참가', 'status' => 'candidate'],
+        ['date' => '2022', 'text' => '제주형 예비사회적기업 선정', 'status' => 'candidate'],
+    ],
+];

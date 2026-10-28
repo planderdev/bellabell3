@@ -1,517 +1,1022 @@
 {
-  "date": "2026-10-28",
-  "passed": 102,
-  "total": 102,
+  "date": "2026-10-29",
+  "passed": 203,
+  "total": 203,
   "checks": [
     {
-      "check": "PHP page returns 200",
+      "check": "PHP returns 200",
       "pass": true,
       "detail": ""
     },
     {
-      "check": "Exactly 9 sections in the specified order",
+      "check": "History follows social and global immediately precedes contact",
       "pass": true,
       "detail": ""
     },
     {
-      "check": "Exactly the specified 18 copy fields",
+      "check": "Component structure count",
+      "pass": true,
+      "detail": "technology-item"
+    },
+    {
+      "check": "Component structure count",
+      "pass": true,
+      "detail": "standard-card"
+    },
+    {
+      "check": "Component structure count",
+      "pass": true,
+      "detail": "product-item"
+    },
+    {
+      "check": "Component structure count",
+      "pass": true,
+      "detail": "products-photo-slide"
+    },
+    {
+      "check": "Component structure count",
+      "pass": true,
+      "detail": "products-shape"
+    },
+    {
+      "check": "Component structure count",
+      "pass": true,
+      "detail": "products-spec"
+    },
+    {
+      "check": "Component structure count",
+      "pass": true,
+      "detail": "form-field"
+    },
+    {
+      "check": "Component structure count",
+      "pass": true,
+      "detail": "contact-item"
+    },
+    {
+      "check": "Card structure count",
+      "pass": true,
+      "detail": "care-section"
+    },
+    {
+      "check": "Five navigation groups match the remaining sections",
       "pass": true,
       "detail": ""
     },
     {
-      "check": "Verbatim text including spacing, punctuation and case",
+      "check": "Deleted global selectors removed",
       "pass": true,
-      "detail": "intro"
+      "detail": ""
     },
     {
-      "check": "Verbatim text including spacing, punctuation and case",
+      "check": "Confirmed copy is verbatim",
       "pass": true,
-      "detail": "meaning"
+      "detail": "intro-title"
     },
     {
-      "check": "Verbatim text including spacing, punctuation and case",
+      "check": "Confirmed copy is verbatim",
       "pass": true,
-      "detail": "mission"
+      "detail": "intro-body"
     },
     {
-      "check": "Verbatim text including spacing, punctuation and case",
+      "check": "Confirmed copy is verbatim",
+      "pass": true,
+      "detail": "about-title"
+    },
+    {
+      "check": "Confirmed copy is verbatim",
+      "pass": true,
+      "detail": "about-body"
+    },
+    {
+      "check": "Confirmed copy is verbatim",
+      "pass": true,
+      "detail": "bongbong-title"
+    },
+    {
+      "check": "Confirmed copy is verbatim",
+      "pass": true,
+      "detail": "bongbong-body"
+    },
+    {
+      "check": "Confirmed copy is verbatim",
+      "pass": true,
+      "detail": "global-title"
+    },
+    {
+      "check": "Confirmed copy is verbatim",
       "pass": true,
       "detail": "research"
     },
     {
-      "check": "Verbatim text including spacing, punctuation and case",
+      "check": "Confirmed copy is verbatim",
       "pass": true,
       "detail": "social"
     },
     {
-      "check": "Verbatim text including spacing, punctuation and case",
-      "pass": true,
-      "detail": "value-0"
-    },
-    {
-      "check": "Verbatim text including spacing, punctuation and case",
-      "pass": true,
-      "detail": "value-1"
-    },
-    {
-      "check": "Verbatim text including spacing, punctuation and case",
-      "pass": true,
-      "detail": "value-2"
-    },
-    {
-      "check": "Verbatim text including spacing, punctuation and case",
-      "pass": true,
-      "detail": "value-3"
-    },
-    {
-      "check": "Verbatim text including spacing, punctuation and case",
-      "pass": true,
-      "detail": "value-4"
-    },
-    {
-      "check": "Verbatim text including spacing, punctuation and case",
+      "check": "Confirmed copy is verbatim",
       "pass": true,
       "detail": "family"
     },
     {
-      "check": "Verbatim text including spacing, punctuation and case",
+      "check": "Confirmed copy is verbatim",
       "pass": true,
-      "detail": "brand-0-name"
+      "detail": "brand-label"
     },
     {
-      "check": "Verbatim text including spacing, punctuation and case",
+      "check": "Confirmed copy is verbatim",
       "pass": true,
-      "detail": "brand-0-description"
+      "detail": "brand-subtitle"
     },
     {
-      "check": "Verbatim text including spacing, punctuation and case",
-      "pass": true,
-      "detail": "brand-1-name"
-    },
-    {
-      "check": "Verbatim text including spacing, punctuation and case",
-      "pass": true,
-      "detail": "brand-1-description"
-    },
-    {
-      "check": "Verbatim text including spacing, punctuation and case",
-      "pass": true,
-      "detail": "global"
-    },
-    {
-      "check": "Verbatim text including spacing, punctuation and case",
+      "check": "Confirmed copy is verbatim",
       "pass": true,
       "detail": "partner"
     },
     {
-      "check": "Verbatim text including spacing, punctuation and case",
+      "check": "Confirmed copy is verbatim",
       "pass": true,
       "detail": "contact"
     },
     {
-      "check": "Only approved text, section labels, and requested Lorem",
+      "check": "Confirmed copy is verbatim",
+      "pass": true,
+      "detail": "value-0"
+    },
+    {
+      "check": "Confirmed copy is verbatim",
+      "pass": true,
+      "detail": "value-1"
+    },
+    {
+      "check": "Confirmed copy is verbatim",
+      "pass": true,
+      "detail": "value-2"
+    },
+    {
+      "check": "Confirmed copy is verbatim",
+      "pass": true,
+      "detail": "value-3"
+    },
+    {
+      "check": "Confirmed copy is verbatim",
+      "pass": true,
+      "detail": "value-4"
+    },
+    {
+      "check": "Two brand selectors use confirmed names",
       "pass": true,
       "detail": ""
     },
     {
-      "check": "Exactly the nine requested section titles",
+      "check": "Brand selectors retain confirmed descriptions",
       "pass": true,
       "detail": ""
     },
     {
-      "check": "One Lorem subcopy area in each section",
+      "check": "No source business facts",
       "pass": true,
       "detail": ""
     },
     {
-      "check": "Exactly one page H1",
+      "check": "History has three year tabs",
       "pass": true,
       "detail": ""
     },
     {
-      "check": "Header, footer, and full menu are present",
+      "check": "History groups contain eight, two and one events",
       "pass": true,
       "detail": ""
     },
     {
-      "check": "All navigation targets resolve to actual sections",
+      "check": "History retains all eleven supplied dates and descriptions",
       "pass": true,
       "detail": ""
     },
     {
-      "check": "All IDs are unique",
+      "check": "Unconfirmed history photos stay gray",
       "pass": true,
       "detail": ""
     },
     {
-      "check": "Intro slash retained",
+      "check": "No source media paths",
       "pass": true,
       "detail": ""
     },
     {
-      "check": "No unspecified UI element",
-      "pass": true,
-      "detail": "form"
-    },
-    {
-      "check": "No unspecified UI element",
-      "pass": true,
-      "detail": "input"
-    },
-    {
-      "check": "No unspecified UI element",
-      "pass": true,
-      "detail": "textarea"
-    },
-    {
-      "check": "No unspecified UI element",
-      "pass": true,
-      "detail": "video"
-    },
-    {
-      "check": "No unspecified UI element",
-      "pass": true,
-      "detail": "iframe"
-    },
-    {
-      "check": "Only confirmed local photos and logos",
+      "check": "Unique IDs",
       "pass": true,
       "detail": ""
     },
     {
-      "check": "Two brand selectors and two menu controls only",
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#intro"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#research"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#research"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#family"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#social"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#social"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#history"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#family"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#global"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#family"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#family"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#partner"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#global"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#global"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#intro"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#family"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#partner"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#partner"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#intro"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#global"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#family"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#partner"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#partner"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#partner"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#partner"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#partner"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#partner"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#partner"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#partner"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#partner"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#partner"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "mailto:partner@jejubellabell.com"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "tel:0648030060"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "mailto:partner@jejubellabell.com"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#intro"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "https://www.instagram.com/from_halla/"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "https://blog.naver.com/jejubellabell"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "https://pf.kakao.com/_JTnxks"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#research"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#global"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#partner"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "https://m.fromhalla.com/article/%EB%B3%B4%EB%8F%84%EC%9E%90%EB%A3%8C/2/13641/#"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "tel:0648030060"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "mailto:partner@jejubellabell.com"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "https://pf.kakao.com/_JTnxks"
+    },
+    {
+      "check": "Video has no downloaded or external source",
       "pass": true,
       "detail": ""
     },
     {
-      "check": "Six missing image areas use gray surfaces",
-      "pass": true,
-      "detail": ""
-    },
-    {
-      "check": "No empty image source",
-      "pass": true,
-      "detail": ""
-    },
-    {
-      "check": "Images have alt attributes",
-      "pass": true,
-      "detail": ""
-    },
-    {
-      "check": "Candidate dates and export statements are not public",
-      "pass": true,
-      "detail": ""
-    },
-    {
-      "check": "No public editorial or placeholder text",
-      "pass": true,
-      "detail": ""
-    },
-    {
-      "check": "No skeleton or image placeholder classes",
-      "pass": true,
-      "detail": ""
-    },
-    {
-      "check": "No inline event handlers or scripts",
-      "pass": true,
-      "detail": ""
-    },
-    {
-      "check": "No automatic copy transformation",
-      "pass": true,
-      "detail": ""
-    },
-    {
-      "check": "Motion uses the requested local libraries",
-      "pass": true,
-      "detail": ""
-    },
-    {
-      "check": "CSP present",
-      "pass": true,
-      "detail": ""
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/fonts/PretendardVariable.woff2"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/fonts/PretendardVariable.woff2"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/vendor/lenis.css"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/vendor/lenis.css"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/vendor/swiper-bundle.min.css"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/vendor/swiper-bundle.min.css"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/vendor/aos.css"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/vendor/aos.css"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/site.css"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/site.css"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/motion.css"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/motion.css"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/sections.css"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/sections.css"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/chrome.css"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/chrome.css"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/vendor/gsap.min.js"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/vendor/gsap.min.js"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/vendor/ScrollTrigger.min.js"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/vendor/ScrollTrigger.min.js"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/vendor/lenis.min.js"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/vendor/lenis.min.js"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/vendor/swiper-bundle.min.js"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/vendor/swiper-bundle.min.js"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/vendor/aos.js"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/vendor/aos.js"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/history.js"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/history.js"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/motion.js"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/motion.js"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/chrome.js"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/chrome.js"
-    },
-    {
-      "check": "All page assets local",
+      "check": "Asset is local or the pinned Lucide library",
       "pass": true,
       "detail": "/assets/bellabelfarm.svg"
     },
     {
-      "check": "Asset loads successfully",
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/bongbong.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/css/base.css"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/css/fonts.css"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/css/layout.css"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/css/main.css"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/css/vendor/swiper-bundle.min.css"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/fonts/PretendardVariable.woff2"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/fromhalla.svg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/gray.svg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/icons/blog.svg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/icons/insta.svg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/icons/kakaoch.svg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/js/brand-gallery.js"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/js/company-history.js"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/js/contact-form.js"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/js/interaction.js"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/js/vendor/ScrollToPlugin.min.js"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/js/vendor/ScrollTrigger.min.js"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/js/vendor/gsap.min.js"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/js/vendor/lenis.min.js"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/js/vendor/swiper-bundle.min.js"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/brand-awoo-space.jpg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/brand-fromhalla-care.jpg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/brand-fromhalla-stick.jpg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/brand-ingredients.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/global-gallery.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/hero-haenyeo.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/mission-beach.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/mission-bongbong.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/partner/cms.png"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/partner/jeju.svg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/partner/jjcci.svg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/partner/jjtech.svg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/partner/kstartup.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/partner/sme.svg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/partner/startup.svg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/patents/vegan-cookie-application.jpg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/photo/farm/farm6.jpg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "https://unpkg.com/lucide@1.63.0/dist/umd/lucide.min.js"
+    },
+    {
+      "check": "Lucide library uses a pinned version and integrity check",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Local icon images use the supplied SNS assets",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Hamburger retains its two original bars",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Local asset responds 200",
       "pass": true,
       "detail": "/assets/bellabelfarm.svg"
     },
     {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/media/hero-haenyeo.webp"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/media/hero-haenyeo.webp"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/media/hero-bamboo.webp"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/media/hero-bamboo.webp"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/fromhalla.svg"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/fromhalla.svg"
-    },
-    {
-      "check": "All page assets local",
-      "pass": true,
-      "detail": "/assets/media/meaning-bamboo.webp"
-    },
-    {
-      "check": "Asset loads successfully",
-      "pass": true,
-      "detail": "/assets/media/meaning-bamboo.webp"
-    },
-    {
-      "check": "All page assets local",
+      "check": "Local asset responds 200",
       "pass": true,
       "detail": "/assets/bongbong.webp"
     },
     {
-      "check": "Asset loads successfully",
+      "check": "Local asset responds 200",
       "pass": true,
-      "detail": "/assets/bongbong.webp"
+      "detail": "/assets/css/base.css"
     },
     {
-      "check": "All page assets local",
+      "check": "Local asset responds 200",
       "pass": true,
-      "detail": "/assets/media/mission-bongbong.webp"
+      "detail": "/assets/css/fonts.css"
     },
     {
-      "check": "Asset loads successfully",
+      "check": "Local asset responds 200",
       "pass": true,
-      "detail": "/assets/media/mission-bongbong.webp"
+      "detail": "/assets/css/layout.css"
     },
     {
-      "check": "All page assets local",
+      "check": "Local asset responds 200",
       "pass": true,
-      "detail": "/assets/media/mission-beach.webp"
+      "detail": "/assets/css/main.css"
     },
     {
-      "check": "Asset loads successfully",
+      "check": "Local asset responds 200",
       "pass": true,
-      "detail": "/assets/media/mission-beach.webp"
+      "detail": "/assets/css/vendor/swiper-bundle.min.css"
     },
     {
-      "check": "All page assets local",
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/PretendardVariable.woff2"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/fromhalla.svg"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/gray.svg"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/icons/blog.svg"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/icons/insta.svg"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/icons/kakaoch.svg"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/js/brand-gallery.js"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/js/company-history.js"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/js/contact-form.js"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/js/interaction.js"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/js/vendor/ScrollToPlugin.min.js"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/js/vendor/ScrollTrigger.min.js"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/js/vendor/gsap.min.js"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/js/vendor/lenis.min.js"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/js/vendor/swiper-bundle.min.js"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/brand-awoo-space.jpg"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/brand-fromhalla-care.jpg"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/brand-fromhalla-stick.jpg"
+    },
+    {
+      "check": "Local asset responds 200",
       "pass": true,
       "detail": "/assets/media/brand-ingredients.webp"
     },
     {
-      "check": "Asset loads successfully",
+      "check": "Local asset responds 200",
       "pass": true,
-      "detail": "/assets/media/brand-ingredients.webp"
+      "detail": "/assets/media/global-gallery.webp"
     },
     {
-      "check": "Unspecified routes and private data not exposed",
+      "check": "Local asset responds 200",
       "pass": true,
-      "detail": "/app/content.php"
+      "detail": "/assets/media/hero-haenyeo.webp"
     },
     {
-      "check": "Unspecified routes and private data not exposed",
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/mission-beach.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/mission-bongbong.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/partner/cms.png"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/partner/jeju.svg"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/partner/jjcci.svg"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/partner/jjtech.svg"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/partner/kstartup.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/partner/sme.svg"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/partner/startup.svg"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/patents/vegan-cookie-application.jpg"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/photo/farm/farm6.jpg"
+    },
+    {
+      "check": "Footer SNS links match the supplied local icons",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Footer SNS links have accessible names and safe new tabs",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Unused gray footer SVGs removed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Previous design file removed",
+      "pass": true,
+      "detail": "site.css"
+    },
+    {
+      "check": "Previous design file removed",
+      "pass": true,
+      "detail": "motion.css"
+    },
+    {
+      "check": "Previous design file removed",
+      "pass": true,
+      "detail": "sections.css"
+    },
+    {
+      "check": "Previous design file removed",
+      "pass": true,
+      "detail": "chrome.css"
+    },
+    {
+      "check": "Previous design file removed",
+      "pass": true,
+      "detail": "motion.js"
+    },
+    {
+      "check": "Previous design file removed",
+      "pass": true,
+      "detail": "chrome.js"
+    },
+    {
+      "check": "Previous design file removed",
+      "pass": true,
+      "detail": "history.js"
+    },
+    {
+      "check": "CSS has no remote or source image URL",
+      "pass": true,
+      "detail": "base.css"
+    },
+    {
+      "check": "CSS has no remote or source image URL",
+      "pass": true,
+      "detail": "layout.css"
+    },
+    {
+      "check": "CSS has no remote or source image URL",
+      "pass": true,
+      "detail": "fonts.css"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Bold.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Medium.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Regular.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Light.woff2"
+    },
+    {
+      "check": "CSS has no remote or source image URL",
+      "pass": true,
+      "detail": "main.css"
+    },
+    {
+      "check": "Current pin distance retained",
+      "pass": true,
+      "detail": "600"
+    },
+    {
+      "check": "Current pin distance retained",
+      "pass": true,
+      "detail": "180"
+    },
+    {
+      "check": "No inline scripts or event handlers",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Business contact form is a UI preview with submission disabled",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Private and undefined routes return 404",
+      "pass": true,
+      "detail": "/includes/common.php"
+    },
+    {
+      "check": "Private and undefined routes return 404",
+      "pass": true,
+      "detail": "/includes/head.php"
+    },
+    {
+      "check": "Private and undefined routes return 404",
+      "pass": true,
+      "detail": "/includes/header.php"
+    },
+    {
+      "check": "Private and undefined routes return 404",
+      "pass": true,
+      "detail": "/includes/footer.php"
+    },
+    {
+      "check": "Private and undefined routes return 404",
+      "pass": true,
+      "detail": "/includes/content.php"
+    },
+    {
+      "check": "Private and undefined routes return 404",
+      "pass": true,
+      "detail": "/includes/company-history.php"
+    },
+    {
+      "check": "Private and undefined routes return 404",
+      "pass": true,
+      "detail": "/includes/research.php"
+    },
+    {
+      "check": "Private and undefined routes return 404",
+      "pass": true,
+      "detail": "/includes/contact-form.php"
+    },
+    {
+      "check": "Private and undefined routes return 404",
       "pass": true,
       "detail": "/config/materials.php"
     },
     {
-      "check": "Unspecified routes and private data not exposed",
+      "check": "Private and undefined routes return 404",
       "pass": true,
       "detail": "/company.php"
     },
     {
-      "check": "Unspecified routes and private data not exposed",
+      "check": "Private and undefined routes return 404",
       "pass": true,
-      "detail": "/ingredients.php"
-    },
-    {
-      "check": "Unspecified routes and private data not exposed",
-      "pass": true,
-      "detail": "/contact.php"
-    },
-    {
-      "check": "Unspecified routes and private data not exposed",
-      "pass": true,
-      "detail": "/missing-page"
+      "detail": "/en/product/find.php"
     }
   ]
 }
