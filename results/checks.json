@@ -1,0 +1,517 @@
+{
+  "date": "2026-10-28",
+  "passed": 102,
+  "total": 102,
+  "checks": [
+    {
+      "check": "PHP page returns 200",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Exactly 9 sections in the specified order",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Exactly the specified 18 copy fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "intro"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "meaning"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "mission"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "research"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "social"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "value-0"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "value-1"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "value-2"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "value-3"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "value-4"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "family"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "brand-0-name"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "brand-0-description"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "brand-1-name"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "brand-1-description"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "global"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "partner"
+    },
+    {
+      "check": "Verbatim text including spacing, punctuation and case",
+      "pass": true,
+      "detail": "contact"
+    },
+    {
+      "check": "Only approved text, section labels, and requested Lorem",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Exactly the nine requested section titles",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "One Lorem subcopy area in each section",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Exactly one page H1",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Header, footer, and full menu are present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "All navigation targets resolve to actual sections",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "All IDs are unique",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Intro slash retained",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "No unspecified UI element",
+      "pass": true,
+      "detail": "form"
+    },
+    {
+      "check": "No unspecified UI element",
+      "pass": true,
+      "detail": "input"
+    },
+    {
+      "check": "No unspecified UI element",
+      "pass": true,
+      "detail": "textarea"
+    },
+    {
+      "check": "No unspecified UI element",
+      "pass": true,
+      "detail": "video"
+    },
+    {
+      "check": "No unspecified UI element",
+      "pass": true,
+      "detail": "iframe"
+    },
+    {
+      "check": "Only confirmed local photos and logos",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Two brand selectors and two menu controls only",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Six missing image areas use gray surfaces",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "No empty image source",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Images have alt attributes",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Candidate dates and export statements are not public",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "No public editorial or placeholder text",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "No skeleton or image placeholder classes",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "No inline event handlers or scripts",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "No automatic copy transformation",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Motion uses the requested local libraries",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "CSP present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/fonts/PretendardVariable.woff2"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/fonts/PretendardVariable.woff2"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/vendor/lenis.css"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/vendor/lenis.css"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/vendor/swiper-bundle.min.css"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/vendor/swiper-bundle.min.css"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/vendor/aos.css"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/vendor/aos.css"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/site.css"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/site.css"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/motion.css"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/motion.css"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/sections.css"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/sections.css"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/chrome.css"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/chrome.css"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/vendor/gsap.min.js"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/vendor/gsap.min.js"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/vendor/ScrollTrigger.min.js"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/vendor/ScrollTrigger.min.js"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/vendor/lenis.min.js"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/vendor/lenis.min.js"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/vendor/swiper-bundle.min.js"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/vendor/swiper-bundle.min.js"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/vendor/aos.js"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/vendor/aos.js"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/history.js"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/history.js"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/motion.js"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/motion.js"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/chrome.js"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/chrome.js"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/bellabelfarm.svg"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/bellabelfarm.svg"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/media/hero-haenyeo.webp"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/media/hero-haenyeo.webp"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/media/hero-bamboo.webp"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/media/hero-bamboo.webp"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/fromhalla.svg"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/fromhalla.svg"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/media/meaning-bamboo.webp"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/media/meaning-bamboo.webp"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/bongbong.webp"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/bongbong.webp"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/media/mission-bongbong.webp"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/media/mission-bongbong.webp"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/media/mission-beach.webp"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/media/mission-beach.webp"
+    },
+    {
+      "check": "All page assets local",
+      "pass": true,
+      "detail": "/assets/media/brand-ingredients.webp"
+    },
+    {
+      "check": "Asset loads successfully",
+      "pass": true,
+      "detail": "/assets/media/brand-ingredients.webp"
+    },
+    {
+      "check": "Unspecified routes and private data not exposed",
+      "pass": true,
+      "detail": "/app/content.php"
+    },
+    {
+      "check": "Unspecified routes and private data not exposed",
+      "pass": true,
+      "detail": "/config/materials.php"
+    },
+    {
+      "check": "Unspecified routes and private data not exposed",
+      "pass": true,
+      "detail": "/company.php"
+    },
+    {
+      "check": "Unspecified routes and private data not exposed",
+      "pass": true,
+      "detail": "/ingredients.php"
+    },
+    {
+      "check": "Unspecified routes and private data not exposed",
+      "pass": true,
+      "detail": "/contact.php"
+    },
+    {
+      "check": "Unspecified routes and private data not exposed",
+      "pass": true,
+      "detail": "/missing-page"
+    }
+  ]
+}
