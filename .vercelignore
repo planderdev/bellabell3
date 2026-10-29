@@ -1,0 +1,7 @@
+# Original photo shoot (~280 MB) stays in git but is not deployed; only referenced files ship.
+/public/assets/media/photo/*/*
+!/public/assets/media/photo/farm/farm6.jpg
+/results
+/tools
+/db
+/.env

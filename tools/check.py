@@ -114,7 +114,9 @@ for name in ('base.css','layout.css','fonts.css','main.css'):
 js='\n'.join((ROOT/'public/assets/js'/name).read_text(encoding='utf-8') for name in ('interaction.js','brand-gallery.js'))
 for distance in ('600','180'):check('Current pin distance retained',bool(re.search(r'end\s*:\s*[\"\']\+='+distance+r'%[\"\']',js)),distance)
 check('No inline scripts or event handlers','<script>' not in html and not re.search(r'\son[a-z]+=',html))
-check('Business contact form is a UI preview with submission disabled',len(byclass('business-contact-form'))==1 and len([n for n in nodes if n.tag=='button' and n.a.get('type')=='submit' and 'disabled' in n.a])==1 and "form-action 'none'" in headers.get('Content-Security-Policy',''))
+forms=byclass('business-contact-form')
+check('Business contact form posts to the inquiry endpoint with a token and honeypot',len(forms)==1 and forms[0].a.get('action')=='/api/contact' and forms[0].a.get('method')=='post' and any(n.tag=='input' and n.a.get('name')=='form_token' for n in nodes) and any(n.tag=='input' and n.a.get('name')=='fax' for n in nodes) and "form-action 'self'" in headers.get('Content-Security-Policy',''))
+check('Business contact form discloses privacy collection terms',len(byclass('contact-privacy'))==1)
 for path in ['/includes/common.php','/includes/head.php','/includes/header.php','/includes/footer.php','/includes/content.php','/includes/company-history.php','/includes/research.php','/includes/contact-form.php','/config/materials.php','/company.php','/en/product/find.php']:
     check('Private and undefined routes return 404',fetch(path)[0]==404,path)
 report={'date':'2026-10-29','passed':sum(c['pass'] for c in checks),'total':len(checks),'checks':checks}

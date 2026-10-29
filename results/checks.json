@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "passed": 206,
-  "total": 206,
+  "passed": 207,
+  "total": 207,
   "checks": [
     {
       "check": "PHP returns 200",
@@ -931,12 +931,12 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Medium.woff2"
+      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
     },
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
+      "detail": "/assets/fonts/Poppins-Regular.woff2"
     },
     {
       "check": "CSS asset responds 200",
@@ -946,12 +946,12 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Bold.woff2"
+      "detail": "/assets/fonts/Poppins-Medium.woff2"
     },
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Regular.woff2"
+      "detail": "/assets/fonts/Poppins-Bold.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",
@@ -974,7 +974,12 @@
       "detail": ""
     },
     {
-      "check": "Business contact form is a UI preview with submission disabled",
+      "check": "Business contact form posts to the inquiry endpoint with a token and honeypot",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Business contact form discloses privacy collection terms",
       "pass": true,
       "detail": ""
     },

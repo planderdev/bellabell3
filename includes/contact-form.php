@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/contact-handler.php';
+$inquiryReady = inquiry_ready();
 ?>
-<form class="business-contact-form" id="business-contact-form" aria-labelledby="business-contact-title" aria-describedby="business-contact-notice" novalidate>
+<form class="business-contact-form" id="business-contact-form" method="post" action="/api/contact" aria-labelledby="business-contact-title" aria-describedby="business-contact-notice" novalidate>
 <div class="contact-form-head">
 <h3 id="business-contact-title">비즈니스 문의</h3>
 <p><span aria-hidden="true">*</span> 필수 입력 항목</p>
@@ -59,13 +61,28 @@ declare(strict_types=1);
 <p class="contact-field-error" aria-live="polite" id="business-message-error" hidden></p>
 </div>
 </div>
-<!-- Connect the approved privacy notice and submission endpoint before enabling online inquiries. -->
+<input type="hidden" name="form_token" value="<?= e($inquiryReady ? issue_inquiry_token() : '') ?>"/>
+<div class="contact-honeypot" aria-hidden="true"><label for="business-fax">팩스</label><input id="business-fax" name="fax" type="text" tabindex="-1" autocomplete="off"/></div>
 <div class="contact-consent">
-<label for="business-consent"><input id="business-consent" name="privacy_consent" type="checkbox" required aria-describedby="business-consent-error"/><span>문의 검토와 회신을 위한 개인정보 수집·이용에 동의합니다. <span class="contact-required">*</span></span></label>
+<!-- Retention follows the V1 operating standard; confirm with the client before launch. -->
+<details class="contact-privacy">
+<summary>개인정보 수집·이용 안내</summary>
+<dl>
+<div><dt>수집 항목</dt><dd>회사·기관명, 담당자명, 업무용 이메일, 연락처(선택), 회사 홈페이지(선택), 문의 내용</dd></div>
+<div><dt>이용 목적</dt><dd>비즈니스 문의 검토 및 회신</dd></div>
+<div><dt>보유 기간</dt><dd>문의 응대 완료 후 1년 이내 삭제. 법령에 따른 보관 의무가 있으면 해당 기간을 따릅니다.</dd></div>
+<div><dt>동의 거부</dt><dd>동의하지 않을 수 있으며, 이 경우 온라인 문의 접수가 제한됩니다.</dd></div>
+</dl>
+</details>
+<label for="business-consent"><input id="business-consent" name="privacy_consent" type="checkbox" value="1" required aria-describedby="business-consent-error"/><span>문의 검토와 회신을 위한 개인정보 수집·이용에 동의합니다. <span class="contact-required">*</span></span></label>
 <p class="contact-field-error" aria-live="polite" id="business-consent-error" hidden></p>
 </div>
-<div class="contact-form-notice" id="business-contact-notice">
+<div class="contact-form-notice" id="business-contact-notice" role="status" aria-live="polite">
+<?php if ($inquiryReady): ?>
+<p>보내주신 문의는 담당자가 검토 후 입력하신 이메일로 회신드립니다.<br/>메일로 보내실 경우 <a href="mailto:partner@jejubellabell.com">partner@jejubellabell.com</a>을 이용해 주세요.</p>
+<?php else: ?>
 <p>온라인 문의 접수를 준비 중입니다.<br/>입점·제휴 제안은 <a href="mailto:partner@jejubellabell.com">partner@jejubellabell.com</a>으로 보내주세요.</p>
+<?php endif; ?>
 </div>
-<button class="contact-submit" type="submit" disabled>문의 보내기<i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></button>
+<button class="contact-submit" type="submit"<?= $inquiryReady ? '' : ' disabled' ?>>문의 보내기<i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></button>
 </form>
