@@ -202,6 +202,19 @@ textarea {
     font-family: inherit;
 }
 
+/* Use the Lucide chevron for dropdowns while retaining native select behavior. */
+select:not([multiple]):not([size]),
+select:not([multiple])[size="1"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 44px;
+    background-image: url("/assets/icons/chevron-down.svg");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 20px 20px;
+}
+
 .site-icon {
     display: inline-block;
     width: 24px;

@@ -2129,7 +2129,7 @@ video[data-media-state="missing"] {
 }
 
 .contact-form-head p > span,
-.contact-field label > span,
+.contact-field > label > span,
 .contact-required {
     color: var(--red-700);
 }
@@ -2148,7 +2148,8 @@ video[data-media-state="missing"] {
     grid-column: 1 / -1;
 }
 
-.contact-field label {
+.contact-field > label,
+.contact-field > legend {
     display: flex;
     align-items: baseline;
     gap: 6px;
@@ -2165,7 +2166,7 @@ video[data-media-state="missing"] {
     font-weight: var(--fw-400);
 }
 
-.contact-field :is(input, select, textarea) {
+.contact-field > :is(input, select, textarea) {
     display: block;
     width: 100%;
     min-width: 0;
@@ -2173,7 +2174,7 @@ video[data-media-state="missing"] {
     padding: 13px 14px;
     border: 1px solid var(--grey-300);
     border-radius: 8px;
-    background: var(--white);
+    background-color: var(--white);
     color: var(--text);
     font-size: 16px;
     font-weight: var(--fw-400);
@@ -2188,6 +2189,61 @@ video[data-media-state="missing"] {
 
 .contact-field select:invalid {
     color: var(--grey-600);
+}
+
+.contact-inquiry-types {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.contact-field-help {
+    color: var(--text-sub);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.contact-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.contact-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 12px;
+    border: 1px solid var(--grey-300);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: border-color .2s ease, background-color .2s ease;
+}
+
+.contact-checkbox:hover {
+    border-color: var(--green-800);
+}
+
+.contact-checkbox:has(input:checked) {
+    border-color: var(--green-800);
+    background-color: var(--green-50);
+}
+
+.contact-checkbox input {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--green-800);
+    cursor: pointer;
+}
+
+.contact-inquiry-types[aria-invalid=true] .contact-checkbox {
+    border-color: var(--red-700);
 }
 
 .contact-field textarea {
@@ -2316,6 +2372,10 @@ video[data-media-state="missing"] {
     .contact-fields {
         grid-template-columns: minmax(0, 1fr);
         gap: 20px;
+    }
+
+    .contact-checkboxes {
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .contact-message-help {

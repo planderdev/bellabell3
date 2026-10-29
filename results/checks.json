@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "passed": 203,
-  "total": 203,
+  "passed": 206,
+  "total": 206,
   "checks": [
     {
       "check": "PHP returns 200",
@@ -441,6 +441,11 @@
     {
       "check": "Asset is local or the pinned Lucide library",
       "pass": true,
+      "detail": "/assets/bellabelfarm-s.svg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
       "detail": "/assets/bellabelfarm.svg"
     },
     {
@@ -652,6 +657,11 @@
       "check": "Hamburger retains its two original bars",
       "pass": true,
       "detail": ""
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/bellabelfarm-s.svg"
     },
     {
       "check": "Local asset responds 200",
@@ -904,6 +914,11 @@
       "detail": "base.css"
     },
     {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/icons/chevron-down.svg"
+    },
+    {
       "check": "CSS has no remote or source image URL",
       "pass": true,
       "detail": "layout.css"
@@ -912,11 +927,6 @@
       "check": "CSS has no remote or source image URL",
       "pass": true,
       "detail": "fonts.css"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
-      "detail": "/assets/fonts/Poppins-Bold.woff2"
     },
     {
       "check": "CSS asset responds 200",
@@ -931,12 +941,17 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Regular.woff2"
+      "detail": "/assets/fonts/Poppins-Light.woff2"
     },
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Light.woff2"
+      "detail": "/assets/fonts/Poppins-Bold.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Regular.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",

@@ -11,7 +11,7 @@ $introSecond = $introParts[1] ?? '';
 <div class="header-inner">
 <div class="header-logo">
 <a href="#intro">
-<img alt="벨아벨팜" src="/assets/bellabelfarm.svg"/>
+<img alt="벨아벨팜" src="/assets/bellabelfarm-s.svg"/>
 </a>
 </div>
 <nav class="gnb">

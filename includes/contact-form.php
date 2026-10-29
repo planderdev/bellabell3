@@ -7,19 +7,19 @@ declare(strict_types=1);
 <p><span aria-hidden="true">*</span> 필수 입력 항목</p>
 </div>
 <div class="contact-fields">
-<div class="contact-field contact-field--wide">
-<label for="business-inquiry-type">문의 유형 <span aria-hidden="true">*</span></label>
-<select id="business-inquiry-type" name="inquiry_type" required aria-describedby="business-inquiry-type-error">
-<option value="" selected disabled>문의 유형을 선택해 주세요</option>
-<option value="distribution">유통·입점 제안</option>
-<option value="export">해외 수출·수입</option>
-<option value="bulk">대량 구매·단체 주문</option>
-<option value="research">공동 연구·제품 개발</option>
-<option value="partnership">브랜드·사업 제휴</option>
-<option value="other">기타 비즈니스 문의</option>
-</select>
-<p class="contact-field-error" aria-live="polite" id="business-inquiry-type-error" hidden></p>
+<fieldset class="contact-field contact-field--wide contact-inquiry-types" id="business-inquiry-type" aria-describedby="business-inquiry-type-help business-inquiry-type-error">
+<legend>문의 유형 <span class="contact-required" aria-hidden="true">*</span></legend>
+<p class="contact-field-help" id="business-inquiry-type-help">하나 이상 선택해 주세요. (복수 선택 가능)</p>
+<div class="contact-checkboxes">
+<label class="contact-checkbox" for="business-inquiry-distribution"><input id="business-inquiry-distribution" name="inquiry_type[]" type="checkbox" value="distribution" aria-describedby="business-inquiry-type-help business-inquiry-type-error"/><span>유통·입점 제안</span></label>
+<label class="contact-checkbox" for="business-inquiry-export"><input id="business-inquiry-export" name="inquiry_type[]" type="checkbox" value="export" aria-describedby="business-inquiry-type-help business-inquiry-type-error"/><span>해외 수출·수입</span></label>
+<label class="contact-checkbox" for="business-inquiry-bulk"><input id="business-inquiry-bulk" name="inquiry_type[]" type="checkbox" value="bulk" aria-describedby="business-inquiry-type-help business-inquiry-type-error"/><span>대량 구매·단체 주문</span></label>
+<label class="contact-checkbox" for="business-inquiry-research"><input id="business-inquiry-research" name="inquiry_type[]" type="checkbox" value="research" aria-describedby="business-inquiry-type-help business-inquiry-type-error"/><span>공동 연구·제품 개발</span></label>
+<label class="contact-checkbox" for="business-inquiry-partnership"><input id="business-inquiry-partnership" name="inquiry_type[]" type="checkbox" value="partnership" aria-describedby="business-inquiry-type-help business-inquiry-type-error"/><span>브랜드·사업 제휴</span></label>
+<label class="contact-checkbox" for="business-inquiry-other"><input id="business-inquiry-other" name="inquiry_type[]" type="checkbox" value="other" aria-describedby="business-inquiry-type-help business-inquiry-type-error"/><span>기타 비즈니스 문의</span></label>
 </div>
+<p class="contact-field-error" aria-live="polite" id="business-inquiry-type-error" hidden></p>
+</fieldset>
 <div class="contact-field contact-field--wide">
 <label for="business-company">회사·기관명 <span aria-hidden="true">*</span></label>
 <input id="business-company" name="company" type="text" autocomplete="organization" maxlength="100" placeholder="회사 또는 기관명을 입력해 주세요" required aria-describedby="business-company-error"/>

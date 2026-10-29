@@ -1,9 +1,38 @@
 function initBusinessContactForm() {
     const form = document.getElementById('business-contact-form');
     if (!form) return;
-    const fields = [...form.querySelectorAll('input, select, textarea')];
+    const inquiryGroup = document.getElementById('business-inquiry-type');
+    const inquiryTypes = [...inquiryGroup.querySelectorAll('input[type="checkbox"]')];
+    const inquiryError = document.getElementById('business-inquiry-type-error');
+    const fields = [...form.querySelectorAll('input, select, textarea')].filter(field => !inquiryTypes.includes(field));
     const message = form.querySelector('[name="message"]');
     const counter = document.getElementById('business-message-count');
+
+    function validateInquiryTypes() {
+        const feedback = inquiryTypes.some(field => field.checked) ? '' : '문의 유형을 하나 이상 선택해 주세요.';
+        inquiryError.textContent = feedback;
+        inquiryError.hidden = !feedback;
+        inquiryTypes.forEach(field => {
+            if (feedback) field.setAttribute('aria-invalid', 'true');
+            else field.removeAttribute('aria-invalid');
+        });
+        if (feedback) inquiryGroup.setAttribute('aria-invalid', 'true');
+        else inquiryGroup.removeAttribute('aria-invalid');
+    }
+
+    function updateInquiryValidity() {
+        // Requiring each checkbox would require every option to be selected.
+        inquiryTypes[0].setCustomValidity(inquiryTypes.some(field => field.checked) ? '' : '문의 유형을 하나 이상 선택해 주세요.');
+    }
+
+    updateInquiryValidity();
+    inquiryGroup.addEventListener('change', () => {
+        updateInquiryValidity();
+        validateInquiryTypes();
+    });
+    inquiryGroup.addEventListener('focusout', event => {
+        if (!inquiryGroup.contains(event.relatedTarget)) validateInquiryTypes();
+    });
 
     function validate(field) {
         const error = document.getElementById(field.id + '-error');
