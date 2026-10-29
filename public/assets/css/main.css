@@ -2309,6 +2309,54 @@ video[data-media-state="missing"] {
     accent-color: var(--green-700);
 }
 
+.contact-honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.contact-privacy {
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: var(--grey-50);
+    color: var(--text-sub);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.contact-privacy summary {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.contact-privacy dl {
+    display: grid;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.contact-privacy dl div {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 8px;
+}
+
+.contact-privacy dt {
+    color: var(--grey-600);
+}
+
+.contact-form-notice[data-state="success"] {
+    background: var(--green-50, #e8f8f3);
+    color: var(--green-700);
+}
+
+.contact-form-notice[data-state="error"] {
+    background: var(--red-50);
+    color: var(--red-700);
+}
+
 .contact-form-notice {
     margin-top: 16px;
     padding: 16px;

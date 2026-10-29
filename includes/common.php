@@ -5,7 +5,7 @@ declare(strict_types=1);
 header('Content-Type: text/html; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: strict-origin-when-cross-origin');
-header("Content-Security-Policy: default-src 'self'; img-src 'self'; font-src 'self'; style-src 'self'; script-src 'self' https://unpkg.com/lucide@1.63.0/dist/umd/lucide.min.js; base-uri 'none'; frame-ancestors 'self'; form-action 'none'");
+header("Content-Security-Policy: default-src 'self'; img-src 'self'; font-src 'self'; style-src 'self'; script-src 'self' https://unpkg.com/lucide@1.63.0/dist/umd/lucide.min.js; connect-src 'self'; base-uri 'none'; frame-ancestors 'self'; form-action 'self'");
 
 function e(string $value): string
 {

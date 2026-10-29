@@ -12,7 +12,16 @@ php -S 127.0.0.1:8086 -t public public/router.php
 
 <http://127.0.0.1:8086/>
 
-웹 루트는 `public/`입니다. Composer, Node 빌드, 데이터베이스는 필요하지 않습니다.
+웹 루트는 `public/`입니다. Composer와 Node 빌드는 필요하지 않습니다.
+
+## 배포와 문의 접수
+
+- Vercel 프로젝트 `bellabell3`(planderdevs-projects, icn1). `main` 푸시 = 운영 배포. `vercel.json`이 `/assets/*`는 정적 파일로, 나머지는 `api/index.php` → `public/router.php`로 보냅니다.
+- `public/assets/media/photo/` 원본 사진은 저장소에만 두고 `.vercelignore`로 배포에서 뺍니다. 페이지에서 새 사진을 쓰면 `.vercelignore`에 예외(`!` 줄)를 추가하세요.
+- `vercel.json`의 `excludeFiles`에서 `.git/**`를 빼지 마세요. Git 연동 빌드는 저장소 기록(사진 원본 포함 300MB 이상)을 함수에 같이 담아 `launcher.launcher` 오류(500)로 깨집니다. 함수에는 `includes/`, `config/`, `public/*.php`만 들어가면 됩니다.
+- 문의 폼은 `POST /api/contact`로 PostgreSQL(Supabase) `business_inquiries` 테이블에 저장합니다. `db/schema.sql`을 먼저 적용합니다.
+- 환경변수: `APP_SECRET`, `DATABASE_URL`, `ADMIN_PASSWORD_HASH` (`.env.example` 참고). 앞의 둘이 없으면 폼 제출 버튼이 비활성으로 남습니다.
+- 접수 내역은 `/admin`에서 비밀번호로 로그인해 보고, 처리 완료를 표시합니다.
 
 ## 구성
 
@@ -20,7 +29,9 @@ php -S 127.0.0.1:8086 -t public public/router.php
 - `includes/common.php`: 공통 함수·응답 헤더·로컬 이미지 검사.
 - `includes/head.php`: `<head>` 메타 태그·글꼴·CSS·JavaScript 연결.
 - `includes/header.php`: 상단 헤더·내비게이션·전체 메뉴.
-- `includes/contact-form.php`: B2B 문의 폼 화면. 유형·회사·담당자·연락처·제안 내용을 입력하며, 실제 제출 버튼은 비활성 상태입니다.
+- `includes/contact-form.php`: B2B 문의 폼 화면과 개인정보 수집·이용 안내.
+- `includes/contact-handler.php`: 문의 검증·서명 토큰·전송 횟수 제한·DB 저장.
+- `includes/admin.php`: `/admin` 문의 관리 화면.
 - `includes/footer.php`: 하단 로고·인증 이미지 영역·회사 정보·연락처.
 - `includes/content.php`: 확정 카피와 비공개 연혁 후보.
 - `includes/company-history.php`: 회사 연혁 섹션.
@@ -29,7 +40,7 @@ php -S 127.0.0.1:8086 -t public public/router.php
 - `public/assets/css/layout.css`: 헤더·전체 메뉴·푸터와 반응형 스타일.
 - `public/assets/css/main.css`: 메인페이지 전체 섹션·반응형·모션 접근성 스타일.
 - `public/assets/js/interaction.js`: 인트로, 핀스크롤, 제품 선택, 메뉴·드롭다운 동작.
-- `public/assets/js/contact-form.js`: 입력값 확인·오류 안내·문의 내용 글자 수 표시. 전송이나 저장은 하지 않습니다.
+- `public/assets/js/contact-form.js`: 입력값 확인·오류 안내·글자 수 표시·`/api/contact` 전송과 결과 안내.
 - `public/assets/js/company-history.js`: 연도별 연혁 슬라이더. 화면에 보일 때 자동 재생하고 호버·포커스·모션 축소 설정에서는 정지합니다.
 - `public/assets/css/fonts.css`: 영문 Poppins·한글 Pretendard 로컬 폰트.
 - `public/assets/css/vendor/`, `public/assets/js/vendor/`: GSAP·ScrollTrigger·ScrollToPlugin 3.12.5, Lenis 1.3.4, Swiper 11.2.10.
@@ -51,4 +62,4 @@ node --check public/assets/js/interaction.js
 
 브라우저 검수 결과는 `results/responsive.json`, `results/interactions.json`과 화면 캡처에 기록합니다.
 
-B2B 문의 폼은 화면과 클라이언트 입력 검증만 구현했습니다. 실제 온라인 접수를 활성화하려면 발송 서버/API와 확정된 개인정보 수집·이용 안내를 연결해야 합니다.
+개인정보 보유기간(응대 완료 후 1년 이내 삭제)은 V1 운영 기준을 옮긴 것으로, 공개 전 확정이 필요합니다. 메일 알림(SMTP)은 연결하지 않았습니다.
