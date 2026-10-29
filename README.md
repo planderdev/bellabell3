@@ -18,7 +18,7 @@ php -S 127.0.0.1:8086 -t public public/router.php
 
 - Vercel 프로젝트 `bellabell3`(planderdevs-projects, icn1). `main` 푸시 = 운영 배포. `vercel.json`이 `/assets/*`는 정적 파일로, 나머지는 `api/index.php` → `public/router.php`로 보냅니다.
 - `public/assets/media/photo/` 원본 사진은 저장소에만 두고 `.vercelignore`로 배포에서 뺍니다. 페이지에서 새 사진을 쓰면 `.vercelignore`에 예외(`!` 줄)를 추가하세요.
-- Vercel 프로젝트에 `VERCEL_FORCE_NO_BUILD_CACHE=1`이 설정되어 있습니다. 빌드 캐시를 복원하면 vercel-php 빌더 설치가 건너뛰어져 함수가 `launcher.launcher` 오류(500)로 깨지므로 지우지 마세요.
+- `vercel.json`의 `excludeFiles`에서 `.git/**`를 빼지 마세요. Git 연동 빌드는 저장소 기록(사진 원본 포함 300MB 이상)을 함수에 같이 담아 `launcher.launcher` 오류(500)로 깨집니다. 함수에는 `includes/`, `config/`, `public/*.php`만 들어가면 됩니다.
 - 문의 폼은 `POST /api/contact`로 PostgreSQL(Supabase) `business_inquiries` 테이블에 저장합니다. `db/schema.sql`을 먼저 적용합니다.
 - 환경변수: `APP_SECRET`, `DATABASE_URL`, `ADMIN_PASSWORD_HASH` (`.env.example` 참고). 앞의 둘이 없으면 폼 제출 버튼이 비활성으로 남습니다.
 - 접수 내역은 `/admin`에서 비밀번호로 로그인해 보고, 처리 완료를 표시합니다.
