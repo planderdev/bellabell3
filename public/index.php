@@ -62,7 +62,13 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 <div class="bongbong-story-stage">
 <svg class="bongbong-story-word" viewBox="0 0 1000 170" aria-hidden="true" focusable="false"><text x="500" y="150" textLength="980" lengthAdjust="spacingAndGlyphs" text-anchor="middle">BONGBONG</text></svg>
 <svg class="bongbong-story-hello" viewBox="0 0 1000 170" aria-hidden="true" focusable="false"><text x="10" y="150" textLength="515" lengthAdjust="spacingAndGlyphs">HELLO</text></svg>
-<img class="bongbong-story-cat" src="/assets/media/bongbong/cat.webp" alt="" width="1071" height="659" decoding="async"/>
+<div class="bongbong-story-cat" aria-hidden="true">
+<div class="bongbong-story-cat-hop">
+<?php foreach (['drum', 'arm', 'body', 'head'] as $catPart): ?>
+<img class="bongbong-story-cat-<?= $catPart ?>" src="/assets/media/bongbong/cat-<?= $catPart ?>.webp" alt="" width="1100" height="1111" decoding="async"/>
+<?php endforeach; ?>
+</div>
+</div>
 <div class="bongbong-story-pops" aria-hidden="true">
 <?php foreach (['blue', 'orange', 'green', 'green-open'] as $stick): ?>
 <img class="bongbong-story-pop bongbong-story-pop-<?= $stick ?>" src="/assets/media/bongbong/stick-<?= $stick ?>.webp" alt="" decoding="async"/>

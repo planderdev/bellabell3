@@ -945,11 +945,25 @@ function initBongbongStory() {
     const overflow = () => Math.max(0, deck.offsetTop + deck.offsetHeight + 24 - (stage.clientHeight - Number.parseFloat(getComputedStyle(stage).paddingBottom)));
     const wordHeight = () => word.getBoundingClientRect().height;
     const wordCenter = () => stage.clientHeight / 2 - word.getBoundingClientRect().height / 2 - parseFloat(getComputedStyle(word).top);
-    // The cat's face sits at 42% of its image; at rest it stands at the lower right, scaled to 75%.
-    const catScale = .75;
-    const catRestX = () => window.innerWidth * (mobile() ? .68 : .826) - cat.offsetWidth * catScale * .42;
-    const burstX = () => catRestX() + cat.offsetWidth * catScale * .42;
-    const burstY = () => stage.clientHeight - cat.offsetHeight * catScale * .75;
+    const hop = section.querySelector(".bongbong-story-cat-hop");
+    // The cat's face sits at 41% of its image. It walks in close-up with its legs below the screen, then stands whole at the lower right.
+    const catFace = .41;
+    const catScale = () => mobile() ? .72 : .58;
+    const catCloseX = () => window.innerWidth * (mobile() ? .3 : .17) - cat.offsetWidth * catFace;
+    const catCloseY = () => mobile() ? 0 : cat.offsetHeight * .38;
+    const catRestX = () => {
+        const width = cat.offsetWidth * catScale();
+        return Math.min(window.innerWidth * .68 - width * catFace, window.innerWidth - width);
+    };
+    const catRestY = () => -stage.clientHeight * .02;
+    const burstX = () => catRestX() + cat.offsetWidth * catScale() * catFace;
+    const burstY = () => stage.clientHeight + catRestY() - cat.offsetHeight * catScale() * .72;
+    // One bouncy step: stretch going up, squash on landing, settle.
+    const hopAt = (time, height, duration = .26) => {
+        timeline.to(hop, { y: () => -cat.offsetHeight * height, scaleX: .95, scaleY: 1.06, duration: duration * .45, ease: "power2.out" }, time);
+        timeline.to(hop, { y: 0, scaleX: 1.07, scaleY: .92, duration: duration * .4, ease: "power2.in" }, time + duration * .45);
+        timeline.to(hop, { scaleX: 1, scaleY: 1, duration: duration * .15, ease: "sine.out" }, time + duration * .85);
+    };
     const timeline = gsap.timeline({ scrollTrigger: {
         id: "bongbong-story",
         trigger: section,
@@ -966,11 +980,17 @@ function initBongbongStory() {
     timeline.to({}, { duration: .15 });
     timeline.fromTo(word, { y: () => wordCenter() + wordHeight() * .55 }, { y: wordCenter, duration: .6, ease: "power2.inOut" }, .4);
     timeline.fromTo(hello, { autoAlpha: 1, x: 0, y: () => wordCenter() - wordHeight() * .55 }, { x: () => -window.innerWidth * 1.1, duration: .55, ease: "power2.in" }, .45);
-    timeline.fromTo(cat, { autoAlpha: 1, x: () => -cat.offsetWidth * 1.05, y: 0, scale: 1, rotation: 0 }, { x: () => -cat.offsetWidth * .175, duration: .85, ease: "power2.out" }, .15);
+    timeline.fromTo(cat, { autoAlpha: 1, x: () => -cat.offsetWidth * 1.05, y: catCloseY, scale: 1, rotation: 0 }, { x: catCloseX, duration: .85, ease: "sine.out" }, .15);
+    [.15, .43, .71].forEach(time => hopAt(time, .05));
 
-    // The cat crosses to the right with a little wobble and the products pop out of it.
-    timeline.to(cat, { x: catRestX, scale: catScale, duration: .85, ease: "power2.inOut" }, 1.15);
-    timeline.to(cat, { keyframes: [{ rotation: -4, duration: .2 }, { rotation: 4, duration: .25 }, { rotation: -2, duration: .2 }, { rotation: 0, duration: .2 }], ease: "sine.inOut" }, 1.15);
+    // The cat bounces across to the right, tipping from foot to foot, and the products pop out on a big jump.
+    timeline.to(cat, { x: catRestX, y: catRestY, scale: catScale, duration: .68, ease: "sine.inOut" }, 1.15);
+    [1.15, 1.32, 1.49, 1.66].forEach((time, index) => {
+        hopAt(time, .07, .17);
+        timeline.to(cat, { rotation: index % 2 ? 4 : -4, duration: .085, ease: "sine.inOut" }, time);
+        timeline.to(cat, { rotation: 0, duration: .085, ease: "sine.inOut" }, time + .085);
+    });
+    hopAt(1.85, .16, .4);
     timeline.fromTo(pops, {
         autoAlpha: 0,
         scale: 0,
@@ -997,7 +1017,9 @@ function initBongbongStory() {
 
     // The products leave, the cat dives and the water rises with the cards coming up through it.
     timeline.to(pops, { autoAlpha: 0, scale: .6, y: index => [-180, -180, 200, 200][index], duration: .35, ease: "power2.in" }, 2.95);
-    timeline.to(cat, { y: () => cat.offsetHeight, duration: .5, ease: "power1.in" }, 2.95);
+    // A little jump before the dive, goggles first, into the rising water.
+    hopAt(2.8, .1, .2);
+    timeline.to(cat, { y: () => cat.offsetHeight * catScale() * 1.05, rotation: 8, duration: .5, ease: "power1.in" }, 3);
     timeline.fromTo(waves, { yPercent: 100 }, { yPercent: 0, duration: .6, ease: "power2.out" }, 3.05);
     timeline.to(word, { y: 0, duration: .6, ease: "power2.inOut" }, 3.1);
     timeline.fromTo(cards, {
