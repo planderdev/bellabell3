@@ -36,6 +36,11 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 </video>
 </div>
 <?php endif; ?>
+<div class="about-reveal-backdrops" aria-hidden="true">
+<?php foreach ($content['about_links'] as $aboutLink): ?>
+<img class="about-reveal-backdrop" src="/assets/media/<?= e($aboutLink['image']) ?>" alt="" loading="lazy" decoding="async"/>
+<?php endforeach; ?>
+</div>
 <div class="about-reveal-stage">
 <h2 class="about-reveal-title" id="about-reveal-title" data-copy="about-title"><?php foreach (explode("\n", $content['about_title']) as $lineIndex => $line): ?><?= $lineIndex > 0 ? "<br>\n" : '' ?><span class="about-reveal-line"><?= str_replace(array_map('e', $content['about_accents']), array_map(fn($accent) => '<strong class="about-reveal-accent">' . e($accent) . '</strong>', $content['about_accents']), e($line)) ?></span><?php endforeach; ?></h2>
 <div class="about-reveal-foot">

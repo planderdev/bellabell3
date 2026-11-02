@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "passed": 209,
-  "total": 209,
+  "passed": 217,
+  "total": 217,
   "checks": [
     {
       "check": "PHP returns 200",
@@ -576,6 +576,26 @@
     {
       "check": "Asset is local or the pinned Lucide library",
       "pass": true,
+      "detail": "/assets/media/about-bg-factory.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/about-bg-product.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/about-bg-sea.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/about-bg-summit.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
       "detail": "/assets/media/brand-awoo-space.jpg"
     },
     {
@@ -791,6 +811,26 @@
     {
       "check": "Local asset responds 200",
       "pass": true,
+      "detail": "/assets/media/about-bg-factory.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/about-bg-product.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/about-bg-sea.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/about-bg-summit.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
       "detail": "/assets/media/brand-awoo-space.jpg"
     },
     {
@@ -941,16 +981,6 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Light.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
-      "detail": "/assets/fonts/Poppins-Regular.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
       "detail": "/assets/fonts/Poppins-Medium.woff2"
     },
     {
@@ -962,6 +992,16 @@
       "check": "CSS asset responds 200",
       "pass": true,
       "detail": "/assets/fonts/Poppins-SemiBold.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Light.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Regular.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",
