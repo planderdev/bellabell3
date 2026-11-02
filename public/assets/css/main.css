@@ -642,6 +642,7 @@ video[data-media-state="missing"] {
 }
 
 .bongbong-story-stage {
+    position: relative;
     display: flex;
     align-items: safe center;
     justify-content: center;
@@ -1127,6 +1128,12 @@ video[data-media-state="missing"] {
 
 .research-copy p:last-child {
     margin-bottom: 0;
+}
+
+.research-copy .research-ingredients {
+    margin-bottom: clamp(40px, 3.33vw, 64px);
+    color: var(--text-sub);
+    font-size: clamp(18px, 1.25vw, 24px);
 }
 
 .research-patent {

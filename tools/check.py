@@ -51,7 +51,7 @@ expected_copy={
 'bongbong-title':'그 희망의 증거, BongBong\n제주에서 찾은 Health',
 'bongbong-body':'프롬한라는 시한부 고양이 ‘봉봉이’를 구조하며 탄생하게 되었습니다.\n\n구조 당시 피를 흘리고 있던 봉봉이는 주인에게 버려진 후 차에 치여 횡경막이 터지고 신부전증, 피부염을 앓고 있어 병원에서 수술도 회복도 불가능한 시한부 선고를 받았지만\n\n현재는 제주의 건강한 먹거리를 통해 수술 없이 건강을 되찾았습니다.\n\n제주어로 ‘봉봉하다’는 말은 ‘한가득차다’라는 뜻입니다.\n이 말처럼 제주의 자연을 건강에 봉봉하게 채워드리고 싶습니다.',
 'global-title':'제주에서 세계로',
-'research':'한라산 조릿대를 반려동물 원료로 연구합니다',
+'research':'벨아벨팜만의 특별한 기술','research-statement':'Safety from JEJU\n제주의 천연이 우리 아이의 밥상 위로','research-ingredients':'JEJU SASA / GREENTEA / PUMPKIN',
 'social':'우리가 만드는 방식이 제주와 동물에게 돌아갑니다','family':'벨아벨팜이 만드는 브랜드','brand-label':'프롬한라','brand-subtitle':'펫 웰니스','partner':'함께할 파트너를 찾습니다',
 'contact':'partner@jejubellabell.com · 064-803-0060','value-0':'인증 사회적기업·SVI 우수등급','value-1':'지역 청년·취약계층 고용','value-2':'플라스틱 제로 포장','value-3':'지역 원물 제값 구매','value-4':'유기동물 사회공헌',
 }
