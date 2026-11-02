@@ -24,6 +24,14 @@ $introSecond = $introParts[1] ?? '';
 </div>
 </li>
 <li>
+<a href="/product">Product</a>
+<div class="gnb-depth">
+<a href="/product#stick">프롬한라스틱</a>
+<a href="/product#biotics">바이오틱스</a>
+<a href="/product#nanotreat">나노트릿</a>
+</div>
+</li>
+<li>
 <a href="#social">사회적 가치</a>
 <div class="gnb-depth">
 <a href="#social">Lorem ipsum</a>

@@ -9,6 +9,10 @@ if ($urlPath === '/brand') {
     require __DIR__ . '/brand.php';
     return true;
 }
+if ($urlPath === '/product') {
+    require __DIR__ . '/product.php';
+    return true;
+}
 if ($urlPath === '/api/contact') {
     require __DIR__ . '/../includes/common.php';
     require __DIR__ . '/../includes/contact-handler.php';

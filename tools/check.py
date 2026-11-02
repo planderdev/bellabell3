@@ -39,7 +39,7 @@ check('History follows social and global immediately precedes contact',len(secti
 for c,count in [('technology-item',0),('standard-card',4),('product-item',2),('products-photo-slide',4),('products-shape',0),('products-spec',0),('form-field',0),('contact-item',0)]:check('Component structure count',len(byclass(c))==count,c)
 for section,c,count in [('care-section','care-item',5)]:check('Card structure count',sum(n.has(c) for n in byclass(section)[0].descendants())==count,section)
 gnb=byclass('gnb')[0];depths=[n for n in gnb.descendants() if n.has('gnb-depth')]
-check('Five navigation groups match the remaining sections',[len([a for a in d.children if a.tag=='a']) for d in depths]==[2,4,2,3,1])
+check('Six navigation groups with Product after research',[len([a for a in d.children if a.tag=='a']) for d in depths]==[2,3,4,2,3,1])
 check('Deleted global selectors removed',not byclass('form-select-menu'))
 expected_copy={
 'intro-title':'From HALLA, For PET',
@@ -79,7 +79,7 @@ footer_sns=[
     ('https://pf.kakao.com/_JTnxks','/assets/icons/kakaoch.svg'),
 ]
 confirmed_destinations={
-    'tel:0648030060','mailto:partner@jejubellabell.com','https://fromhalla.com','/brand',
+    'tel:0648030060','mailto:partner@jejubellabell.com','https://fromhalla.com','/brand','/product','/product#stick','/product#biotics','/product#nanotreat',
     'https://m.fromhalla.com/article/%EB%B3%B4%EB%8F%84%EC%9E%90%EB%A3%8C/2/13641/#',
     *(url for url,icon in footer_sns),
 }
@@ -124,6 +124,13 @@ check('Brand page returns 200',brand_status==200)
 check('Brand page has three tabs in order',[n.text() for n in brand_nodes if n.has('brand-tab')]==['벨아벨팜','프롬한라','아우아우'])
 check('Brand page shows only the first panel',[('hidden' in n.a) for n in brand_nodes if n.has('brand-panel')]==[False,True,True])
 check('Brand intro link opens the brand page',[n.a.get('href') for n in byclass('about-reveal-link')][0]=='/brand')
+product_status,product_raw,_=fetch('/product');product_nodes=list(Tree(product_raw.decode()).root.descendants())
+check('Product page returns 200',product_status==200)
+check('Product page has three groups in order',[n.a.get('id') for n in product_nodes if n.has('product-group')]==['stick','biotics','nanotreat'])
+check('Product page lists nine products',len([n for n in product_nodes if n.has('product-card')])==9)
+product_images=[n.a.get('src') for n in product_nodes if n.tag=='img' and n.a.get('src','').startswith('/assets/media/product/')]
+check('Product images respond 200',len(product_images)==10 and all(fetch(u)[0]==200 for u in product_images))
+check('Product photos are not AI backdrops',not any('about-bg' in u for u in product_images))
 report={'date':'2026-10-29','passed':sum(c['pass'] for c in checks),'total':len(checks),'checks':checks}
 (ROOT/'results/checks.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
 print(json.dumps({k:v for k,v in report.items() if k!='checks'},ensure_ascii=False))

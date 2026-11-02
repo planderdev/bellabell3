@@ -34,6 +34,7 @@ php -S 127.0.0.1:8086 -t public public/router.php
 - `includes/admin.php`: `/admin` 문의 관리 화면.
 - `includes/footer.php`: 하단 로고·인증 이미지 영역·회사 정보·연락처.
 - `includes/content.php`: 확정 카피와 비공개 연혁 후보.
+- `public/product.php`: 제품 페이지(`/product`). 제품명·용량은 실제 패키지 기준이고 사진은 실제 촬영본입니다. 나노트릿은 사진 확보 전까지 회색입니다.
 - `public/brand.php`: 브랜드 소개 페이지(`/brand`). 벨아벨팜·프롬한라·아우아우 탭. 각 영역 내용은 회색 자리표시입니다.
 - `includes/company-history.php`: 회사 연혁 섹션.
 - `includes/research.php`: 조릿대 연구 본문·특허 출원사실증명원. 기존 연구 슬라이더는 숨김 상태로 보관합니다.
