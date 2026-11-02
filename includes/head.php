@@ -3,7 +3,7 @@ declare(strict_types=1);
 ?>
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>벨아벨팜</title>
+<title><?= e($pageTitle ?? '벨아벨팜') ?></title>
 <link rel="preload" href="/assets/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/fonts.css"><link rel="stylesheet" href="/assets/css/base.css">
 <link rel="stylesheet" href="/assets/css/vendor/swiper-bundle.min.css">
@@ -16,4 +16,5 @@ declare(strict_types=1);
 <script defer src="/assets/js/brand-gallery.js"></script>
 <script defer src="/assets/js/company-history.js"></script>
 <script defer src="/assets/js/contact-form.js"></script>
+<script defer src="/assets/js/brand-page.js"></script>
 </head>
