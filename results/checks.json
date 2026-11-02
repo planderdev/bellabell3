@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "passed": 239,
-  "total": 239,
+  "passed": 244,
+  "total": 244,
   "checks": [
     {
       "check": "PHP returns 200",
@@ -60,6 +60,16 @@
     },
     {
       "check": "Six navigation groups with Product after research",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Pillar labels keep the supplied wording",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Pillar video starts paused until its button is pressed",
       "pass": true,
       "detail": ""
     },
@@ -479,6 +489,11 @@
       "detail": ""
     },
     {
+      "check": "Video sources are local files",
+      "pass": true,
+      "detail": ""
+    },
+    {
       "check": "Asset is local or the pinned Lucide library",
       "pass": true,
       "detail": "/assets/bellabelfarm-s.svg"
@@ -707,6 +722,11 @@
       "check": "Asset is local or the pinned Lucide library",
       "pass": true,
       "detail": "/assets/media/patents/vegan-cookie-application.jpg"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/pillar-ragdoll-poster.webp"
     },
     {
       "check": "Asset is local or the pinned Lucide library",
@@ -959,6 +979,11 @@
       "detail": "/assets/media/patents/vegan-cookie-application.jpg"
     },
     {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/pillar-ragdoll-poster.webp"
+    },
+    {
       "check": "Footer SNS links match the supplied local icons",
       "pass": true,
       "detail": ""
@@ -1031,16 +1056,6 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Medium.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
-      "detail": "/assets/fonts/Poppins-Regular.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
       "detail": "/assets/fonts/Poppins-Light.woff2"
     },
     {
@@ -1052,6 +1067,16 @@
       "check": "CSS asset responds 200",
       "pass": true,
       "detail": "/assets/fonts/Poppins-SemiBold.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Medium.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Regular.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",

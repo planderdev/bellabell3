@@ -34,12 +34,14 @@ status,raw,headers=fetch('/');html=raw.decode();nodes=list(Tree(html).root.desce
 byclass=lambda c:[n for n in nodes if n.has(c)]
 check('PHP returns 200',status==200)
 sections=[n for n in nodes if n.tag=='section' and 'hidden' not in n.a]
-expected=['main-visual','about-reveal-section','bongbong-story-section','research-section','care-section','history-section','products-section','solution-section','contact-section']
+expected=['main-visual','about-reveal-section','pillars-section','bongbong-story-section','research-section','care-section','history-section','products-section','solution-section','contact-section']
 check('History follows social and global immediately precedes contact',len(sections)==len(expected) and all(s.has(c) for s,c in zip(sections,expected)) and sections[-2].a.get('id')=='global')
 for c,count in [('technology-item',0),('standard-card',4),('product-item',2),('products-photo-slide',4),('products-shape',0),('products-spec',0),('form-field',0),('contact-item',0)]:check('Component structure count',len(byclass(c))==count,c)
 for section,c,count in [('care-section','care-item',5)]:check('Card structure count',sum(n.has(c) for n in byclass(section)[0].descendants())==count,section)
 gnb=byclass('gnb')[0];depths=[n for n in gnb.descendants() if n.has('gnb-depth')]
 check('Six navigation groups with Product after research',[len([a for a in d.children if a.tag=='a']) for d in depths]==[2,3,4,2,3,1])
+check('Pillar labels keep the supplied wording',[n.children[0].text() if n.tag=='button' else n.text() for n in byclass('pillars-label')]==['Global K-PET FOOD','PET SKINCARE','Sustainability'])
+check('Pillar video starts paused until its button is pressed',[n.a.get('id') for n in nodes if n.tag=='video' and 'autoplay' not in n.a]==['pillar-video'] and byclass('pillars-label-food')[0].a.get('aria-controls')=='pillar-video')
 check('Deleted global selectors removed',not byclass('form-select-menu'))
 expected_copy={
 'intro-title':'From HALLA, For PET',

@@ -478,6 +478,21 @@ function syncBackgroundVideo(video) {
     else video.pause();
 }
 
+function initPillarVideo() {
+    const video = document.getElementById("pillar-video");
+    const toggle = document.getElementById("pillar-video-toggle");
+    if (!video || !toggle) return;
+    const syncToggle = () => toggle.setAttribute("aria-pressed", String(!video.paused));
+    toggle.addEventListener("click", () => {
+        if (video.paused) video.play().catch(() => {});
+        else video.pause();
+    });
+    ["play", "pause", "ended"].forEach(type => video.addEventListener(type, syncToggle));
+    new IntersectionObserver(entries => {
+        if (!entries[0].isIntersecting) video.pause();
+    }).observe(video);
+}
+
 function initBackgroundVideos() {
     const videos = ["hero-video", "about-video", "product-hero-video"].map(id => document.getElementById(id)).filter(Boolean);
     // 화면을 벗어나면 디코딩을 멈춰 다른 섹션의 스크롤 모션을 방해하지 않는다.
@@ -1097,6 +1112,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     initBackgroundVideos();
     if (document.querySelector(".main-page")) {
+        initPillarVideo();
         initBrandGallery();
         rebuildMainMotion();
         let desktop = window.innerWidth > 970;

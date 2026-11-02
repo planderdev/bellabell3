@@ -542,6 +542,107 @@ video[data-media-state="missing"] {
 }
 
 /* Bongbong story */
+/* Pillars */
+.pillars-section {
+    position: relative;
+    background: var(--white);
+    --pillar-food: #fb5704;
+    --pillar-skin: #38ca59;
+    --pillar-sustain: #a3c8fb;
+    --pillar-ink: #190f07;
+}
+
+.pillars-media video {
+    display: block;
+    width: 100%;
+    height: 100svh;
+    object-fit: cover;
+}
+
+.pillars-labels {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(16px, 3.5svh, 40px);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: center;
+    gap: clamp(8px, .94vw, 18px);
+    padding-inline: clamp(16px, 3.33vw, 64px);
+}
+
+.pillars-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: clamp(56px, 5.56vw, 110px);
+    padding: 0 clamp(20px, 1.46vw, 28px);
+    border: 0;
+    color: var(--pillar-ink);
+    font-family: inherit;
+    font-size: clamp(18px, 2.08vw, 40px);
+    font-weight: var(--fw-500);
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
+.pillars-label-food {
+    background: var(--pillar-food);
+    cursor: pointer;
+    transition: transform .25s ease;
+}
+
+.pillars-label-food:hover {
+    transform: translateY(-4px);
+}
+
+.pillars-label-food:focus-visible {
+    outline: 3px solid var(--pillar-ink);
+    outline-offset: 3px;
+}
+
+.pillars-label-food .site-icon {
+    flex: none;
+    width: .8em;
+    height: .8em;
+    fill: currentColor;
+}
+
+.pillars-label-food[aria-pressed="false"] .pillars-icon-pause,
+.pillars-label-food[aria-pressed="true"] .pillars-icon-play {
+    display: none;
+}
+
+.pillars-label-skin {
+    border-radius: 999px;
+    background: var(--pillar-skin);
+}
+
+.pillars-label-sustain {
+    border-radius: clamp(10px, .83vw, 16px);
+    background: var(--pillar-sustain);
+}
+
+@media (max-width:970px) {
+    .pillars-media video {
+        height: auto;
+        aspect-ratio: 1280/660;
+    }
+
+    .pillars-labels {
+        position: static;
+        padding-block: 16px;
+    }
+}
+
+@media (prefers-reduced-motion:reduce) {
+    .pillars-label-food {
+        transition: none;
+    }
+}
+
 .bongbong-story-section {
     position: relative;
     background: var(--grey-100);
