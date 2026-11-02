@@ -6,7 +6,7 @@ return [
     'about_title' => "한라산에서 찾은 생명력\n웰니스의 가능성으로",
     'about_accents' => ['생명력', '웰니스'],
     'about_links' => [
-        ['label' => '브랜드 소개', 'href' => '#family', 'image' => 'about-bg-summit.webp'],
+        ['label' => '브랜드 소개', 'href' => '/brand', 'image' => 'about-bg-summit.webp'],
         ['label' => '한라산에서 제주바당까지', 'href' => '#bongbong-story', 'image' => 'about-bg-sea.webp'],
         ['label' => '프롬한라 상품 보기', 'href' => 'https://fromhalla.com', 'image' => 'about-bg-product.webp'],
         ['label' => '기술개발 자세히 보기', 'href' => '#research', 'image' => 'about-bg-factory.webp'],
@@ -49,6 +49,11 @@ return [
         "제품을 전하는 과정까지 환경을 생각합니다.",
         "제주의 원물을 제값에 구매하며\n지역 생산자와 함께 성장합니다.",
         "도움이 필요한 동물들을 위한 나눔으로\n사람과 동물의 행복한 공존을 이어갑니다.",
+    ],
+    'brand_tabs' => [
+        ['id' => 'bellabelfarm', 'name' => '벨아벨팜', 'description' => null],
+        ['id' => 'fromhalla', 'name' => '프롬한라', 'description' => '펫 웰니스'],
+        ['id' => 'awoo', 'name' => '아우아우', 'description' => '제주 로컬 공간사업'],
     ],
     'brands' => [
         [

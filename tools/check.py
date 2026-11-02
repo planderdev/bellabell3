@@ -79,7 +79,7 @@ footer_sns=[
     ('https://pf.kakao.com/_JTnxks','/assets/icons/kakaoch.svg'),
 ]
 confirmed_destinations={
-    'tel:0648030060','mailto:partner@jejubellabell.com','https://fromhalla.com',
+    'tel:0648030060','mailto:partner@jejubellabell.com','https://fromhalla.com','/brand',
     'https://m.fromhalla.com/article/%EB%B3%B4%EB%8F%84%EC%9E%90%EB%A3%8C/2/13641/#',
     *(url for url,icon in footer_sns),
 }
@@ -119,6 +119,11 @@ check('Business contact form posts to the inquiry endpoint with a token and hone
 check('Business contact form discloses privacy collection terms',len(byclass('contact-privacy'))==1)
 for path in ['/includes/common.php','/includes/head.php','/includes/header.php','/includes/footer.php','/includes/content.php','/includes/company-history.php','/includes/research.php','/includes/contact-form.php','/config/materials.php','/company.php','/en/product/find.php']:
     check('Private and undefined routes return 404',fetch(path)[0]==404,path)
+brand_status,brand_raw,_=fetch('/brand');brand_nodes=list(Tree(brand_raw.decode()).root.descendants())
+check('Brand page returns 200',brand_status==200)
+check('Brand page has three tabs in order',[n.text() for n in brand_nodes if n.has('brand-tab')]==['벨아벨팜','프롬한라','아우아우'])
+check('Brand page shows only the first panel',[('hidden' in n.a) for n in brand_nodes if n.has('brand-panel')]==[False,True,True])
+check('Brand intro link opens the brand page',[n.a.get('href') for n in byclass('about-reveal-link')][0]=='/brand')
 report={'date':'2026-10-29','passed':sum(c['pass'] for c in checks),'total':len(checks),'checks':checks}
 (ROOT/'results/checks.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
 print(json.dumps({k:v for k,v in report.items() if k!='checks'},ensure_ascii=False))

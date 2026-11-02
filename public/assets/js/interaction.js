@@ -854,8 +854,11 @@ document.addEventListener("click", () => {
 });
  
 function initLocalRouting() {
+    const onMainPage = !!document.querySelector(".main-page");
     document.querySelectorAll('a[href^="#"]').forEach(link => {
-        link.setAttribute("href", localHref(link.getAttribute("href"), "#partner"));
+        const href = link.getAttribute("href");
+        // Shared header and footer anchors point at main page sections.
+        link.setAttribute("href", onMainPage ? localHref(href, "#partner") : "/" + href);
         link.removeAttribute("target");
     });
     document.addEventListener("click", event => {
