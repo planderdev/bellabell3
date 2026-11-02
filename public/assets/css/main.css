@@ -304,6 +304,49 @@ video[data-media-state="missing"] {
     --about-unrevealed: var(--grey-500);
 }
 
+/* Pointer-only: stays display:none on touch, so the lazy images are never fetched there. */
+.about-reveal-backdrops {
+    display: none;
+}
+
+@media (min-width:971px) and (hover:hover) {
+    .about-reveal-backdrops {
+        display: block;
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .about-reveal-backdrop {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity .5s ease;
+    }
+
+    .about-reveal-backdrops:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: color-mix(in srgb, var(--white) 62%, var(--transparent));
+        opacity: 0;
+        transition: opacity .5s ease;
+    }
+
+    .about-reveal-section:has(.about-reveal-link:is(:hover, :focus-visible)) .about-reveal-backdrops:after,
+    .about-reveal-section:has(.about-reveal-link:nth-child(1):is(:hover, :focus-visible)) .about-reveal-backdrop:nth-child(1),
+    .about-reveal-section:has(.about-reveal-link:nth-child(2):is(:hover, :focus-visible)) .about-reveal-backdrop:nth-child(2),
+    .about-reveal-section:has(.about-reveal-link:nth-child(3):is(:hover, :focus-visible)) .about-reveal-backdrop:nth-child(3),
+    .about-reveal-section:has(.about-reveal-link:nth-child(4):is(:hover, :focus-visible)) .about-reveal-backdrop:nth-child(4) {
+        opacity: 1;
+    }
+}
+
 .about-reveal-stage {
     position: relative;
     z-index: 1;
