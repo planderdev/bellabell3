@@ -50,41 +50,27 @@ return [
         "제주의 원물을 제값에 구매하며\n지역 생산자와 함께 성장합니다.",
         "도움이 필요한 동물들을 위한 나눔으로\n사람과 동물의 행복한 공존을 이어갑니다.",
     ],
-    // Names come from the real packaging; nothing here is a claim beyond what the box prints.
-    'product_groups' => [
-        [
-            'id' => 'stick',
-            'label' => '짜먹는 간식',
-            'name' => '프롬한라스틱',
-            'lead' => ['src' => '/assets/media/product/stick-lineup.webp', 'alt' => '프롬한라스틱 네 가지 제품 패키지', 'width' => 1920, 'height' => 1440],
-            'items' => [
-                ['name' => '제주 딱새우 & 연어순살', 'variant' => '9g × 10개입', 'image' => ['src' => '/assets/media/product/stick-shrimp.webp', 'alt' => '프롬한라스틱 제주 딱새우와 연어순살 패키지']],
-                ['name' => '제주 무항생제 닭가슴살', 'variant' => '9g × 10개입', 'image' => ['src' => '/assets/media/product/stick-chicken.webp', 'alt' => '프롬한라스틱 제주 무항생제 닭가슴살 패키지']],
-                ['name' => '제주 전복 & 오리순살', 'variant' => '9g × 10개입', 'image' => ['src' => '/assets/media/product/stick-abalone.webp', 'alt' => '프롬한라스틱 제주 전복과 오리순살 패키지']],
-                ['name' => '제주 광어순살', 'variant' => '9g × 10개입', 'image' => ['src' => '/assets/media/product/stick-flounder.webp', 'alt' => '프롬한라스틱 제주 광어순살 패키지']],
-            ],
-        ],
-        [
-            'id' => 'biotics',
-            'label' => '유산균',
-            'name' => '바이오틱스',
-            'lead' => ['src' => '/assets/media/product/biotics-lineup.webp', 'alt' => '골드·슬림 바이오틱스 제품 패키지', 'width' => 1920, 'height' => 1280],
-            'items' => [
-                ['name' => 'GOLD BIOTICS', 'variant' => '반려묘용 · 60g', 'image' => ['src' => '/assets/media/product/gold-cat.webp', 'alt' => '골드 유산균 반려묘용 패키지']],
-                ['name' => 'GOLD BIOTICS', 'variant' => '반려견용 · 60g', 'image' => ['src' => '/assets/media/product/gold-dog.webp', 'alt' => '골드 유산균 반려견용 패키지']],
-                ['name' => 'SLIM BIOTICS', 'variant' => '반려묘용 · 60g', 'image' => ['src' => '/assets/media/product/slim-cat.webp', 'alt' => '슬림 유산균 반려묘용 패키지']],
-                ['name' => 'SLIM BIOTICS', 'variant' => '반려견용 · 60g', 'image' => ['src' => '/assets/media/product/slim-dog.webp', 'alt' => '슬림 유산균 반려견용 패키지']],
-            ],
-        ],
-        [
-            'id' => 'nanotreat',
-            'label' => '동결건조 간식',
-            'name' => '나노트릿',
-            'lead' => null,
-            'items' => [
-                ['name' => '나노트릿', 'variant' => null, 'image' => null],
-            ],
-        ],
+    // Names and sizes come from the real packaging. Lorem ipsum marks copy that is not confirmed yet.
+    'product_categories' => [
+        ['id' => 'stick', 'name' => '짜먹는 간식', 'menu' => '프롬한라스틱'],
+        ['id' => 'biotics', 'name' => '유산균', 'menu' => '바이오틱스'],
+        ['id' => 'nanotreat', 'name' => '동결건조 간식', 'menu' => '나노트릿'],
+    ],
+    'products' => [
+        ['category' => 'stick', 'name' => '프롬한라스틱', 'detail' => '제주 딱새우 & 연어순살', 'size' => '9g × 10개입', 'image' => ['src' => '/assets/media/product/stick-shrimp.webp', 'alt' => '프롬한라스틱 제주 딱새우와 연어순살 패키지']],
+        ['category' => 'stick', 'name' => '프롬한라스틱', 'detail' => '제주 무항생제 닭가슴살', 'size' => '9g × 10개입', 'image' => ['src' => '/assets/media/product/stick-chicken.webp', 'alt' => '프롬한라스틱 제주 무항생제 닭가슴살 패키지']],
+        ['category' => 'stick', 'name' => '프롬한라스틱', 'detail' => '제주 전복 & 오리순살', 'size' => '9g × 10개입', 'image' => ['src' => '/assets/media/product/stick-abalone.webp', 'alt' => '프롬한라스틱 제주 전복과 오리순살 패키지']],
+        ['category' => 'stick', 'name' => '프롬한라스틱', 'detail' => '제주 광어순살', 'size' => '9g × 10개입', 'image' => ['src' => '/assets/media/product/stick-flounder.webp', 'alt' => '프롬한라스틱 제주 광어순살 패키지']],
+        ['category' => 'biotics', 'name' => 'GOLD BIOTICS', 'detail' => '골드 유산균 반려묘용', 'size' => '60g', 'image' => ['src' => '/assets/media/product/gold-cat.webp', 'alt' => '골드 유산균 반려묘용 패키지']],
+        ['category' => 'biotics', 'name' => 'GOLD BIOTICS', 'detail' => '골드 유산균 반려견용', 'size' => '60g', 'image' => ['src' => '/assets/media/product/gold-dog.webp', 'alt' => '골드 유산균 반려견용 패키지']],
+        ['category' => 'biotics', 'name' => 'SLIM BIOTICS', 'detail' => '슬림 유산균 반려묘용', 'size' => '60g', 'image' => ['src' => '/assets/media/product/slim-cat.webp', 'alt' => '슬림 유산균 반려묘용 패키지']],
+        ['category' => 'biotics', 'name' => 'SLIM BIOTICS', 'detail' => '슬림 유산균 반려견용', 'size' => '60g', 'image' => ['src' => '/assets/media/product/slim-dog.webp', 'alt' => '슬림 유산균 반려견용 패키지']],
+        ['category' => 'nanotreat', 'name' => '나노트릿', 'detail' => '동결건조 간식', 'size' => null, 'image' => null],
+    ],
+    'product_stories' => [
+        ['image' => ['src' => '/assets/media/product/story-shrimp.webp', 'alt' => '나무 트레이에 담긴 딱새우를 손질하는 모습']],
+        ['image' => ['src' => '/assets/media/product/story-abalone.webp', 'alt' => '전복과 닭가슴살을 손질하는 모습']],
+        ['image' => ['src' => '/assets/media/product/biotics-lineup.webp', 'alt' => '골드·슬림 바이오틱스 제품 패키지']],
     ],
     'brand_tabs' => [
         ['id' => 'bellabelfarm', 'name' => '벨아벨팜', 'description' => null],

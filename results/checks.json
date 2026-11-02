@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "passed": 218,
-  "total": 218,
+  "passed": 221,
+  "total": 221,
   "checks": [
     {
       "check": "PHP returns 200",
@@ -576,6 +576,11 @@
     {
       "check": "Asset is local or the pinned Lucide library",
       "pass": true,
+      "detail": "/assets/js/product-page.js"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
       "detail": "/assets/js/vendor/ScrollToPlugin.min.js"
     },
     {
@@ -781,6 +786,11 @@
     {
       "check": "Local asset responds 200",
       "pass": true,
+      "detail": "/assets/js/product-page.js"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
       "detail": "/assets/js/vendor/ScrollToPlugin.min.js"
     },
     {
@@ -941,12 +951,7 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
-      "detail": "/assets/fonts/Poppins-Light.woff2"
+      "detail": "/assets/fonts/Poppins-Bold.woff2"
     },
     {
       "check": "CSS asset responds 200",
@@ -956,12 +961,17 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Bold.woff2"
+      "detail": "/assets/fonts/Poppins-Regular.woff2"
     },
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Regular.woff2"
+      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Light.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",
@@ -1074,12 +1084,17 @@
       "detail": ""
     },
     {
-      "check": "Product page has three groups in order",
+      "check": "Product page lists nine products",
       "pass": true,
       "detail": ""
     },
     {
-      "check": "Product page lists nine products",
+      "check": "Product filters cover all and three categories",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Product stories have three tabs and panels",
       "pass": true,
       "detail": ""
     },

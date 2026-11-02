@@ -34,7 +34,7 @@ php -S 127.0.0.1:8086 -t public public/router.php
 - `includes/admin.php`: `/admin` 문의 관리 화면.
 - `includes/footer.php`: 하단 로고·인증 이미지 영역·회사 정보·연락처.
 - `includes/content.php`: 확정 카피와 비공개 연혁 후보.
-- `public/product.php`: 제품 페이지(`/product`). 제품명·용량은 실제 패키지 기준이고 사진은 실제 촬영본입니다. 나노트릿은 사진 확보 전까지 회색입니다.
+- `public/product.php`: 제품 페이지(`/product`). 제품명·용량은 실제 패키지 기준이고 사진은 실제 촬영본입니다. 미확정 문구는 Lorem ipsum, 나노트릿 사진은 회색입니다.
 - `public/brand.php`: 브랜드 소개 페이지(`/brand`). 벨아벨팜·프롬한라·아우아우 탭. 각 영역 내용은 회색 자리표시입니다.
 - `includes/company-history.php`: 회사 연혁 섹션.
 - `includes/research.php`: 조릿대 연구 본문·특허 출원사실증명원. 기존 연구 슬라이더는 숨김 상태로 보관합니다.
@@ -44,6 +44,7 @@ php -S 127.0.0.1:8086 -t public public/router.php
 - `public/assets/js/interaction.js`: 인트로, 핀스크롤, 제품 선택, 메뉴·드롭다운 동작.
 - `public/assets/js/contact-form.js`: 입력값 확인·오류 안내·글자 수 표시·`/api/contact` 전송과 결과 안내.
 - `public/assets/js/brand-page.js`: 브랜드 소개 탭 전환과 주소 해시(`#fromhalla` 등) 연동.
+- `public/assets/js/product-page.js`: 제품 필터(주소 해시 `#stick` 등과 연동)와 스토리 탭 전환.
 - `public/assets/js/company-history.js`: 스크롤에 따라 연도가 바뀌는 연혁 핀 섹션. 화면에 다 들어오지 않거나 모션 축소 설정이면 연도별로 펼쳐 보여줍니다.
 - `public/assets/css/fonts.css`: 영문 Poppins·한글 Pretendard 로컬 폰트.
 - `public/assets/css/vendor/`, `public/assets/js/vendor/`: GSAP·ScrollTrigger·ScrollToPlugin 3.12.5, Lenis 1.3.4, Swiper 11.2.10.

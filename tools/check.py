@@ -126,10 +126,11 @@ check('Brand page shows only the first panel',[('hidden' in n.a) for n in brand_
 check('Brand intro link opens the brand page',[n.a.get('href') for n in byclass('about-reveal-link')][0]=='/brand')
 product_status,product_raw,_=fetch('/product');product_nodes=list(Tree(product_raw.decode()).root.descendants())
 check('Product page returns 200',product_status==200)
-check('Product page has three groups in order',[n.a.get('id') for n in product_nodes if n.has('product-group')]==['stick','biotics','nanotreat'])
 check('Product page lists nine products',len([n for n in product_nodes if n.has('product-card')])==9)
+check('Product filters cover all and three categories',[n.a.get('data-filter') for n in product_nodes if 'data-filter' in n.a]==['all','stick','biotics','nanotreat'])
+check('Product stories have three tabs and panels',len([n for n in product_nodes if n.has('product-story-tab')])==3 and len([n for n in product_nodes if n.has('product-story-panel')])==3)
 product_images=[n.a.get('src') for n in product_nodes if n.tag=='img' and n.a.get('src','').startswith('/assets/media/product/')]
-check('Product images respond 200',len(product_images)==10 and all(fetch(u)[0]==200 for u in product_images))
+check('Product images respond 200',len(product_images)==12 and all(fetch(u)[0]==200 for u in product_images))
 check('Product photos are not AI backdrops',not any('about-bg' in u for u in product_images))
 report={'date':'2026-10-29','passed':sum(c['pass'] for c in checks),'total':len(checks),'checks':checks}
 (ROOT/'results/checks.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
