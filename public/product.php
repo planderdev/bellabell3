@@ -3,6 +3,9 @@ declare(strict_types=1);
 require __DIR__ . '/../includes/common.php';
 $content = require __DIR__ . '/../includes/content.php';
 $pageTitle = 'Product | 벨아벨팜';
+$categoryNames = array_column($content['product_categories'], 'name', 'id');
+$marqueeItems = ['From HALLA, For PET', ...array_column($content['product_categories'], 'menu')];
+$lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 ?>
 <!doctype html><html lang="en">
 <?php require __DIR__ . '/../includes/head.php'; ?>
@@ -10,38 +13,112 @@ $pageTitle = 'Product | 벨아벨팜';
 <?php require __DIR__ . '/../includes/header.php'; ?>
 <div id="wrapper">
 <main class="product-page" id="main">
+<section class="product-hero" aria-labelledby="product-title">
 <div class="inner">
-<h2 class="product-page-title" lang="en">Product</h2>
-<nav class="product-page-nav" aria-label="제품군">
-<?php foreach ($content['product_groups'] as $group): ?>
-<a href="#<?= e($group['id']) ?>"><?= e($group['name']) ?></a>
-<?php endforeach; ?>
-</nav>
-<?php foreach ($content['product_groups'] as $group): ?>
-<section class="product-group" id="<?= e($group['id']) ?>" aria-labelledby="<?= e($group['id']) ?>-title">
-<p class="product-group-label"><?= e($group['label']) ?></p>
-<h3 class="product-group-title" id="<?= e($group['id']) ?>-title"><?= e($group['name']) ?></h3>
-<?php if ($group['lead'] !== null): ?>
-<img class="product-group-lead" src="<?= e($group['lead']['src']) ?>" alt="<?= e($group['lead']['alt']) ?>" width="<?= $group['lead']['width'] ?>" height="<?= $group['lead']['height'] ?>" decoding="async"/>
-<?php endif; ?>
-<ul class="product-grid">
-<?php foreach ($group['items'] as $item): ?>
-<li class="product-card">
-<div class="product-card-media"<?= $item['image'] === null ? ' data-media-state="missing" role="img" aria-label="' . e($item['name']) . ' 사진 미확보"' : '' ?>>
-<?php if ($item['image'] !== null): ?>
-<img src="<?= e($item['image']['src']) ?>" alt="<?= e($item['image']['alt']) ?>" width="800" height="800" loading="lazy" decoding="async"/>
-<?php endif; ?>
+<div>
+<p class="product-hero-label" lang="en">Product</p>
+<h2 class="product-hero-title" id="product-title" lang="en">From HALLA,<br/>For PET</h2>
+<p class="product-hero-description">제주의 자연과 연구를 담은 반려동물 웰니스 브랜드</p>
+<a class="product-button" href="#products"><span>제품 라인업 보기</span><i data-lucide="arrow-down" class="site-icon" aria-hidden="true" focusable="false"></i></a>
 </div>
-<h4 class="product-card-name"><?= e($item['name']) ?></h4>
-<?php if ($item['variant'] !== null): ?>
-<p class="product-card-variant"><?= e($item['variant']) ?></p>
+<img class="product-hero-image" src="/assets/media/product/stick-lineup.webp" alt="프롬한라스틱 네 가지 제품 패키지" width="1920" height="1440" decoding="async"/>
+</div>
+</section>
+<div class="product-marquee" aria-hidden="true">
+<div class="product-marquee-track">
+<?php for ($copy = 0; $copy < 4; $copy++): ?>
+<ul>
+<?php foreach ($marqueeItems as $marqueeItem): ?>
+<li><?= e($marqueeItem) ?></li>
+<?php endforeach; ?>
+</ul>
+<?php endfor; ?>
+</div>
+</div>
+<section class="product-section" id="products" aria-labelledby="products-title">
+<div class="inner">
+<h2 class="product-heading" id="products-title" lang="en">Product Family</h2>
+<div class="product-filters" role="group" aria-label="제품 분류">
+<button class="product-filter is-active" type="button" data-filter="all" aria-pressed="true">전체</button>
+<?php foreach ($content['product_categories'] as $category): ?>
+<button class="product-filter" type="button" data-filter="<?= e($category['id']) ?>" aria-pressed="false"><?= e($category['name']) ?></button>
+<?php endforeach; ?>
+</div>
+<ul class="product-grid">
+<?php foreach ($content['products'] as $index => $product): ?>
+<li class="product-card" data-category="<?= e($product['category']) ?>">
+<div class="product-card-media"<?= $product['image'] === null ? ' data-media-state="missing" role="img" aria-label="' . e($product['name']) . ' 사진 미확보"' : '' ?>>
+<?php if ($product['image'] !== null): ?>
+<img src="<?= e($product['image']['src']) ?>" alt="<?= e($product['image']['alt']) ?>" width="800" height="800" loading="lazy" decoding="async"/>
 <?php endif; ?>
+<span class="product-card-tag"><?= e($categoryNames[$product['category']]) ?></span>
+<span class="product-card-number" aria-hidden="true"><?= sprintf('%02d', $index + 1) ?></span>
+</div>
+<div class="product-card-body">
+<h3 class="product-card-name"><?= e($product['name']) ?></h3>
+<p class="product-card-detail"><?= e($product['detail']) ?></p>
+<?php if ($product['size'] !== null): ?>
+<p class="product-card-size"><?= e($product['size']) ?></p>
+<?php endif; ?>
+<a class="product-card-link" href="https://fromhalla.com" target="_blank" rel="noopener noreferrer"><span>상품 보기</span><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a>
+</div>
 </li>
 <?php endforeach; ?>
 </ul>
+</div>
 </section>
+<section class="product-section is-tinted" aria-labelledby="product-notes-title">
+<div class="inner">
+<h2 class="product-heading" id="product-notes-title" lang="en">Lorem ipsum</h2>
+<div class="product-notes">
+<?php for ($note = 1; $note <= 4; $note++): ?>
+<article class="product-note">
+<p class="product-note-number"><?= sprintf('%02d', $note) ?></p>
+<h3 lang="en">Lorem ipsum</h3>
+<p lang="en"><?= e($lorem) ?></p>
+</article>
+<?php endfor; ?>
+</div>
+</div>
+</section>
+<section class="product-section" aria-labelledby="product-stories-title">
+<div class="inner">
+<h2 class="product-heading" id="product-stories-title" lang="en">Lorem ipsum</h2>
+<div class="product-story-tabs" role="tablist" aria-label="제품 이야기">
+<?php foreach ($content['product_stories'] as $index => $story): ?>
+<button class="product-filter product-story-tab<?= $index === 0 ? ' is-active' : '' ?>" type="button" role="tab" id="product-story-tab-<?= $index ?>" aria-controls="product-story-<?= $index ?>" aria-selected="<?= $index === 0 ? 'true' : 'false' ?>" tabindex="<?= $index === 0 ? '0' : '-1' ?>" lang="en"><?= sprintf('%02d', $index + 1) ?> Lorem ipsum</button>
 <?php endforeach; ?>
 </div>
+<?php foreach ($content['product_stories'] as $index => $story): ?>
+<div class="product-story-panel" id="product-story-<?= $index ?>" role="tabpanel" aria-labelledby="product-story-tab-<?= $index ?>"<?= $index === 0 ? '' : ' hidden' ?>>
+<img src="<?= e($story['image']['src']) ?>" alt="<?= e($story['image']['alt']) ?>" loading="lazy" decoding="async"/>
+<div class="product-story-copy">
+<h3 lang="en">Lorem ipsum dolor sit amet</h3>
+<p lang="en"><?= e($lorem) ?></p>
+</div>
+</div>
+<?php endforeach; ?>
+</div>
+</section>
+<section class="product-section is-tinted" aria-labelledby="product-points-title">
+<div class="inner">
+<h2 class="product-heading" id="product-points-title" lang="en">Lorem ipsum</h2>
+<div class="product-points">
+<?php for ($point = 1; $point <= 3; $point++): ?>
+<article class="product-point">
+<h3 lang="en">Lorem ipsum</h3>
+<p lang="en"><?= e($lorem) ?></p>
+</article>
+<?php endfor; ?>
+</div>
+</div>
+</section>
+<section class="product-section product-closing" aria-labelledby="product-closing-title">
+<div class="inner">
+<h2 class="product-heading" id="product-closing-title" lang="en">From HALLA,<br/>For PET</h2>
+<a class="product-button" href="https://fromhalla.com" target="_blank" rel="noopener noreferrer"><span>프롬한라 상품 보기</span><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a>
+</div>
+</section>
 </main>
 </div>
 <?php require __DIR__ . '/../includes/footer.php'; ?>
