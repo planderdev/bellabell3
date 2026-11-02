@@ -35,13 +35,13 @@ php -S 127.0.0.1:8086 -t public public/router.php
 - `includes/footer.php`: 하단 로고·인증 이미지 영역·회사 정보·연락처.
 - `includes/content.php`: 확정 카피와 비공개 연혁 후보.
 - `includes/company-history.php`: 회사 연혁 섹션.
-- `includes/research.php`: 조릿대 연구 본문·특허 출원사실증명원·파트너 로고 마키. 기존 연구 슬라이더는 숨김 상태로 보관합니다.
+- `includes/research.php`: 조릿대 연구 본문·특허 출원사실증명원. 기존 연구 슬라이더는 숨김 상태로 보관합니다.
 - `public/assets/css/base.css`: 디자인 토큰·리셋·공통 스타일.
 - `public/assets/css/layout.css`: 헤더·전체 메뉴·푸터와 반응형 스타일.
 - `public/assets/css/main.css`: 메인페이지 전체 섹션·반응형·모션 접근성 스타일.
 - `public/assets/js/interaction.js`: 인트로, 핀스크롤, 제품 선택, 메뉴·드롭다운 동작.
 - `public/assets/js/contact-form.js`: 입력값 확인·오류 안내·글자 수 표시·`/api/contact` 전송과 결과 안내.
-- `public/assets/js/company-history.js`: 연도별 연혁 슬라이더. 화면에 보일 때 자동 재생하고 호버·포커스·모션 축소 설정에서는 정지합니다.
+- `public/assets/js/company-history.js`: 스크롤에 따라 연도가 바뀌는 연혁 핀 섹션. 화면에 다 들어오지 않거나 모션 축소 설정이면 연도별로 펼쳐 보여줍니다.
 - `public/assets/css/fonts.css`: 영문 Poppins·한글 Pretendard 로컬 폰트.
 - `public/assets/css/vendor/`, `public/assets/js/vendor/`: GSAP·ScrollTrigger·ScrollToPlugin 3.12.5, Lenis 1.3.4, Swiper 11.2.10.
 - UI 아이콘: 버전을 고정한 Lucide 1.63.0 CDN 라이브러리. 햄버거 버튼은 기존 형태를 유지합니다.

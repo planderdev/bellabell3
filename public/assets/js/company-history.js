@@ -1,70 +1,65 @@
+const HISTORY_SCROLL_CLASS = 'is-scroll-stage';
+
+function historyStageOffset() {
+    return window.innerWidth > 970 ? 100 : 70;
+}
+
+// The stage only pins when its tallest year fits below the header; a pinned overflow could never be scrolled into view.
+function companyHistoryFits() {
+    const section = document.querySelector('.history-section');
+    const stage = section?.querySelector('.history-stage');
+    if (!stage) return false;
+    const applied = section.classList.contains(HISTORY_SCROLL_CLASS);
+    section.classList.add(HISTORY_SCROLL_CLASS);
+    const fits = stage.offsetHeight + historyStageOffset() <= window.innerHeight;
+    if (!applied) section.classList.remove(HISTORY_SCROLL_CLASS);
+    return fits;
+}
+
 function initCompanyHistory() {
     const section = document.querySelector('.history-section');
-    if (!section || typeof Swiper === 'undefined') return;
-    const tabs = [...section.querySelectorAll('[role=tab]')];
-    const panels = [...section.querySelectorAll('.history-panel')];
-    const galleries = new Map();
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const stage = section?.querySelector('.history-stage');
+    if (!stage || !companyHistoryFits()) return;
+    const tabs = [...stage.querySelectorAll('[role=tab]')];
+    const panels = [...stage.querySelectorAll('.history-panel')];
+    const parts = panels.map(panel => [panel.querySelector('.history-year'), ...panel.querySelectorAll('.history-events li')]);
     let current = 0;
-    let inView = false;
-    let panelAnimation = null;
 
-    function syncAutoplay(state) {
-        const allowed = state.enabled && inView && !document.hidden && !state.panel.hidden && !reduced.matches && !state.hover && !state.focus;
-        if (allowed && !state.swiper.autoplay.running) state.swiper.autoplay.start();
-        else if (!allowed && state.swiper.autoplay.running) state.swiper.autoplay.stop();
-        state.swiper.wrapperEl.setAttribute('aria-live', allowed ? 'off' : 'polite');
-    }
-
-    function initGallery(panel) {
-        if (galleries.has(panel)) return galleries.get(panel);
-        const slider = panel.querySelector('.history-swiper');
-        const total = slider.querySelectorAll('.swiper-slide').length;
-        const counter = panel.querySelector('.history-count');
-        const gallery = panel.querySelector('.history-gallery');
-        const state = { panel, enabled:total > 1, hover:false, focus:false, swiper:null };
-        state.swiper = new Swiper(slider, {
-            slidesPerView:1,
-            spaceBetween:24,
-            speed:reduced.matches ? 0 : 600,
-            loop:total > 1,
-            grabCursor:total > 1,
-            watchOverflow:true,
-            autoplay:{ enabled:total > 1 && !reduced.matches, delay:5000, disableOnInteraction:false },
-            navigation:{ prevEl:panel.querySelector('.history-prev'), nextEl:panel.querySelector('.history-next') },
-            a11y:{ prevSlideMessage:'이전 연혁 사진', nextSlideMessage:'다음 연혁 사진', slideLabelMessage:'{{index}} / {{slidesLength}}' },
-            on:{ init:function () { counter.textContent = (this.realIndex + 1) + ' / ' + total; }, slideChange:function () { counter.textContent = (this.realIndex + 1) + ' / ' + total; } }
-        });
-        gallery.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') { state.hover = true; syncAutoplay(state); } });
-        gallery.addEventListener('pointerleave', () => { state.hover = false; syncAutoplay(state); });
-        gallery.addEventListener('focusin', () => { state.focus = true; syncAutoplay(state); });
-        gallery.addEventListener('focusout', event => { state.focus = gallery.contains(event.relatedTarget); syncAutoplay(state); });
-        galleries.set(panel, state);
-        syncAutoplay(state);
-        return state;
-    }
-
-    function activate(index, focus = false) {
-        panelAnimation?.cancel();
+    function show(index) {
+        if (index === current) return;
         current = index;
         tabs.forEach((tab, i) => {
             const active = i === index;
             tab.classList.toggle('is-active', active);
             tab.setAttribute('aria-selected', String(active));
             tab.tabIndex = active ? 0 : -1;
-            panels[i].hidden = !active;
+            panels[i].classList.toggle('is-active', active);
         });
-        const panel = panels[index];
-        const state = initGallery(panel);
-        state.swiper.update();
-        galleries.forEach(syncAutoplay);
-        if (focus) tabs[index].focus({ preventScroll:true });
-        if (!reduced.matches) panelAnimation = panel.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}], { duration:350, easing:'cubic-bezier(.2,.7,.2,1)' });
-        requestAnimationFrame(() => { if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh(); });
+        gsap.fromTo(parts[index], { autoAlpha:0, y:16 }, { autoAlpha:1, y:0, duration:.45, stagger:.04, ease:'power2.out', overwrite:true });
     }
 
+    section.classList.add(HISTORY_SCROLL_CLASS);
+    const trigger = ScrollTrigger.create({
+        id: 'company-history',
+        trigger: stage,
+        start: () => 'top ' + historyStageOffset(),
+        end: () => '+=' + Math.round(window.innerHeight * 1.8),
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: self => show(Math.min(panels.length - 1, Math.floor(self.progress * panels.length)))
+    });
+
+    function scrollToYear(index) {
+        const top = trigger.start + (trigger.end - trigger.start) * (index + .5) / panels.length;
+        if (window.lenis) window.lenis.scrollTo(top);
+        else window.scrollTo(0, top);
+    }
+
+    const controller = new AbortController();
     tabs.forEach((tab, index) => {
-        tab.addEventListener('click', () => { if (index !== current) activate(index); });
+        tab.addEventListener('click', () => scrollToYear(index), { signal:controller.signal });
         tab.addEventListener('keydown', event => {
             let next;
             if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
@@ -73,16 +68,15 @@ function initCompanyHistory() {
             else if (event.key === 'End') next = tabs.length - 1;
             else return;
             event.preventDefault();
-            activate(next, true);
-        });
+            tabs[next].focus({ preventScroll:true });
+            scrollToYear(next);
+        }, { signal:controller.signal });
     });
-    new IntersectionObserver(entries => { inView = entries[0].isIntersecting; galleries.forEach(syncAutoplay); }, { threshold:.15 }).observe(section);
-    document.addEventListener('visibilitychange', () => galleries.forEach(syncAutoplay));
-    reduced.addEventListener('change', () => galleries.forEach(state => {
-        state.swiper.params.speed = reduced.matches ? 0 : 600;
-        syncAutoplay(state);
-    }));
-    initGallery(panels[0]);
-}
 
-document.addEventListener('DOMContentLoaded', initCompanyHistory);
+    motionResizeCleanups.push(() => {
+        controller.abort();
+        section.classList.remove(HISTORY_SCROLL_CLASS);
+        gsap.killTweensOf(parts.flat());
+        gsap.set(parts.flat(), { clearProps:'opacity,visibility,transform' });
+    });
+}

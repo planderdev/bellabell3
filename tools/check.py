@@ -69,7 +69,7 @@ history_copy=[
 ('2024-10-17','대만 Meow Expo 참가'),('2022','제주형 예비사회적기업 선정')]
 history_rows=[row for events in byclass('history-events') for row in events.children]
 check('History retains all eleven supplied dates and descriptions',[(row.children[0].a.get('datetime'),row.children[1].text()) for row in history_rows]==history_copy)
-check('Unconfirmed history photos stay gray',len(byclass('history-photo'))==11 and all(n.a.get('data-media-state')=='missing' for n in byclass('history-photo')))
+check('History has no image area',not byclass('history-photo') and not byclass('history-gallery'))
 check('No source media paths',all(x not in html for x in ['/assets/images/','/assets/video/','/data/product_en/','/data/mainvisual']))
 ids=[n.a['id'] for n in nodes if 'id' in n.a]
 check('Unique IDs',len(ids)==len(set(ids)))
