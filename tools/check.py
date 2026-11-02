@@ -30,6 +30,16 @@ def fetch(path):
     except HTTPError as e:return e.code,e.read(),dict(e.headers)
 checks=[]
 def check(name,ok,detail=''):checks.append({'check':name,'pass':bool(ok),'detail':detail})
+for prefix,lang,label in (('/en','en','ENG'),('/zh','zh-CN','中文')):
+    for page in ('','/brand','/product'):
+        code,body,_=fetch(prefix+page);text=body.decode()
+        check('Localized page returns 200',code==200,prefix+page)
+        check('Localized page sets html lang',f'<html lang="{lang}">' in text,prefix+page)
+        # The KakaoTalk channel name is the only Korean a translated page may show.
+        check('Localized page has no leftover Korean',not re.search('[가-힣]',text.replace('@프롬한라','')),prefix+page)
+        check('Language switcher shows current language',f'<span class="language-current">{label}</span>' in text,prefix+page)
+        check('Language switcher links this page in every language',all(f'href="{p or "/"}"' in text for p in (page,'/en'+page,'/zh'+page)),prefix+page)
+for path in ('/en/admin','/zh/api/contact','/en/assets/css/base.css','/en/nope'):check('Language prefix serves only pages',fetch(path)[0]==404,path)
 status,raw,headers=fetch('/');html=raw.decode();nodes=list(Tree(html).root.descendants())
 byclass=lambda c:[n for n in nodes if n.has(c)]
 check('PHP returns 200',status==200)
@@ -81,7 +91,7 @@ footer_sns=[
     ('https://pf.kakao.com/_JTnxks','/assets/icons/kakaoch.svg'),
 ]
 confirmed_destinations={
-    'tel:0648030060','mailto:partner@jejubellabell.com','https://fromhalla.com','/brand','/product','/product#stick','/product#biotics','/product#nanotreat',
+    'tel:0648030060','mailto:partner@jejubellabell.com','https://fromhalla.com','/','/en','/zh','/brand','/product','/product#stick','/product#biotics','/product#nanotreat',
     'https://m.fromhalla.com/article/%EB%B3%B4%EB%8F%84%EC%9E%90%EB%A3%8C/2/13641/#',
     *(url for url,icon in footer_sns),
 }

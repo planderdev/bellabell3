@@ -208,7 +208,7 @@ function initHeaderMenu() {
         document.body.classList.add("menu-open");
         allMenu.setAttribute("aria-hidden", "false");
         menuButton.setAttribute("aria-expanded", "true");
-        menuButton.setAttribute("aria-label", "전체 메뉴 닫기");
+        menuButton.setAttribute("aria-label", menuButton.dataset.labelClose);
         background.forEach(item => { inertBefore.set(item, item.inert); item.inert = true; });
         menuButton.focus({ preventScroll: true });
     }
@@ -226,7 +226,7 @@ function initHeaderMenu() {
         allMenu.setAttribute("aria-hidden", "true");
         allMenu.inert = true;
         menuButton.setAttribute("aria-expanded", "false");
-        menuButton.setAttribute("aria-label", "전체 메뉴 열기");
+        menuButton.setAttribute("aria-label", menuButton.dataset.labelOpen);
         if (!wasLenisStopped) window.lenis?.start();
     };
     menuButton.addEventListener("click", () => {
@@ -391,6 +391,8 @@ function initLanguage() {
         links.forEach(link => { link.tabIndex = open ? 0 : -1; });
     };
     setOpen(false);
+    // Switching language keeps the reader on the same section.
+    links.forEach(link => link.addEventListener("click", () => { link.hash = location.hash; }));
     button.addEventListener("click", event => { event.stopPropagation(); setOpen(!wrap.classList.contains("is-open")); });
     button.addEventListener("keydown", event => {
         if (event.key === "ArrowDown") { event.preventDefault(); setOpen(true); links[0]?.focus(); }
@@ -874,7 +876,7 @@ function initLocalRouting() {
         const href = link.getAttribute("href");
         // Shared header and footer anchors point at main page sections unless this page has the target.
         if (onMainPage) link.setAttribute("href", localHref(href, "#partner"));
-        else if (!document.getElementById(href.slice(1))) link.setAttribute("href", "/" + href);
+        else if (!document.getElementById(href.slice(1))) link.setAttribute("href", document.body.dataset.home + href);
         link.removeAttribute("target");
     });
     document.addEventListener("click", event => {

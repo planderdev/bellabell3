@@ -25,10 +25,10 @@ $companyHistory = [
 <div class="inner">
 <div class="section-head">
 <div class="section-category"><p lang="en">History</p></div>
-<h2 class="section-title" id="history-title" data-section-title="history">연혁</h2>
+<h2 class="section-title" id="history-title" data-section-title="history"><?= e(t('연혁', 'title')) ?></h2>
 </div>
 <div class="history-stage">
-<div class="history-tabs" role="tablist" aria-label="연혁 연도">
+<div class="history-tabs" role="tablist" aria-label="<?= e(t('연혁 연도')) ?>">
 <?php foreach (array_keys($companyHistory) as $index => $year): ?>
 <button class="history-tab<?= $index === 0 ? ' is-active' : '' ?>" type="button" role="tab" id="history-tab-<?= $year ?>" aria-controls="history-panel-<?= $year ?>" aria-selected="<?= $index === 0 ? 'true' : 'false' ?>" tabindex="<?= $index === 0 ? '0' : '-1' ?>" data-history-year="<?= $year ?>"><?= $year ?></button>
 <?php endforeach; ?>
@@ -39,7 +39,7 @@ $companyHistory = [
 <h3 class="history-year"><?= $year ?></h3>
 <ol class="history-events">
 <?php foreach ($events as $event): ?>
-<li><time class="history-event-date" datetime="<?= e(str_replace('.', '-', $event['date'])) ?>"><?= strlen($event['date']) > 4 ? e(substr($event['date'], 5)) : '' ?></time><span><?= e($event['text']) ?></span></li>
+<li><time class="history-event-date" datetime="<?= e(str_replace('.', '-', $event['date'])) ?>"><?= strlen($event['date']) > 4 ? e(substr($event['date'], 5)) : '' ?></time><span><?= e(t($event['text'])) ?></span></li>
 <?php endforeach; ?>
 </ol>
 </div>
