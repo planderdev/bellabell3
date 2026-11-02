@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "passed": 221,
-  "total": 221,
+  "passed": 231,
+  "total": 231,
   "checks": [
     {
       "check": "PHP returns 200",
@@ -626,6 +626,31 @@
     {
       "check": "Asset is local or the pinned Lucide library",
       "pass": true,
+      "detail": "/assets/media/bongbong/cat.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/bongbong/stick-blue.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/bongbong/stick-green-open.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/bongbong/stick-green.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/bongbong/stick-orange.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
       "detail": "/assets/media/brand-awoo-space.jpg"
     },
     {
@@ -836,6 +861,31 @@
     {
       "check": "Local asset responds 200",
       "pass": true,
+      "detail": "/assets/media/bongbong/cat.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/bongbong/stick-blue.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/bongbong/stick-green-open.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/bongbong/stick-green.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/bongbong/stick-orange.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
       "detail": "/assets/media/brand-awoo-space.jpg"
     },
     {
@@ -951,12 +1001,12 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Bold.woff2"
+      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
     },
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Medium.woff2"
+      "detail": "/assets/fonts/Poppins-Light.woff2"
     },
     {
       "check": "CSS asset responds 200",
@@ -966,12 +1016,12 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
+      "detail": "/assets/fonts/Poppins-Bold.woff2"
     },
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Light.woff2"
+      "detail": "/assets/fonts/Poppins-Medium.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",

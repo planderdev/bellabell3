@@ -931,24 +931,75 @@ function initBongbongStory() {
     const deck = section?.querySelector(".bongbong-story-cards");
     const cards = deck ? [...deck.querySelectorAll(".bongbong-story-card")] : [];
     if (!section || !stage || !deck || cards.length !== 4) return;
+    const word = section.querySelector(".bongbong-story-word");
+    const hello = section.querySelector(".bongbong-story-hello");
+    const cat = section.querySelector(".bongbong-story-cat");
+    const waves = section.querySelector(".bongbong-story-waves");
+    const pops = [...section.querySelectorAll(".bongbong-story-pop")];
+    const sparks = [...section.querySelectorAll(".bongbong-story-spark")];
     const mobile = () => window.innerWidth <= 970;
     const availableHeight = () => {
         const style = getComputedStyle(stage);
         return stage.clientHeight - Number.parseFloat(style.paddingTop) - Number.parseFloat(style.paddingBottom);
     };
     const overflow = () => Math.max(0, deck.offsetTop + deck.offsetHeight + 24 - (stage.clientHeight - Number.parseFloat(getComputedStyle(stage).paddingBottom)));
+    const wordHeight = () => word.getBoundingClientRect().height;
+    const wordCenter = () => stage.clientHeight / 2 - word.getBoundingClientRect().height / 2 - parseFloat(getComputedStyle(word).top);
+    // The cat's face sits at 42% of its image; at rest it stands at the lower right, scaled to 75%.
+    const catScale = .75;
+    const catRestX = () => window.innerWidth * (mobile() ? .68 : .826) - cat.offsetWidth * catScale * .42;
+    const burstX = () => catRestX() + cat.offsetWidth * catScale * .42;
+    const burstY = () => stage.clientHeight - cat.offsetHeight * catScale * .75;
     const timeline = gsap.timeline({ scrollTrigger: {
         id: "bongbong-story",
         trigger: section,
         start: "top top",
-        end: () => "+=" + Math.round(window.innerHeight * 2.1 + overflow()),
+        end: () => "+=" + Math.round(window.innerHeight * 4.8 + overflow()),
         pin: true,
         pinSpacing: true,
         scrub: .8,
         anticipatePin: 1,
         invalidateOnRefresh: true
     } });
-    timeline.to({}, { duration: .1 });
+
+    // HELLO BONGBONG, then the cat walks in from the left and pushes HELLO off screen.
+    timeline.to({}, { duration: .15 });
+    timeline.fromTo(word, { y: () => wordCenter() + wordHeight() * .55 }, { y: wordCenter, duration: .6, ease: "power2.inOut" }, .4);
+    timeline.fromTo(hello, { autoAlpha: 1, x: 0, y: () => wordCenter() - wordHeight() * .55 }, { x: () => -window.innerWidth * 1.1, duration: .55, ease: "power2.in" }, .45);
+    timeline.fromTo(cat, { autoAlpha: 1, x: () => -cat.offsetWidth * 1.05, y: 0, scale: 1, rotation: 0 }, { x: () => -cat.offsetWidth * .175, duration: .85, ease: "power2.out" }, .15);
+
+    // The cat crosses to the right with a little wobble and the products pop out of it.
+    timeline.to(cat, { x: catRestX, scale: catScale, duration: .85, ease: "power2.inOut" }, 1.15);
+    timeline.to(cat, { keyframes: [{ rotation: -4, duration: .2 }, { rotation: 4, duration: .25 }, { rotation: -2, duration: .2 }, { rotation: 0, duration: .2 }], ease: "sine.inOut" }, 1.15);
+    timeline.fromTo(pops, {
+        autoAlpha: 0,
+        scale: 0,
+        x: (index, pop) => burstX() - pop.offsetLeft - pop.offsetWidth / 2,
+        y: (index, pop) => burstY() - pop.offsetTop - pop.offsetHeight / 2,
+        rotation: index => [-60, 50, 40, -70][index]
+    }, {
+        autoAlpha: 1,
+        scale: 1,
+        x: 0,
+        y: 0,
+        rotation: index => [0, 0, 0, -14][index],
+        duration: .35,
+        stagger: .13,
+        ease: "back.out(2.6)"
+    }, 1.85);
+    sparks.forEach((spark, index) => {
+        const angle = index / sparks.length * Math.PI * 2;
+        const start = 1.85 + index % 4 * .13;
+        const reach = () => Math.min(window.innerWidth, window.innerHeight) * (.22 + index % 3 * .09);
+        timeline.fromTo(spark, { autoAlpha: 1, scale: 0, x: burstX, y: burstY }, { scale: 1, x: () => burstX() + Math.cos(angle) * reach(), y: () => burstY() + Math.sin(angle) * reach(), duration: .35, ease: "power2.out" }, start);
+        timeline.to(spark, { autoAlpha: 0, scale: .4, duration: .15, ease: "none" }, start + .3);
+    });
+
+    // The products leave, the cat dives and the water rises with the cards coming up through it.
+    timeline.to(pops, { autoAlpha: 0, scale: .6, y: index => [-180, -180, 200, 200][index], duration: .35, ease: "power2.in" }, 2.95);
+    timeline.to(cat, { y: () => cat.offsetHeight, duration: .5, ease: "power1.in" }, 2.95);
+    timeline.fromTo(waves, { yPercent: 100 }, { yPercent: 0, duration: .6, ease: "power2.out" }, 3.05);
+    timeline.to(word, { y: 0, duration: .6, ease: "power2.inOut" }, 3.1);
     timeline.fromTo(cards, {
         x: (index, card) => deck.clientWidth / 2 - card.offsetLeft - card.offsetWidth / 2 + [-60, -20, 40, 0][index],
         y: (index, card) => Math.min(deck.offsetHeight, availableHeight()) / 2 - card.offsetTop - card.offsetHeight / 2 + [18, -18, 10, 0][index],
@@ -961,10 +1012,13 @@ function initBongbongStory() {
         scale: 1,
         duration: 1.1,
         ease: "power2.inOut"
-    }, .1);
+    }, 4.1);
+    timeline.fromTo(deck, { y: () => stage.clientHeight }, { y: 0, duration: .85, ease: "power2.out" }, 3.15);
     // 카드가 펼쳐지면 글자가 조각으로 보이므로 함께 사라지게 한다.
-    timeline.to(section.querySelector(".bongbong-story-word"), { autoAlpha: 0, duration: .5, ease: "none" }, .55);
-    timeline.fromTo(deck, { y: 0 }, { y: () => -overflow(), duration: .5, ease: "none" }, 1.2);
+    timeline.to(word, { autoAlpha: 0, duration: .5, ease: "none" }, 4.55);
+    // The water drops back so it never covers the card text.
+    timeline.to(waves, { yPercent: 62, duration: .6, ease: "none" }, 4.3);
+    timeline.fromTo(deck, { y: 0 }, { y: () => -overflow(), duration: .5, ease: "none", immediateRender: false }, 5.2);
     timeline.to({}, { duration: .3 });
 }
 

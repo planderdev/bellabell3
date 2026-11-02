@@ -578,12 +578,109 @@ video[data-media-state="missing"] {
     font-weight: var(--fw-700);
 }
 
+/* Scroll-driven intro: these stay hidden unless initBongbongStory runs, so reduced motion shows only the cards. */
+.bongbong-story-hello {
+    position: absolute;
+    top: clamp(64px, 8.5svh, 96px);
+    left: 4%;
+    z-index: 0;
+    display: block;
+    width: 92%;
+    height: auto;
+    overflow: visible;
+    visibility: hidden;
+}
+
+.bongbong-story-hello text {
+    fill: var(--black, #000);
+    stroke: var(--black, #000);
+    stroke-width: 12px;
+    stroke-linejoin: round;
+    font-family: "Poppins", sans-serif;
+    font-size: 180px;
+    font-weight: var(--fw-700);
+}
+
+.bongbong-story-cat {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    display: block;
+    width: 63vw;
+    max-width: none;
+    height: auto;
+    transform-origin: left bottom;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.bongbong-story-pops {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.bongbong-story-pop {
+    position: absolute;
+    display: block;
+    max-width: none;
+    height: auto;
+    visibility: hidden;
+}
+
+.bongbong-story-pop-blue {
+    top: 7%;
+    left: 18%;
+    width: 9.2vw;
+}
+
+.bongbong-story-pop-orange {
+    top: 11%;
+    right: 0;
+    width: 17.5vw;
+}
+
+.bongbong-story-pop-green {
+    top: 75%;
+    left: 65.5%;
+    width: 6.3vw;
+}
+
+.bongbong-story-pop-green-open {
+    top: 62%;
+    left: 14%;
+    width: 5.5vw;
+}
+
+.bongbong-story-spark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--green-600);
+    visibility: hidden;
+}
+
+.bongbong-story-spark:nth-of-type(3n) {
+    background: var(--blue-500);
+}
+
+.bongbong-story-spark:nth-of-type(3n + 1) {
+    width: 9px;
+    height: 9px;
+    background: var(--teal-200);
+}
+
 .bongbong-story-waves {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 1;
+    z-index: 3;
     height: clamp(150px, 27svh, 300px);
     overflow: hidden;
     pointer-events: none;
@@ -728,6 +825,33 @@ video[data-media-state="missing"] {
 }
 
 @media (max-width:970px) {
+    .bongbong-story-cat {
+        width: 120vw;
+    }
+
+    .bongbong-story-pop-blue {
+        top: 14%;
+        left: 8%;
+        width: 22vw;
+    }
+
+    .bongbong-story-pop-orange {
+        top: 13%;
+        width: 40vw;
+    }
+
+    .bongbong-story-pop-green {
+        top: 56%;
+        left: 42%;
+        width: 13vw;
+    }
+
+    .bongbong-story-pop-green-open {
+        top: 58%;
+        left: 10%;
+        width: 12vw;
+    }
+
     .bongbong-story-stage {
         align-items: flex-start;
         padding: calc(88px + 18vw) 24px 32px;

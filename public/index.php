@@ -61,6 +61,16 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 <section class="bongbong-story-section" data-section="bongbong-story" id="bongbong-story" aria-labelledby="bongbong-story-title">
 <div class="bongbong-story-stage">
 <svg class="bongbong-story-word" viewBox="0 0 1000 170" aria-hidden="true" focusable="false"><text x="500" y="150" textLength="980" lengthAdjust="spacingAndGlyphs" text-anchor="middle">BONGBONG</text></svg>
+<svg class="bongbong-story-hello" viewBox="0 0 1000 170" aria-hidden="true" focusable="false"><text x="10" y="150" textLength="515" lengthAdjust="spacingAndGlyphs">HELLO</text></svg>
+<img class="bongbong-story-cat" src="/assets/media/bongbong/cat.webp" alt="" width="1071" height="659" decoding="async"/>
+<div class="bongbong-story-pops" aria-hidden="true">
+<?php foreach (['blue', 'orange', 'green', 'green-open'] as $stick): ?>
+<img class="bongbong-story-pop bongbong-story-pop-<?= $stick ?>" src="/assets/media/bongbong/stick-<?= $stick ?>.webp" alt="" decoding="async"/>
+<?php endforeach; ?>
+<?php for ($spark = 0; $spark < 14; $spark++): ?>
+<span class="bongbong-story-spark"></span>
+<?php endfor; ?>
+</div>
 <div class="bongbong-story-waves" aria-hidden="true">
 <?php foreach (['far', 'mid', 'near', 'shore'] as $wave): ?>
 <svg class="bongbong-story-wave bongbong-story-wave-<?= $wave ?>" viewBox="0 0 2880 200" preserveAspectRatio="none" focusable="false"><path d="M0 100C120 40 240 40 360 100S600 160 720 100 960 40 1080 100 1320 160 1440 100 1680 40 1800 100 2040 160 2160 100 2400 40 2520 100 2760 160 2880 100V200H0Z"/></svg>
