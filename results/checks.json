@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "passed": 231,
-  "total": 231,
+  "passed": 237,
+  "total": 237,
   "checks": [
     {
       "check": "PHP returns 200",
@@ -626,7 +626,22 @@
     {
       "check": "Asset is local or the pinned Lucide library",
       "pass": true,
-      "detail": "/assets/media/bongbong/cat.webp"
+      "detail": "/assets/media/bongbong/cat-arm.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/bongbong/cat-body.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/bongbong/cat-drum.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/bongbong/cat-head.webp"
     },
     {
       "check": "Asset is local or the pinned Lucide library",
@@ -861,7 +876,22 @@
     {
       "check": "Local asset responds 200",
       "pass": true,
-      "detail": "/assets/media/bongbong/cat.webp"
+      "detail": "/assets/media/bongbong/cat-arm.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/bongbong/cat-body.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/bongbong/cat-drum.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/bongbong/cat-head.webp"
     },
     {
       "check": "Local asset responds 200",
@@ -1001,12 +1031,17 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
+      "detail": "/assets/fonts/Poppins-Bold.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
       "detail": "/assets/fonts/Poppins-SemiBold.woff2"
     },
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Light.woff2"
+      "detail": "/assets/fonts/Poppins-Medium.woff2"
     },
     {
       "check": "CSS asset responds 200",
@@ -1016,12 +1051,7 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Bold.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
-      "detail": "/assets/fonts/Poppins-Medium.woff2"
+      "detail": "/assets/fonts/Poppins-Light.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",
