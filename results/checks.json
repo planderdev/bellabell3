@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "passed": 244,
-  "total": 244,
+  "passed": 246,
+  "total": 246,
   "checks": [
     {
       "check": "PHP returns 200",
@@ -117,6 +117,16 @@
       "check": "Confirmed copy is verbatim",
       "pass": true,
       "detail": "research"
+    },
+    {
+      "check": "Confirmed copy is verbatim",
+      "pass": true,
+      "detail": "research-statement"
+    },
+    {
+      "check": "Confirmed copy is verbatim",
+      "pass": true,
+      "detail": "research-ingredients"
     },
     {
       "check": "Confirmed copy is verbatim",
@@ -1071,12 +1081,12 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Bold.woff2"
+      "detail": "/assets/fonts/Poppins-Regular.woff2"
     },
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Regular.woff2"
+      "detail": "/assets/fonts/Poppins-Bold.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",

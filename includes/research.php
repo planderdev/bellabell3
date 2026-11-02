@@ -9,7 +9,8 @@ declare(strict_types=1);
 </div>
 <div class="research-layout">
 <div class="research-copy" data-fade="">
-<h3 data-copy="research-statement"><?= e($content['research_statement']) ?></h3>
+<h3 data-copy="research-statement"><?= nl2br(e($content['research_statement']), false) ?></h3>
+<p class="research-ingredients" data-copy="research-ingredients" lang="en"><?= e($content['research_ingredients']) ?></p>
 <?php foreach ($content['research_body'] as $index => $paragraph): ?>
 <p data-copy="research-body-<?= $index ?>"><?= nl2br(e($paragraph), false) ?></p>
 <?php endforeach; ?>
