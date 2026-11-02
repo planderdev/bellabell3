@@ -22,15 +22,4 @@ declare(strict_types=1);
 </figure>
 </div>
 </div>
-<div class="research-partners" role="region" aria-label="함께하는 파트너" tabindex="0">
-<div class="research-partner-track">
-<?php for ($copy = 0; $copy < 2; $copy++): ?>
-<ul class="research-partner-group"<?= $copy === 1 ? ' aria-hidden="true"' : ' aria-label="파트너 로고"' ?>>
-<?php foreach ($content['research_partners'] as $partner): ?>
-<li class="research-partner-logo"><img src="<?= e($partner['src']) ?>" alt="<?= $copy === 0 ? e($partner['alt']) : '' ?>" width="190" height="52" loading="eager" fetchpriority="low" decoding="async"/></li>
-<?php endforeach; ?>
-</ul>
-<?php endfor; ?>
-</div>
-</div>
 </section>

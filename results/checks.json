@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "passed": 217,
-  "total": 217,
+  "passed": 203,
+  "total": 203,
   "checks": [
     {
       "check": "PHP returns 200",
@@ -636,41 +636,6 @@
     {
       "check": "Asset is local or the pinned Lucide library",
       "pass": true,
-      "detail": "/assets/media/partner/cms.png"
-    },
-    {
-      "check": "Asset is local or the pinned Lucide library",
-      "pass": true,
-      "detail": "/assets/media/partner/jeju.svg"
-    },
-    {
-      "check": "Asset is local or the pinned Lucide library",
-      "pass": true,
-      "detail": "/assets/media/partner/jjcci.svg"
-    },
-    {
-      "check": "Asset is local or the pinned Lucide library",
-      "pass": true,
-      "detail": "/assets/media/partner/jjtech.svg"
-    },
-    {
-      "check": "Asset is local or the pinned Lucide library",
-      "pass": true,
-      "detail": "/assets/media/partner/kstartup.webp"
-    },
-    {
-      "check": "Asset is local or the pinned Lucide library",
-      "pass": true,
-      "detail": "/assets/media/partner/sme.svg"
-    },
-    {
-      "check": "Asset is local or the pinned Lucide library",
-      "pass": true,
-      "detail": "/assets/media/partner/startup.svg"
-    },
-    {
-      "check": "Asset is local or the pinned Lucide library",
-      "pass": true,
       "detail": "/assets/media/patents/vegan-cookie-application.jpg"
     },
     {
@@ -871,41 +836,6 @@
     {
       "check": "Local asset responds 200",
       "pass": true,
-      "detail": "/assets/media/partner/cms.png"
-    },
-    {
-      "check": "Local asset responds 200",
-      "pass": true,
-      "detail": "/assets/media/partner/jeju.svg"
-    },
-    {
-      "check": "Local asset responds 200",
-      "pass": true,
-      "detail": "/assets/media/partner/jjcci.svg"
-    },
-    {
-      "check": "Local asset responds 200",
-      "pass": true,
-      "detail": "/assets/media/partner/jjtech.svg"
-    },
-    {
-      "check": "Local asset responds 200",
-      "pass": true,
-      "detail": "/assets/media/partner/kstartup.webp"
-    },
-    {
-      "check": "Local asset responds 200",
-      "pass": true,
-      "detail": "/assets/media/partner/sme.svg"
-    },
-    {
-      "check": "Local asset responds 200",
-      "pass": true,
-      "detail": "/assets/media/partner/startup.svg"
-    },
-    {
-      "check": "Local asset responds 200",
-      "pass": true,
       "detail": "/assets/media/patents/vegan-cookie-application.jpg"
     },
     {
@@ -986,22 +916,22 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Bold.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
-      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
       "detail": "/assets/fonts/Poppins-Light.woff2"
     },
     {
       "check": "CSS asset responds 200",
       "pass": true,
       "detail": "/assets/fonts/Poppins-Regular.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Bold.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",
