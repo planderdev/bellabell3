@@ -390,6 +390,22 @@ video[data-media-state="missing"] {
     }
 }
 
+/* English lines run about twice as long as Korean, so they get a smaller size and may wrap on phones. */
+html[lang="en"] .about-reveal-title {
+    font-size: clamp(38px, 4.4vw, 84px);
+    letter-spacing: -.04em;
+}
+
+html[lang="en"] .about-reveal-line {
+    white-space: normal;
+}
+
+@media (min-width:971px) {
+    html[lang="en"] .about-reveal-line:nth-of-type(2) {
+        margin-left: 30vw;
+    }
+}
+
 .about-reveal-word {
     display: inline-block;
     white-space: nowrap;
@@ -2659,6 +2675,13 @@ video[data-media-state="missing"] {
     font-weight: var(--fw-500);
     cursor: pointer;
     transition: color .25s ease, background .25s ease, box-shadow .25s ease;
+}
+
+@media (max-width:600px) {
+    html:not([lang="ko"]) .brand-tab {
+        font-size: 14px;
+        white-space: nowrap;
+    }
 }
 
 .brand-tab:hover {

@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 require __DIR__ . '/../includes/common.php';
-$content = require __DIR__ . '/../includes/content.php';
+$content = t_deep(require __DIR__ . '/../includes/content.php');
 $heroCopy = explode(' / ', $content['intro'], 2);
 ?>
-<!doctype html><html lang="en">
+<!doctype html><html lang="<?= e(LOCALES[locale()]['html']) ?>">
 <?php require __DIR__ . '/../includes/head.php'; ?>
-<body class="main" lang="ko">
+<body class="main" lang="<?= e(LOCALES[locale()]['html']) ?>" data-home="<?= e(page_url('/')) ?>">
 <?php require __DIR__ . '/../includes/header.php'; ?>
 <div id="wrapper">
 <div class="main-page" id="main" role="main">
@@ -20,8 +20,8 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 </div>
 <div class="hero-content inner">
 <div class="hero-logos">
-<img class="hero-logo-fromhalla" alt="프롬한라" src="/assets/fromhalla.svg" width="750" height="351"/>
-<img class="hero-logo-bellabelfarm" alt="벨아벨팜" src="/assets/bellabelfarm.svg" width="1155" height="506"/>
+<img class="hero-logo-fromhalla" alt="<?= e(t('프롬한라')) ?>" src="/assets/fromhalla.svg" width="750" height="351"/>
+<img class="hero-logo-bellabelfarm" alt="<?= e(t('벨아벨팜')) ?>" src="/assets/bellabelfarm.svg" width="1155" height="506"/>
 </div>
 <h2 class="hero-title" data-copy="intro-title"><?= e($heroCopy[0]) ?></h2>
 <p class="hero-description" data-copy="intro-body"><?= e($heroCopy[1]) ?></p>
@@ -49,7 +49,7 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 </div>
 <div class="about-reveal-links">
 <?php foreach ($content['about_links'] as $aboutLink): ?>
-<a class="about-reveal-link" href="<?= e($aboutLink['href']) ?>"<?= str_starts_with($aboutLink['href'], 'http') ? ' target="_blank" rel="noopener noreferrer"' : '' ?>>
+<a class="about-reveal-link" href="<?= e(str_starts_with($aboutLink['href'], '/') ? page_url($aboutLink['href']) : $aboutLink['href']) ?>"<?= str_starts_with($aboutLink['href'], 'http') ? ' target="_blank" rel="noopener noreferrer"' : '' ?>>
 <span><?= e($aboutLink['label']) ?></span>
 <i data-lucide="arrow-right" class="site-icon" width="16" height="16" stroke-width="2" aria-hidden="true" focusable="false"></i>
 </a>
@@ -58,9 +58,9 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 </div>
 </div>
 </section>
-<section class="pillars-section" data-section="pillars" id="pillars" aria-label="벨아벨팜의 사업 분야">
+<section class="pillars-section" data-section="pillars" id="pillars" aria-label="<?= e(t('벨아벨팜의 사업 분야')) ?>">
 <div class="pillars-media">
-<video id="pillar-video" muted playsinline preload="metadata" poster="/assets/media/pillar-ragdoll-poster.webp" width="1280" height="660" aria-label="랙돌 고양이가 프롬한라스틱 앞에서 입맛을 다시는 영상">
+<video id="pillar-video" muted playsinline preload="metadata" poster="/assets/media/pillar-ragdoll-poster.webp" width="1280" height="660" aria-label="<?= e(t('랙돌 고양이가 프롬한라스틱 앞에서 입맛을 다시는 영상')) ?>">
 <source src="/assets/media/pillar-ragdoll.mp4" type="video/mp4"/>
 </video>
 </div>
@@ -100,13 +100,13 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 </div>
 <div class="bongbong-story-cards">
 <figure class="bongbong-story-card bongbong-story-photo bongbong-story-photo-first">
-<img src="/assets/bongbong.webp" alt="나무 곁에 있는 봉봉이" width="1600" height="2000" loading="lazy" decoding="async"/>
+<img src="/assets/bongbong.webp" alt="<?= e(t('나무 곁에 있는 봉봉이')) ?>" width="1600" height="2000" loading="lazy" decoding="async"/>
 </figure>
 <figure class="bongbong-story-card bongbong-story-photo bongbong-story-photo-second">
-<img src="/assets/media/mission-bongbong.webp" alt="제주 바닷가에 앉아 있는 봉봉이" width="1536" height="1920" loading="lazy" decoding="async"/>
+<img src="/assets/media/mission-bongbong.webp" alt="<?= e(t('제주 바닷가에 앉아 있는 봉봉이')) ?>" width="1536" height="1920" loading="lazy" decoding="async"/>
 </figure>
 <figure class="bongbong-story-card bongbong-story-photo bongbong-story-photo-third">
-<img src="/assets/media/mission-beach.webp" alt="제주 모래사장을 걷는 봉봉이" width="1536" height="1920" loading="lazy" decoding="async"/>
+<img src="/assets/media/mission-beach.webp" alt="<?= e(t('제주 모래사장을 걷는 봉봉이')) ?>" width="1536" height="1920" loading="lazy" decoding="async"/>
 </figure>
 <article class="bongbong-story-card bongbong-story-copy">
 <h2 id="bongbong-story-title" data-copy="bongbong-title"><?= nl2br(e($content['bongbong_title']), false) ?></h2>
@@ -120,7 +120,7 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 <div class="section-category" data-fade="">
 <p lang="en">Research &amp; Technology</p>
 </div>
-<h2 class="section-title" data-fade="" data-section-title="research-legacy">연구·기술</h2>
+<h2 class="section-title" data-fade="" data-section-title="research-legacy"><?= e(t('연구·기술')) ?></h2>
 <p class="section-desc" data-fade=""><span data-copy="research"><?= e($content['research']) ?></span><br/><span data-lorem="research" lang="la"><?= e($content['lorem']) ?></span></p>
 </div>
 <div class="standard-slider">
@@ -225,11 +225,11 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 </div>
 </section>
 <?php require __DIR__ . '/../includes/company-history.php'; ?>
-<section class="products-section" data-section="family" id="family" aria-label="브랜드 패밀리">
+<section class="products-section" data-section="family" id="family" aria-label="<?= e(t('브랜드 패밀리')) ?>">
 <div class="products-stage">
 <div class="products-bg-title" aria-hidden="true" lang="en">BRAND FAMILY</div>
 <div class="products-visual">
-<div class="products-gallery swiper" id="brand-photo-slider" aria-label="브랜드 사진">
+<div class="products-gallery swiper" id="brand-photo-slider" aria-label="<?= e(t('브랜드 사진')) ?>">
 <div class="swiper-wrapper">
 <?php $brandSlideIndex = 0; foreach ($content['brands'] as $brandIndex => $brand): ?>
 <?php foreach ($brand['photos'] as $photoIndex => $photo): ?>
@@ -249,7 +249,7 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 </div>
 </div>
 </div>
-<div class="products-thumbs" role="group" aria-label="브랜드 및 사진 선택">
+<div class="products-thumbs" role="group" aria-label="<?= e(t('브랜드 및 사진 선택')) ?>">
 <?php $brandSlideIndex = 0; foreach ($content['brands'] as $brandIndex => $brand): ?>
 <div class="product-item<?= $brandIndex === 0 ? ' is-active' : '' ?>">
 <button class="product-item-product" type="button" aria-label="<?= e($brand['name']) ?>" aria-controls="brand-details-<?= $brandIndex ?> brand-photo-slider" aria-expanded="<?= $brandIndex === 0 ? 'true' : 'false' ?>" data-name="<?= e($brand['name']) ?>" data-description="<?= e($brand['description']) ?>" data-first-slide="<?= $brandSlideIndex ?>">
@@ -259,7 +259,7 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 <div class="accordion-content">
 <div class="product-angle-list">
 <?php foreach ($brand['photos'] as $photoIndex => $photo): ?>
-<button class="product-angle<?= $brandIndex === 0 && $photoIndex === 0 ? ' is-active' : '' ?>" type="button" aria-label="<?= e($brand['name']) ?> 사진 <?= $photoIndex + 1 ?>" aria-pressed="<?= $brandIndex === 0 && $photoIndex === 0 ? 'true' : 'false' ?>" tabindex="<?= $brandIndex === 0 ? '0' : '-1' ?>" data-slide-index="<?= $brandSlideIndex + $photoIndex ?>">
+<button class="product-angle<?= $brandIndex === 0 && $photoIndex === 0 ? ' is-active' : '' ?>" type="button" aria-label="<?= e($brand['name']) ?> <?= e(t('사진')) ?> <?= $photoIndex + 1 ?>" aria-pressed="<?= $brandIndex === 0 && $photoIndex === 0 ? 'true' : 'false' ?>" tabindex="<?= $brandIndex === 0 ? '0' : '-1' ?>" data-slide-index="<?= $brandSlideIndex + $photoIndex ?>">
 <img src="<?= e($photo['src']) ?>" alt="" loading="lazy" decoding="async"/>
 </button>
 <?php endforeach; ?>
@@ -270,9 +270,9 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 <?php $brandSlideIndex += count($brand['photos']); endforeach; ?>
 </div>
 <div class="products-gallery-controls">
-<button class="products-prev" type="button" aria-label="이전 사진"><i data-lucide="chevron-left" class="site-icon" width="20" height="20" stroke-width="2" aria-hidden="true" focusable="false"></i></button>
-<span class="products-slide-count" aria-label="사진 순서">1 / <?= $brandSlideIndex ?></span>
-<button class="products-next" type="button" aria-label="다음 사진"><i data-lucide="chevron-right" class="site-icon" width="20" height="20" stroke-width="2" aria-hidden="true" focusable="false"></i></button>
+<button class="products-prev" type="button" aria-label="<?= e(t('이전 사진')) ?>"><i data-lucide="chevron-left" class="site-icon" width="20" height="20" stroke-width="2" aria-hidden="true" focusable="false"></i></button>
+<span class="products-slide-count" aria-label="<?= e(t('사진 순서')) ?>">1 / <?= $brandSlideIndex ?></span>
+<button class="products-next" type="button" aria-label="<?= e(t('다음 사진')) ?>"><i data-lucide="chevron-right" class="site-icon" width="20" height="20" stroke-width="2" aria-hidden="true" focusable="false"></i></button>
 </div>
 </div>
 </section>
@@ -337,10 +337,10 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 <div class="section-category" data-fade="">
 <p lang="en">Partnership</p>
 </div>
-<h2 class="section-title" data-fade="" data-section-title="partner">제안 &amp; 협업</h2>
+<h2 class="section-title" data-fade="" data-section-title="partner"><?= e(t('제안 & 협업', 'title')) ?></h2>
 <p class="section-desc" data-fade="" data-copy="partner"><?= e($content['partner']) ?></p>
-<p class="contact-intro">유통·입점, 공동 연구, 해외 비즈니스까지<br/>벨아벨팜과의 협업을 제안해 주세요.</p>
-<p class="contact-direct" data-copy="contact"><a href="mailto:partner@jejubellabell.com">partner@jejubellabell.com</a> · <a href="tel:0648030060">064-803-0060</a></p>
+<p class="contact-intro"><?= e(t('유통·입점, 공동 연구, 해외 비즈니스까지')) ?><br/><?= e(t('벨아벨팜과의 협업을 제안해 주세요.')) ?></p>
+<p class="contact-direct" data-copy="contact"><a href="mailto:partner@jejubellabell.com">partner@jejubellabell.com</a> · <a href="<?= e(t('tel:0648030060')) ?>"><?= e(t('064-803-0060')) ?></a></p>
 </div>
 <?php require __DIR__ . '/../includes/contact-form.php'; ?>
 </div>

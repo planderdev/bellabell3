@@ -17,9 +17,9 @@ declare(strict_types=1);
 </div>
 <figure class="research-patent" data-fade="">
 <div class="research-patent-image">
-<img src="/assets/media/patents/vegan-cookie-application.jpg" alt="반려견용 비건 사료 조성물 특허 출원사실증명원" width="1624" height="2195" loading="lazy" decoding="async"/>
+<img src="/assets/media/patents/vegan-cookie-application.jpg" alt="<?= e(t('반려견용 비건 사료 조성물 특허 출원사실증명원')) ?>" width="1624" height="2195" loading="lazy" decoding="async"/>
 </div>
-<figcaption>반려견용 비건 사료 조성물 · 출원사실증명원</figcaption>
+<figcaption><?= e(t('반려견용 비건 사료 조성물 · 출원사실증명원')) ?></figcaption>
 </figure>
 </div>
 </div>

@@ -278,3 +278,12 @@ button:focus-visible {
         transform: none;
     }
 }
+
+/* Chinese pages: Pretendard has no Chinese glyphs, and keep-all would stop lines breaking between characters. */
+html[lang="zh-CN"] {
+    --font-family-base: "Poppins", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+}
+
+html[lang="zh-CN"] body * {
+    word-break: normal !important;
+}

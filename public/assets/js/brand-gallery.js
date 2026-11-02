@@ -48,7 +48,7 @@ function initBrandGallery() {
         grabCursor:true,
         keyboard:{ enabled:true, onlyInViewport:true },
         navigation:{ prevEl:section.querySelector(".products-prev"), nextEl:section.querySelector(".products-next") },
-        a11y:{ prevSlideMessage:"이전 사진", nextSlideMessage:"다음 사진", slideLabelMessage:"{{index}} / {{slidesLength}}" },
+        a11y:{ prevSlideMessage:section.querySelector(".products-prev").getAttribute("aria-label"), nextSlideMessage:section.querySelector(".products-next").getAttribute("aria-label"), slideLabelMessage:"{{index}} / {{slidesLength}}" },
         on:{ init:function () { updateGallery(this); }, slideChange:function () { updateGallery(this); } }
     });
     items.forEach((item, index) => {

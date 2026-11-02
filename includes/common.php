@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/i18n.php';
+
 // Shared response settings and template helpers.
 header('Content-Type: text/html; charset=utf-8');
 header('X-Content-Type-Options: nosniff');

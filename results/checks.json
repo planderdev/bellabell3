@@ -1,8 +1,178 @@
 {
   "date": "2026-10-29",
-  "passed": 246,
-  "total": 246,
+  "passed": 284,
+  "total": 284,
   "checks": [
+    {
+      "check": "Localized page returns 200",
+      "pass": true,
+      "detail": "/en"
+    },
+    {
+      "check": "Localized page sets html lang",
+      "pass": true,
+      "detail": "/en"
+    },
+    {
+      "check": "Localized page has no leftover Korean",
+      "pass": true,
+      "detail": "/en"
+    },
+    {
+      "check": "Language switcher shows current language",
+      "pass": true,
+      "detail": "/en"
+    },
+    {
+      "check": "Language switcher links this page in every language",
+      "pass": true,
+      "detail": "/en"
+    },
+    {
+      "check": "Localized page returns 200",
+      "pass": true,
+      "detail": "/en/brand"
+    },
+    {
+      "check": "Localized page sets html lang",
+      "pass": true,
+      "detail": "/en/brand"
+    },
+    {
+      "check": "Localized page has no leftover Korean",
+      "pass": true,
+      "detail": "/en/brand"
+    },
+    {
+      "check": "Language switcher shows current language",
+      "pass": true,
+      "detail": "/en/brand"
+    },
+    {
+      "check": "Language switcher links this page in every language",
+      "pass": true,
+      "detail": "/en/brand"
+    },
+    {
+      "check": "Localized page returns 200",
+      "pass": true,
+      "detail": "/en/product"
+    },
+    {
+      "check": "Localized page sets html lang",
+      "pass": true,
+      "detail": "/en/product"
+    },
+    {
+      "check": "Localized page has no leftover Korean",
+      "pass": true,
+      "detail": "/en/product"
+    },
+    {
+      "check": "Language switcher shows current language",
+      "pass": true,
+      "detail": "/en/product"
+    },
+    {
+      "check": "Language switcher links this page in every language",
+      "pass": true,
+      "detail": "/en/product"
+    },
+    {
+      "check": "Localized page returns 200",
+      "pass": true,
+      "detail": "/zh"
+    },
+    {
+      "check": "Localized page sets html lang",
+      "pass": true,
+      "detail": "/zh"
+    },
+    {
+      "check": "Localized page has no leftover Korean",
+      "pass": true,
+      "detail": "/zh"
+    },
+    {
+      "check": "Language switcher shows current language",
+      "pass": true,
+      "detail": "/zh"
+    },
+    {
+      "check": "Language switcher links this page in every language",
+      "pass": true,
+      "detail": "/zh"
+    },
+    {
+      "check": "Localized page returns 200",
+      "pass": true,
+      "detail": "/zh/brand"
+    },
+    {
+      "check": "Localized page sets html lang",
+      "pass": true,
+      "detail": "/zh/brand"
+    },
+    {
+      "check": "Localized page has no leftover Korean",
+      "pass": true,
+      "detail": "/zh/brand"
+    },
+    {
+      "check": "Language switcher shows current language",
+      "pass": true,
+      "detail": "/zh/brand"
+    },
+    {
+      "check": "Language switcher links this page in every language",
+      "pass": true,
+      "detail": "/zh/brand"
+    },
+    {
+      "check": "Localized page returns 200",
+      "pass": true,
+      "detail": "/zh/product"
+    },
+    {
+      "check": "Localized page sets html lang",
+      "pass": true,
+      "detail": "/zh/product"
+    },
+    {
+      "check": "Localized page has no leftover Korean",
+      "pass": true,
+      "detail": "/zh/product"
+    },
+    {
+      "check": "Language switcher shows current language",
+      "pass": true,
+      "detail": "/zh/product"
+    },
+    {
+      "check": "Language switcher links this page in every language",
+      "pass": true,
+      "detail": "/zh/product"
+    },
+    {
+      "check": "Language prefix serves only pages",
+      "pass": true,
+      "detail": "/en/admin"
+    },
+    {
+      "check": "Language prefix serves only pages",
+      "pass": true,
+      "detail": "/zh/api/contact"
+    },
+    {
+      "check": "Language prefix serves only pages",
+      "pass": true,
+      "detail": "/en/assets/css/base.css"
+    },
+    {
+      "check": "Language prefix serves only pages",
+      "pass": true,
+      "detail": "/en/nope"
+    },
     {
       "check": "PHP returns 200",
       "pass": true,
@@ -341,12 +511,32 @@
     {
       "check": "Link uses a real section or confirmed destination",
       "pass": true,
-      "detail": "#intro"
+      "detail": "/"
     },
     {
       "check": "Link uses a real section or confirmed destination",
       "pass": true,
-      "detail": "#global"
+      "detail": "/en"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "/zh"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "/"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "/en"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "/zh"
     },
     {
       "check": "Link uses a real section or confirmed destination",
@@ -1066,17 +1256,17 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
+      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
       "detail": "/assets/fonts/Poppins-Light.woff2"
     },
     {
       "check": "CSS asset responds 200",
       "pass": true,
       "detail": "/assets/fonts/Poppins-Medium.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
-      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
     },
     {
       "check": "CSS asset responds 200",

@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 require __DIR__ . '/../includes/common.php';
-$content = require __DIR__ . '/../includes/content.php';
-$pageTitle = 'Product | 벨아벨팜';
+$content = t_deep(require __DIR__ . '/../includes/content.php');
+$pageTitle = 'Product | ' . t('벨아벨팜');
 $categoryNames = array_column($content['product_categories'], 'name', 'id');
 $marqueeItems = ['From HALLA, For PET', ...array_column($content['product_categories'], 'menu')];
 $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 ?>
-<!doctype html><html lang="en">
+<!doctype html><html lang="<?= e(LOCALES[locale()]['html']) ?>">
 <?php require __DIR__ . '/../includes/head.php'; ?>
-<body class="sub" lang="ko">
+<body class="sub" lang="<?= e(LOCALES[locale()]['html']) ?>" data-home="<?= e(page_url('/')) ?>">
 <?php require __DIR__ . '/../includes/header.php'; ?>
 <div id="wrapper">
 <main class="product-page" id="main">
@@ -17,11 +17,11 @@ $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 <div class="inner">
 <div>
 <p class="product-hero-label" lang="en">Product</p>
-<h2 class="product-hero-title" id="product-title">먹는 건<br/>귀엽게,<br/>만드는 건<br/>진지하게!</h2>
-<p class="product-hero-description">잘 먹을까? 매일 써도 좋을까?<br/>보호자의 질문에서 시작해, 제주의 원료와 쓰임에 맞는 제형을 연구합니다.</p>
-<a class="product-button" href="#products"><span>제품 라인업 보기</span><i data-lucide="arrow-down" class="site-icon" aria-hidden="true" focusable="false"></i></a>
+<h2 class="product-hero-title" id="product-title"><?= e(t('먹는 건')) ?><br/><?= e(t('귀엽게,')) ?><br/><?= e(t('만드는 건')) ?><br/><?= e(t('진지하게!')) ?></h2>
+<p class="product-hero-description"><?= e(t('잘 먹을까? 매일 써도 좋을까?')) ?><br/><?= e(t('보호자의 질문에서 시작해, 제주의 원료와 쓰임에 맞는 제형을 연구합니다.')) ?></p>
+<a class="product-button" href="#products"><span><?= e(t('제품 라인업 보기')) ?></span><i data-lucide="arrow-down" class="site-icon" aria-hidden="true" focusable="false"></i></a>
 </div>
-<video class="product-hero-image" id="product-hero-video" autoplay muted loop playsinline preload="auto" poster="/assets/media/product/hero-ragdoll-poster.webp" width="960" height="720" aria-label="랙돌 고양이가 프롬한라스틱 앞에서 입맛을 다시는 영상">
+<video class="product-hero-image" id="product-hero-video" autoplay muted loop playsinline preload="auto" poster="/assets/media/product/hero-ragdoll-poster.webp" width="960" height="720" aria-label="<?= e(t('랙돌 고양이가 프롬한라스틱 앞에서 입맛을 다시는 영상')) ?>">
 <source src="/assets/media/product/hero-ragdoll.mp4" type="video/mp4"/>
 </video>
 </div>
@@ -40,8 +40,8 @@ $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 <section class="product-section" id="products" aria-labelledby="products-title">
 <div class="inner">
 <h2 class="product-heading" id="products-title" lang="en">Product Family</h2>
-<div class="product-filters" role="group" aria-label="제품 분류">
-<button class="product-filter is-active" type="button" data-filter="all" aria-pressed="true">전체</button>
+<div class="product-filters" role="group" aria-label="<?= e(t('제품 분류')) ?>">
+<button class="product-filter is-active" type="button" data-filter="all" aria-pressed="true"><?= e(t('전체')) ?></button>
 <?php foreach ($content['product_categories'] as $category): ?>
 <button class="product-filter" type="button" data-filter="<?= e($category['id']) ?>" aria-pressed="false"><?= e($category['name']) ?></button>
 <?php endforeach; ?>
@@ -49,7 +49,7 @@ $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 <ul class="product-grid">
 <?php foreach ($content['products'] as $index => $product): ?>
 <li class="product-card" data-category="<?= e($product['category']) ?>">
-<div class="product-card-media"<?= $product['image'] === null ? ' data-media-state="missing" role="img" aria-label="' . e($product['name']) . ' 사진 미확보"' : '' ?>>
+<div class="product-card-media"<?= $product['image'] === null ? ' data-media-state="missing" role="img" aria-label="' . e($product['name']) . ' ' . e(t('사진 미확보')) . '"' : '' ?>>
 <?php if ($product['image'] !== null): ?>
 <img src="<?= e($product['image']['src']) ?>" alt="<?= e($product['image']['alt']) ?>" width="800" height="800" loading="lazy" decoding="async"/>
 <?php endif; ?>
@@ -62,7 +62,7 @@ $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 <?php if ($product['size'] !== null): ?>
 <p class="product-card-size"><?= e($product['size']) ?></p>
 <?php endif; ?>
-<a class="product-card-link" href="https://fromhalla.com" target="_blank" rel="noopener noreferrer"><span>상품 보기</span><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a>
+<a class="product-card-link" href="https://fromhalla.com" target="_blank" rel="noopener noreferrer"><span><?= e(t('상품 보기')) ?></span><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a>
 </div>
 </li>
 <?php endforeach; ?>
@@ -86,7 +86,7 @@ $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 <section class="product-section" aria-labelledby="product-stories-title">
 <div class="inner">
 <h2 class="product-heading" id="product-stories-title" lang="en">Lorem ipsum</h2>
-<div class="product-story-tabs" role="tablist" aria-label="제품 이야기">
+<div class="product-story-tabs" role="tablist" aria-label="<?= e(t('제품 이야기')) ?>">
 <?php foreach ($content['product_stories'] as $index => $story): ?>
 <button class="product-filter product-story-tab<?= $index === 0 ? ' is-active' : '' ?>" type="button" role="tab" id="product-story-tab-<?= $index ?>" aria-controls="product-story-<?= $index ?>" aria-selected="<?= $index === 0 ? 'true' : 'false' ?>" tabindex="<?= $index === 0 ? '0' : '-1' ?>" lang="en"><?= sprintf('%02d', $index + 1) ?> Lorem ipsum</button>
 <?php endforeach; ?>
@@ -118,7 +118,7 @@ $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 <section class="product-section product-closing" aria-labelledby="product-closing-title">
 <div class="inner">
 <h2 class="product-heading" id="product-closing-title" lang="en">From HALLA,<br/>For PET</h2>
-<a class="product-button" href="https://fromhalla.com" target="_blank" rel="noopener noreferrer"><span>프롬한라 상품 보기</span><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a>
+<a class="product-button" href="https://fromhalla.com" target="_blank" rel="noopener noreferrer"><span><?= e(t('프롬한라 상품 보기')) ?></span><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a>
 </div>
 </section>
 </main>

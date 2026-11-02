@@ -14,6 +14,12 @@ php -S 127.0.0.1:8086 -t public public/router.php
 
 웹 루트는 `public/`입니다. Composer와 Node 빌드는 필요하지 않습니다.
 
+## 다국어
+
+- 한국어는 `/`, 영어는 `/en`, 중국어(간체)는 `/zh`이며 `/brand`, `/product`도 같은 규칙입니다.
+- 템플릿은 한국어 문구를 키로 `t('한국어')`를 호출하고, 번역은 `includes/lang/en.php`, `includes/lang/zh.php`에 있습니다. 번역이 없으면 한국어가 그대로 나옵니다.
+- 한국어 문구를 바꾸면 두 번역 파일의 키도 같이 바꿔야 합니다. `tools/check.py`가 번역 페이지에 남은 한국어를 잡아냅니다.
+
 ## 배포와 문의 접수
 
 - Vercel 프로젝트 `bellabell3`(planderdevs-projects, icn1). `main` 푸시 = 운영 배포. `vercel.json`이 `/assets/*`는 정적 파일로, 나머지는 `api/index.php` → `public/router.php`로 보냅니다.

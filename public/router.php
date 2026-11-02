@@ -1,6 +1,13 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/../includes/i18n.php';
 $urlPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/';
+// /en and /zh serve the same pages as Korean; anything else under those prefixes stays a 404.
+if (preg_match('~^/(en|zh)(/brand|/product)?/?$~', $urlPath, $localeMatch)) {
+    locale($localeMatch[1]);
+    $urlPath = $localeMatch[2] ?? '/';
+}
+$_SERVER['LOCALE_PAGE'] = $urlPath === '/index.php' ? '/' : $urlPath;
 if ($urlPath === '/' || $urlPath === '/index.php') {
     require __DIR__ . '/index.php';
     return true;
@@ -16,6 +23,7 @@ if ($urlPath === '/product') {
 if ($urlPath === '/api/contact') {
     require __DIR__ . '/../includes/common.php';
     require __DIR__ . '/../includes/contact-handler.php';
+    locale((string) ($_POST['locale'] ?? 'ko'));
     handle_inquiry_request();
     return true;
 }
