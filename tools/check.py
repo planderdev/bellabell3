@@ -126,6 +126,8 @@ check('Brand page shows only the first panel',[('hidden' in n.a) for n in brand_
 check('Brand intro link opens the brand page',[n.a.get('href') for n in byclass('about-reveal-link')][0]=='/brand')
 product_status,product_raw,_=fetch('/product');product_nodes=list(Tree(product_raw.decode()).root.descendants())
 check('Product page returns 200',product_status==200)
+product_title=[n for n in product_nodes if n.has('product-hero-title')]
+check('Product hero uses the supplied copy',len(product_title)==1 and product_title[0].text()=='먹는 건귀엽게,만드는 건진지하게!')
 check('Product page lists nine products',len([n for n in product_nodes if n.has('product-card')])==9)
 check('Product filters cover all and three categories',[n.a.get('data-filter') for n in product_nodes if 'data-filter' in n.a]==['all','stick','biotics','nanotreat'])
 check('Product stories have three tabs and panels',len([n for n in product_nodes if n.has('product-story-tab')])==3 and len([n for n in product_nodes if n.has('product-story-panel')])==3)
