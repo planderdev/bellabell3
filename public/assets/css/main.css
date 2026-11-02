@@ -275,6 +275,8 @@ video[data-media-state="missing"] {
     position: relative;
     background: var(--white);
     color: var(--text);
+    --about-unrevealed: var(--grey-500);
+    --about-accent: linear-gradient(180deg, #04736f, #0d1f30);
 }
 
 .about-reveal-media {
@@ -300,46 +302,46 @@ video[data-media-state="missing"] {
     background: color-mix(in srgb, var(--white) 82%, var(--transparent));
 }
 
-.about-reveal-section:has(.about-reveal-media) {
-    --about-unrevealed: var(--grey-500);
+/* The first backdrop is the section's resting background; hovering another link fades its image in on top. */
+.about-reveal-backdrops {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
 }
 
-/* Pointer-only: stays display:none on touch, so the lazy images are never fetched there. */
-.about-reveal-backdrops {
+.about-reveal-backdrop {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity .5s ease;
+}
+
+.about-reveal-backdrop:first-child {
+    opacity: 1;
+}
+
+/* Hover images stay display:none on touch and small screens, so they are never fetched there. */
+.about-reveal-backdrop:not(:first-child) {
     display: none;
 }
 
+.about-reveal-backdrops:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--white) 62%, var(--transparent));
+}
+
 @media (min-width:971px) and (hover:hover) {
-    .about-reveal-backdrops {
+    .about-reveal-backdrop:not(:first-child) {
         display: block;
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        overflow: hidden;
-        pointer-events: none;
     }
 
-    .about-reveal-backdrop {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        opacity: 0;
-        transition: opacity .5s ease;
-    }
-
-    .about-reveal-backdrops:after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: color-mix(in srgb, var(--white) 62%, var(--transparent));
-        opacity: 0;
-        transition: opacity .5s ease;
-    }
-
-    .about-reveal-section:has(.about-reveal-link:is(:hover, :focus-visible)) .about-reveal-backdrops:after,
-    .about-reveal-section:has(.about-reveal-link:nth-child(1):is(:hover, :focus-visible)) .about-reveal-backdrop:nth-child(1),
     .about-reveal-section:has(.about-reveal-link:nth-child(2):is(:hover, :focus-visible)) .about-reveal-backdrop:nth-child(2),
     .about-reveal-section:has(.about-reveal-link:nth-child(3):is(:hover, :focus-visible)) .about-reveal-backdrop:nth-child(3),
     .about-reveal-section:has(.about-reveal-link:nth-child(4):is(:hover, :focus-visible)) .about-reveal-backdrop:nth-child(4) {
@@ -403,13 +405,13 @@ video[data-media-state="missing"] {
 }
 
 .about-reveal-accent {
-    color: var(--green-600);
+    color: #04736f;
     font-weight: var(--fw-700);
 }
 
 .about-reveal-word.is-accent {
     font-weight: var(--fw-700);
-    background-image: linear-gradient(100deg, var(--green-600), var(--blue-500)), linear-gradient(var(--about-unrevealed, var(--grey-300)), var(--about-unrevealed, var(--grey-300)));
+    background-image: var(--about-accent), linear-gradient(var(--about-unrevealed, var(--grey-300)), var(--about-unrevealed, var(--grey-300)));
 }
 
 .about-reveal-body {
