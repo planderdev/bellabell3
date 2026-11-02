@@ -64,9 +64,53 @@ function initBusinessContactForm() {
         counter.textContent = message.value.length.toLocaleString('ko-KR') + ' / 3,000';
     });
 
-    // UI preview only: do not transmit, store, or show a successful submission.
-    form.addEventListener('submit', event => {
+    const submit = form.querySelector('.contact-submit');
+    const notice = document.getElementById('business-contact-notice');
+
+    function showNotice(text, state) {
+        notice.replaceChildren(Object.assign(document.createElement('p'), { textContent: text }));
+        notice.dataset.state = state;
+    }
+
+    function showServerErrors(errors) {
+        Object.entries(errors).forEach(([id, feedback]) => {
+            const error = document.getElementById(id + '-error');
+            if (!error) return;
+            error.textContent = feedback;
+            error.hidden = false;
+        });
+    }
+
+    form.addEventListener('submit', async event => {
         event.preventDefault();
+        if (submit.disabled) return;
+        validateInquiryTypes();
+        const valid = fields.map(validate).every(Boolean) && inquiryTypes.some(field => field.checked);
+        if (!valid) {
+            form.querySelector('[aria-invalid="true"]')?.focus();
+            return;
+        }
+        submit.disabled = true;
+        submit.setAttribute('aria-busy', 'true');
+        try {
+            const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+            const result = await response.json().catch(() => ({}));
+            if (response.ok && result.ok) {
+                form.reset();
+                counter.textContent = '0 / 3,000';
+                showNotice(result.message, 'success');
+                // The token is single-use; a new inquiry needs a fresh page.
+                return;
+            }
+            if (result.errors) showServerErrors(result.errors);
+            showNotice(result.message || '접수 중 문제가 생겼습니다. partner@jejubellabell.com으로 보내주세요.', 'error');
+            submit.disabled = false;
+        } catch {
+            showNotice('네트워크 연결을 확인한 뒤 다시 시도해 주세요.', 'error');
+            submit.disabled = false;
+        } finally {
+            submit.removeAttribute('aria-busy');
+        }
     });
 }
 
