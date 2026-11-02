@@ -546,10 +546,6 @@ video[data-media-state="missing"] {
 .pillars-section {
     position: relative;
     background: var(--white);
-    --pillar-food: #fb5704;
-    --pillar-skin: #38ca59;
-    --pillar-sustain: #a3c8fb;
-    --pillar-ink: #190f07;
 }
 
 .pillars-media video {
@@ -576,53 +572,49 @@ video[data-media-state="missing"] {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    min-height: clamp(56px, 5.56vw, 110px);
-    padding: 0 clamp(20px, 1.46vw, 28px);
-    border: 0;
-    color: var(--pillar-ink);
-    font-family: inherit;
-    font-size: clamp(18px, 2.08vw, 40px);
-    font-weight: var(--fw-500);
-    line-height: 1.1;
+    gap: 10px;
+    min-height: clamp(48px, 3.33vw, 64px);
+    padding: 0 clamp(20px, 1.67vw, 32px);
+    border: 1px solid var(--grey-200);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--text);
+    font-size: clamp(15px, 1.04vw, 20px);
+    font-weight: var(--fw-600);
+    line-height: 1.2;
     white-space: nowrap;
 }
 
+/* The one interactive label uses the primary action colors, as the contact form's submit button does. */
 .pillars-label-food {
-    background: var(--pillar-food);
+    border-color: var(--primary);
+    background: var(--primary);
     cursor: pointer;
-    transition: transform .25s ease;
+    transition: color .25s ease, background .25s ease, border-color .25s ease;
 }
 
-.pillars-label-food:hover {
-    transform: translateY(-4px);
+.pillars-label-food:hover,
+.pillars-label-food[aria-pressed="true"] {
+    border-color: var(--green-800);
+    background: var(--green-800);
+    color: var(--white);
 }
 
 .pillars-label-food:focus-visible {
-    outline: 3px solid var(--pillar-ink);
-    outline-offset: 3px;
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
 }
 
 .pillars-label-food .site-icon {
     flex: none;
-    width: .8em;
-    height: .8em;
+    width: 16px;
+    height: 16px;
     fill: currentColor;
 }
 
 .pillars-label-food[aria-pressed="false"] .pillars-icon-pause,
 .pillars-label-food[aria-pressed="true"] .pillars-icon-play {
     display: none;
-}
-
-.pillars-label-skin {
-    border-radius: 999px;
-    background: var(--pillar-skin);
-}
-
-.pillars-label-sustain {
-    border-radius: clamp(10px, .83vw, 16px);
-    background: var(--pillar-sustain);
 }
 
 @media (max-width:970px) {

@@ -1061,7 +1061,7 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Bold.woff2"
+      "detail": "/assets/fonts/Poppins-Medium.woff2"
     },
     {
       "check": "CSS asset responds 200",
@@ -1071,7 +1071,7 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Medium.woff2"
+      "detail": "/assets/fonts/Poppins-Bold.woff2"
     },
     {
       "check": "CSS asset responds 200",
