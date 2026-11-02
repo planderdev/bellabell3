@@ -1000,6 +1000,8 @@ function rebuildMainMotion() {
             initAboutReveal();
             initBongbongStory();
             initStandardSection();
+            // Page order: a pin's spacing only shifts triggers created after it.
+            initCompanyHistory();
             initProductsSection();
             initSolutionSection();
         });
@@ -1018,12 +1020,18 @@ document.addEventListener("DOMContentLoaded", function () {
         initBrandGallery();
         rebuildMainMotion();
         let desktop = window.innerWidth > 970;
+        let historyFits = companyHistoryFits();
         let resizeFrame = 0;
         window.addEventListener("resize", function () {
             cancelAnimationFrame(resizeFrame);
             resizeFrame = requestAnimationFrame(function () {
                 const nextDesktop = window.innerWidth > 970;
-                if (nextDesktop !== desktop) { desktop = nextDesktop; rebuildMainMotion(); }
+                const nextHistoryFits = companyHistoryFits();
+                if (nextDesktop !== desktop || nextHistoryFits !== historyFits) {
+                    desktop = nextDesktop;
+                    historyFits = nextHistoryFits;
+                    rebuildMainMotion();
+                }
             });
         }, { passive:true });
         reducedMotionQuery.addEventListener("change", rebuildMainMotion);
