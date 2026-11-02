@@ -46,8 +46,8 @@ expected_copy={
 'intro-body':'제주의 자연과 연구를 담은 반려동물 웰니스 브랜드',
 'about-title':"한라산에서 찾은 생명력\n웰니스의 가능성으로",
 'about-body':"세계적으로도 특별한 생태계를 품은 한라산.\n벨아벨팜은 이 생명력의 원천에서 반려동물 웰니스와 롱제비티의 가능성을 탐구합니다.",
-'bongbong-title':'반려동물과 사람이 함께\n행복하게 살아가는 세상',
-'bongbong-body':'프롬한라는 시한부 고양이 ‘봉봉이’를 구조하며 탄생하게 되었습니다.\n\n구조 당시 피를 흘리고 있던 봉봉이는 주인에게 버려진 후 차에 치여 횡경막이 터지고 신부전증, 피부염을 앓고 있어 병원에서 수술도 회복도 불가능한 시한부 선고를 받았지만\n\n현재는 제주의 건강한 먹거리를 통해 수술 없이 건강을 되찾았습니다.',
+'bongbong-title':'그 희망의 증거, BongBong\n제주에서 찾은 Health',
+'bongbong-body':'프롬한라는 시한부 고양이 ‘봉봉이’를 구조하며 탄생하게 되었습니다.\n\n구조 당시 피를 흘리고 있던 봉봉이는 주인에게 버려진 후 차에 치여 횡경막이 터지고 신부전증, 피부염을 앓고 있어 병원에서 수술도 회복도 불가능한 시한부 선고를 받았지만\n\n현재는 제주의 건강한 먹거리를 통해 수술 없이 건강을 되찾았습니다.\n\n제주어로 ‘봉봉하다’는 말은 ‘한가득차다’라는 뜻입니다.\n이 말처럼 제주의 자연을 건강에 봉봉하게 채워드리고 싶습니다.',
 'global-title':'제주에서 세계로',
 'research':'한라산 조릿대를 반려동물 원료로 연구합니다',
 'social':'우리가 만드는 방식이 제주와 동물에게 돌아갑니다','family':'벨아벨팜이 만드는 브랜드','brand-label':'프롬한라','brand-subtitle':'펫 웰니스','partner':'함께할 파트너를 찾습니다',
@@ -79,7 +79,7 @@ footer_sns=[
     ('https://pf.kakao.com/_JTnxks','/assets/icons/kakaoch.svg'),
 ]
 confirmed_destinations={
-    'tel:0648030060','mailto:partner@jejubellabell.com',
+    'tel:0648030060','mailto:partner@jejubellabell.com','https://fromhalla.com',
     'https://m.fromhalla.com/article/%EB%B3%B4%EB%8F%84%EC%9E%90%EB%A3%8C/2/13641/#',
     *(url for url,icon in footer_sns),
 }

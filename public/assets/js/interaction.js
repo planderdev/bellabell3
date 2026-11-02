@@ -471,21 +471,22 @@ function initMainIntro(lenis) {
 
 
 
-function syncHeroVideo() {
-    const video = document.getElementById("hero-video");
-    if (!video) return;
-    const visible = video.getBoundingClientRect().bottom > 0;
+function syncBackgroundVideo(video) {
+    const rect = video.getBoundingClientRect();
+    const visible = rect.bottom >= 0 && rect.top <= window.innerHeight;
     if (visible && !reducedMotionQuery.matches) video.play().catch(() => {});
     else video.pause();
 }
 
-function initHeroVideo() {
-    const visual = document.querySelector(".main-visual");
-    if (!visual) return;
-    // 화면을 벗어나면 디코딩을 멈춰 아래 섹션의 스크롤 모션을 방해하지 않는다.
-    new IntersectionObserver(syncHeroVideo).observe(visual);
-    reducedMotionQuery.addEventListener("change", syncHeroVideo);
-    syncHeroVideo();
+function initBackgroundVideos() {
+    const videos = ["hero-video", "about-video"].map(id => document.getElementById(id)).filter(Boolean);
+    // 화면을 벗어나면 디코딩을 멈춰 다른 섹션의 스크롤 모션을 방해하지 않는다.
+    const observer = new IntersectionObserver(entries => entries.forEach(entry => syncBackgroundVideo(entry.target)));
+    videos.forEach(video => {
+        observer.observe(video);
+        reducedMotionQuery.addEventListener("change", () => syncBackgroundVideo(video));
+        syncBackgroundVideo(video);
+    });
 }
 
 
@@ -916,6 +917,7 @@ function initAboutReveal() {
         duration: [...word.textContent].length / total,
         ease: "none"
     }));
+    timeline.fromTo(section.querySelectorAll(".about-reveal-link"), { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: .06, stagger: .05, ease: "power2.out" });
     timeline.to({}, { duration: .12 });
 }
 
@@ -956,6 +958,8 @@ function initBongbongStory() {
         duration: 1.1,
         ease: "power2.inOut"
     }, .1);
+    // 카드가 펼쳐지면 글자가 조각으로 보이므로 함께 사라지게 한다.
+    timeline.to(section.querySelector(".bongbong-story-word"), { autoAlpha: 0, duration: .5, ease: "none" }, .55);
     timeline.fromTo(deck, { y: 0 }, { y: () => -overflow(), duration: .5, ease: "none" }, 1.2);
     timeline.to({}, { duration: .3 });
 }
@@ -1010,7 +1014,7 @@ document.addEventListener("DOMContentLoaded", function () {
     initLanguage();
     
     if (document.querySelector(".main-page")) {
-        initHeroVideo();
+        initBackgroundVideos();
         initBrandGallery();
         rebuildMainMotion();
         let desktop = window.innerWidth > 970;

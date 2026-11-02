@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "passed": 206,
-  "total": 206,
+  "passed": 209,
+  "total": 209,
   "checks": [
     {
       "check": "PHP returns 200",
@@ -312,6 +312,21 @@
       "check": "Link uses a real section or confirmed destination",
       "pass": true,
       "detail": "#family"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#bongbong-story"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "https://fromhalla.com"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "#research"
     },
     {
       "check": "Link uses a real section or confirmed destination",
@@ -926,12 +941,7 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
-      "detail": "/assets/fonts/Poppins-Bold.woff2"
+      "detail": "/assets/fonts/Poppins-Light.woff2"
     },
     {
       "check": "CSS asset responds 200",
@@ -946,7 +956,12 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Light.woff2"
+      "detail": "/assets/fonts/Poppins-Bold.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",
