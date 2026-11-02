@@ -17,8 +17,8 @@ $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 <div class="inner">
 <div>
 <p class="product-hero-label" lang="en">Product</p>
-<h2 class="product-hero-title" id="product-title" lang="en">From HALLA,<br/>For PET</h2>
-<p class="product-hero-description">제주의 자연과 연구를 담은 반려동물 웰니스 브랜드</p>
+<h2 class="product-hero-title" id="product-title">먹는 건<br/>귀엽게,<br/>만드는 건<br/>진지하게!</h2>
+<p class="product-hero-description">잘 먹을까? 매일 써도 좋을까?<br/>보호자의 질문에서 시작해, 제주의 원료와 쓰임에 맞는 제형을 연구합니다.</p>
 <a class="product-button" href="#products"><span>제품 라인업 보기</span><i data-lucide="arrow-down" class="site-icon" aria-hidden="true" focusable="false"></i></a>
 </div>
 <video class="product-hero-image" id="product-hero-video" autoplay muted loop playsinline preload="auto" poster="/assets/media/product/hero-ragdoll-poster.webp" width="960" height="720" aria-label="랙돌 고양이가 프롬한라스틱 앞에서 입맛을 다시는 영상">
