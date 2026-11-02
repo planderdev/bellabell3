@@ -21,7 +21,9 @@ $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
 <p class="product-hero-description">제주의 자연과 연구를 담은 반려동물 웰니스 브랜드</p>
 <a class="product-button" href="#products"><span>제품 라인업 보기</span><i data-lucide="arrow-down" class="site-icon" aria-hidden="true" focusable="false"></i></a>
 </div>
-<img class="product-hero-image" src="/assets/media/product/stick-lineup.webp" alt="프롬한라스틱 네 가지 제품 패키지" width="1920" height="1440" decoding="async"/>
+<video class="product-hero-image" id="product-hero-video" autoplay muted loop playsinline preload="auto" poster="/assets/media/product/hero-ragdoll-poster.webp" width="960" height="720" aria-label="랙돌 고양이가 프롬한라스틱 앞에서 입맛을 다시는 영상">
+<source src="/assets/media/product/hero-ragdoll.mp4" type="video/mp4"/>
+</video>
 </div>
 </section>
 <div class="product-marquee" aria-hidden="true">

@@ -479,7 +479,7 @@ function syncBackgroundVideo(video) {
 }
 
 function initBackgroundVideos() {
-    const videos = ["hero-video", "about-video"].map(id => document.getElementById(id)).filter(Boolean);
+    const videos = ["hero-video", "about-video", "product-hero-video"].map(id => document.getElementById(id)).filter(Boolean);
     // 화면을 벗어나면 디코딩을 멈춰 다른 섹션의 스크롤 모션을 방해하지 않는다.
     const observer = new IntersectionObserver(entries => entries.forEach(entry => syncBackgroundVideo(entry.target)));
     videos.forEach(video => {
@@ -1095,8 +1095,8 @@ document.addEventListener("DOMContentLoaded", function () {
     initHeaderScroll();
     initLanguage();
     
+    initBackgroundVideos();
     if (document.querySelector(".main-page")) {
-        initBackgroundVideos();
         initBrandGallery();
         rebuildMainMotion();
         let desktop = window.innerWidth > 970;
