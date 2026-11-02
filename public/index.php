@@ -58,6 +58,22 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 </div>
 </div>
 </section>
+<section class="pillars-section" data-section="pillars" id="pillars" aria-label="벨아벨팜의 사업 분야">
+<div class="pillars-media">
+<video id="pillar-video" muted playsinline preload="metadata" poster="/assets/media/pillar-ragdoll-poster.webp" width="1280" height="660" aria-label="랙돌 고양이가 프롬한라스틱 앞에서 입맛을 다시는 영상">
+<source src="/assets/media/pillar-ragdoll.mp4" type="video/mp4"/>
+</video>
+</div>
+<div class="pillars-labels" lang="en">
+<button class="pillars-label pillars-label-food" id="pillar-video-toggle" type="button" aria-controls="pillar-video" aria-pressed="false">
+<span>Global K-PET FOOD</span>
+<i data-lucide="play" class="site-icon pillars-icon-play" aria-hidden="true" focusable="false"></i>
+<i data-lucide="pause" class="site-icon pillars-icon-pause" aria-hidden="true" focusable="false"></i>
+</button>
+<span class="pillars-label pillars-label-skin">PET SKINCARE</span>
+<span class="pillars-label pillars-label-sustain">Sustainability</span>
+</div>
+</section>
 <section class="bongbong-story-section" data-section="bongbong-story" id="bongbong-story" aria-labelledby="bongbong-story-title">
 <div class="bongbong-story-stage">
 <svg class="bongbong-story-word" viewBox="0 0 1000 170" aria-hidden="true" focusable="false"><text x="500" y="150" textLength="980" lengthAdjust="spacingAndGlyphs" text-anchor="middle">BONGBONG</text></svg>
