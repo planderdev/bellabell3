@@ -857,8 +857,9 @@ function initLocalRouting() {
     const onMainPage = !!document.querySelector(".main-page");
     document.querySelectorAll('a[href^="#"]').forEach(link => {
         const href = link.getAttribute("href");
-        // Shared header and footer anchors point at main page sections.
-        link.setAttribute("href", onMainPage ? localHref(href, "#partner") : "/" + href);
+        // Shared header and footer anchors point at main page sections unless this page has the target.
+        if (onMainPage) link.setAttribute("href", localHref(href, "#partner"));
+        else if (!document.getElementById(href.slice(1))) link.setAttribute("href", "/" + href);
         link.removeAttribute("target");
     });
     document.addEventListener("click", event => {
