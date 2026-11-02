@@ -12,37 +12,27 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 <div class="main-page" id="main" role="main">
 <section class="main-visual" data-section="intro" id="intro">
 <div class="main-slider">
-<div class="swiper">
-<div class="swiper-wrapper">
-<?php for ($heroSlide = 1; $heroSlide <= 2; $heroSlide++): ?>
-<div class="swiper-slide" data-hero-slide="<?= $heroSlide ?>">
 <div class="main-slide-media">
-<img alt="<?= $heroSlide === 1 ? '제주 해녀' : '농장에서 반려견과 함께한 두 사람' ?>" src="/assets/media/<?= $heroSlide === 1 ? 'hero-haenyeo.webp' : 'photo/farm/farm6.jpg' ?>" fetchpriority="<?= $heroSlide === 1 ? 'high' : 'auto' ?>" decoding="async"/>
+<video id="hero-video" autoplay muted loop playsinline preload="auto" poster="/assets/media/hero-brand-poster.jpg" aria-hidden="true">
+<source src="/assets/media/hero-brand-720.mp4" type="video/mp4" media="(max-width: 970px)"/>
+<source src="/assets/media/hero-brand-1080.mp4" type="video/mp4"/>
+</video>
 </div>
 <div class="hero-content inner">
-<?php if ($heroSlide === 1): ?>
 <div class="hero-logos">
 <img class="hero-logo-fromhalla" alt="프롬한라" src="/assets/fromhalla.svg" width="750" height="351"/>
 <img class="hero-logo-bellabelfarm" alt="벨아벨팜" src="/assets/bellabelfarm.svg" width="1155" height="506"/>
 </div>
-<?php endif; ?>
 <h2 class="hero-title" data-copy="intro-title"><?= e($heroCopy[0]) ?></h2>
 <p class="hero-description" data-copy="intro-body"><?= e($heroCopy[1]) ?></p>
 </div>
 </div>
-<?php endfor; ?>
-</div>
-</div>
-</div>
-<div class="main-slide-info inner">
-<div class="slide-progress"></div>
-</div>
 </section>
 <section class="about-reveal-section" data-section="about-reveal" id="about-reveal" aria-labelledby="about-reveal-title">
 <div class="about-reveal-stage">
-<h2 class="about-reveal-title" id="about-reveal-title" data-copy="about-title"><?php foreach (explode("\n", $content['about_title']) as $lineIndex => $line): ?><?= $lineIndex > 0 ? "<br>\n" : '' ?><span class="about-reveal-line"><?= e($line) ?></span><?php endforeach; ?></h2>
+<h2 class="about-reveal-title" id="about-reveal-title" data-copy="about-title"><?php foreach (explode("\n", $content['about_title']) as $lineIndex => $line): ?><?= $lineIndex > 0 ? "<br>\n" : '' ?><span class="about-reveal-line"><?= str_replace(array_map('e', $content['about_accents']), array_map(fn($accent) => '<strong class="about-reveal-accent">' . e($accent) . '</strong>', $content['about_accents']), e($line)) ?></span><?php endforeach; ?></h2>
 <div class="about-reveal-body">
-<p data-copy="about-body"><?= e($content['about_body']) ?></p>
+<p data-copy="about-body"><?= nl2br(e($content['about_body']), false) ?></p>
 <a class="about-reveal-link" href="#family">
 <span>브랜드 소개</span>
 <i data-lucide="arrow-right" class="site-icon" width="16" height="16" stroke-width="2" aria-hidden="true" focusable="false"></i>

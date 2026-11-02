@@ -416,14 +416,13 @@ function initMainIntro(lenis) {
     const visualSlider = visual.querySelector(".main-slider");
     const heroContent = visual.querySelector(".hero-content");
     const header = document.querySelector(".header");
-    const slideInfo = visual.querySelector(".main-slide-info");
 
     if (!visualSlider) return;
 
     if (lenis) lenis.stop();
 
     // 등장 요소 초기 상태
-    gsap.set([header, slideInfo, heroContent].filter(Boolean), {
+    gsap.set([header, heroContent].filter(Boolean), {
         autoAlpha: 0,
         y: 20
     });
@@ -460,15 +459,6 @@ function initMainIntro(lenis) {
         }, "-=0.1");
     }
 
-    if (slideInfo) {
-        introTl.to(slideInfo, {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.6,
-            ease: "power2.out"
-        }, "-=0.3");
-    }
-
     if (heroContent) {
         introTl.to(heroContent, {
             autoAlpha: 1,
@@ -481,56 +471,22 @@ function initMainIntro(lenis) {
 
 
 
-function initMainSwiper(){
+function syncHeroVideo() {
+    const video = document.getElementById("hero-video");
+    if (!video) return;
+    const visible = video.getBoundingClientRect().bottom > 0;
+    if (visible && !reducedMotionQuery.matches) video.play().catch(() => {});
+    else video.pause();
+}
 
-	const slider=document.querySelector(".main-slider .swiper");
-	const progress=document.querySelector(".slide-progress");
-
-	if(!slider||!progress||typeof Swiper==="undefined") return;
-
-	const slides=slider.querySelectorAll(".swiper-slide");
-
-	slides.forEach(function(){
-		const span=document.createElement("span");
-		progress.appendChild(span);
-	});
-
-	const mainSwiper=new Swiper(slider,{
-		slidesPerView:1,
-		speed:reducedMotionQuery.matches ? 0 : 1200,
-		effect:"fade",
-		fadeEffect:{
-			crossFade:true
-		},
-		loop:slides.length > 1,
-		allowTouchMove:true,
-		autoplay: reducedMotionQuery.matches ? false : {
-			delay:5000,
-			disableOnInteraction:false
-		},
-		on:{
-			init:function(){
-				updateProgress(this);
-			},
-			slideChange:function(){
-				updateProgress(this);
-			}
-		}
-	});
-
-	function updateProgress(swiper){
-
-		const items=progress.querySelectorAll("span");
-
-		items.forEach(function(item,index){
-			item.classList.toggle("active",index===swiper.realIndex);
-		});
-
-	}
-
-	window.mainSwiper=mainSwiper;
-
-} 
+function initHeroVideo() {
+    const visual = document.querySelector(".main-visual");
+    if (!visual) return;
+    // 화면을 벗어나면 디코딩을 멈춰 아래 섹션의 스크롤 모션을 방해하지 않는다.
+    new IntersectionObserver(syncHeroVideo).observe(visual);
+    reducedMotionQuery.addEventListener("change", syncHeroVideo);
+    syncHeroVideo();
+}
 
 
 function initSolutionSection() {
@@ -915,7 +871,7 @@ function finishMainIntro() {
     if (!visual) return;
     visual.classList.add("is-ready");
     gsap.set(visual.querySelector(".main-slider"), { width:"100vw", left:0, top:0, height:"100dvh", borderRadius:0 });
-    gsap.set([document.querySelector(".header"), visual.querySelector(".main-slide-info"), visual.querySelector(".hero-content")].filter(Boolean), { autoAlpha:1, y:0 });
+    gsap.set([document.querySelector(".header"), visual.querySelector(".hero-content")].filter(Boolean), { autoAlpha:1, y:0 });
 }
 
 function initAboutReveal() {
@@ -925,14 +881,16 @@ function initAboutReveal() {
     if (!heading.querySelector(".about-reveal-word")) {
         heading.querySelectorAll(".about-reveal-line").forEach(line => {
             const fragment = document.createDocumentFragment();
-            (line.textContent.match(/\S+|\s+/g) || []).forEach(part => {
-                if (/^\s+$/.test(part)) fragment.appendChild(document.createTextNode(part));
-                else {
-                    const word = document.createElement("span");
-                    word.className = "about-reveal-word";
-                    word.textContent = part;
-                    fragment.appendChild(word);
-                }
+            line.childNodes.forEach(node => {
+                (node.textContent.match(/\S+|\s+/g) || []).forEach(part => {
+                    if (/^\s+$/.test(part)) fragment.appendChild(document.createTextNode(part));
+                    else {
+                        const word = document.createElement("span");
+                        word.className = "about-reveal-word" + (node.nodeType === Node.ELEMENT_NODE ? " is-accent" : "");
+                        word.textContent = part;
+                        fragment.appendChild(word);
+                    }
+                });
             });
             line.replaceChildren(fragment);
         });
@@ -1025,16 +983,10 @@ function rebuildMainMotion() {
         initSolutionSection();
         fadeItems = document.querySelectorAll("[data-fade]");
         if (fadeItems.length) gsap.set(fadeItems, { opacity:1, y:0 });
-        window.mainSwiper?.autoplay?.stop();
-        if (window.mainSwiper) window.mainSwiper.params.speed = 0;
         document.querySelectorAll("video").forEach(video => video.pause());
         introPlayed = true;
     } else {
         initCommon();
-        if (window.mainSwiper) {
-            window.mainSwiper.params.speed = 1200;
-            if (window.mainSwiper.slides.length > 1) window.mainSwiper.autoplay?.start();
-        }
         motionContext = gsap.context(function () {
             initFadeUp();
             if (!introPlayed && window.scrollY <= 10) {
@@ -1058,7 +1010,7 @@ document.addEventListener("DOMContentLoaded", function () {
     initLanguage();
     
     if (document.querySelector(".main-page")) {
-        initMainSwiper();
+        initHeroVideo();
         initBrandGallery();
         rebuildMainMotion();
         let desktop = window.innerWidth > 970;

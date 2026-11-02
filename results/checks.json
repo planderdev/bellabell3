@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "passed": 207,
-  "total": 207,
+  "passed": 206,
+  "total": 206,
   "checks": [
     {
       "check": "PHP returns 200",
@@ -434,7 +434,12 @@
       "detail": "https://pf.kakao.com/_JTnxks"
     },
     {
-      "check": "Video has no downloaded or external source",
+      "check": "Video sources are local files",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Video sources are local files",
       "pass": true,
       "detail": ""
     },
@@ -581,7 +586,7 @@
     {
       "check": "Asset is local or the pinned Lucide library",
       "pass": true,
-      "detail": "/assets/media/hero-haenyeo.webp"
+      "detail": "/assets/media/hero-brand-poster.jpg"
     },
     {
       "check": "Asset is local or the pinned Lucide library",
@@ -632,11 +637,6 @@
       "check": "Asset is local or the pinned Lucide library",
       "pass": true,
       "detail": "/assets/media/patents/vegan-cookie-application.jpg"
-    },
-    {
-      "check": "Asset is local or the pinned Lucide library",
-      "pass": true,
-      "detail": "/assets/media/photo/farm/farm6.jpg"
     },
     {
       "check": "Asset is local or the pinned Lucide library",
@@ -801,7 +801,7 @@
     {
       "check": "Local asset responds 200",
       "pass": true,
-      "detail": "/assets/media/hero-haenyeo.webp"
+      "detail": "/assets/media/hero-brand-poster.jpg"
     },
     {
       "check": "Local asset responds 200",
@@ -852,11 +852,6 @@
       "check": "Local asset responds 200",
       "pass": true,
       "detail": "/assets/media/patents/vegan-cookie-application.jpg"
-    },
-    {
-      "check": "Local asset responds 200",
-      "pass": true,
-      "detail": "/assets/media/photo/farm/farm6.jpg"
     },
     {
       "check": "Footer SNS links match the supplied local icons",
@@ -936,12 +931,12 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Regular.woff2"
+      "detail": "/assets/fonts/Poppins-Bold.woff2"
     },
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Light.woff2"
+      "detail": "/assets/fonts/Poppins-Regular.woff2"
     },
     {
       "check": "CSS asset responds 200",
@@ -951,7 +946,7 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Bold.woff2"
+      "detail": "/assets/fonts/Poppins-Light.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",

@@ -42,10 +42,10 @@ gnb=byclass('gnb')[0];depths=[n for n in gnb.descendants() if n.has('gnb-depth')
 check('Five navigation groups match the remaining sections',[len([a for a in d.children if a.tag=='a']) for d in depths]==[2,4,2,3,1])
 check('Deleted global selectors removed',not byclass('form-select-menu'))
 expected_copy={
-'intro-title':'프롬한라를 만드는 회사, 벨아벨팜입니다',
-'intro-body':'한라산에서 찾은 천연물을 연구하는 반려동물 바이오기업',
-'about-title':"'벨아벨'은\n제주어로\n'다양하다'는 뜻입니다.",
-'about-body':'제주의 다양한 원료로 반려동물의 건강한 일상을 만듭니다',
+'intro-title':'From HALLA, For PET',
+'intro-body':'제주의 자연과 연구를 담은 반려동물 웰니스 브랜드',
+'about-title':"한라산에서 찾은 생명력\n웰니스의 가능성으로",
+'about-body':"세계적으로도 특별한 생태계를 품은 한라산.\n벨아벨팜은 이 생명력의 원천에서 반려동물 웰니스와 롱제비티의 가능성을 탐구합니다.",
 'bongbong-title':'반려동물과 사람이 함께\n행복하게 살아가는 세상',
 'bongbong-body':'프롬한라는 시한부 고양이 ‘봉봉이’를 구조하며 탄생하게 되었습니다.\n\n구조 당시 피를 흘리고 있던 봉봉이는 주인에게 버려진 후 차에 치여 횡경막이 터지고 신부전증, 피부염을 앓고 있어 병원에서 수술도 회복도 불가능한 시한부 선고를 받았지만\n\n현재는 제주의 건강한 먹거리를 통해 수술 없이 건강을 되찾았습니다.',
 'global-title':'제주에서 세계로',
@@ -90,7 +90,7 @@ assets=[]
 for n in nodes:
     if n.tag in ('script','img','link'):url=n.a.get('src') or n.a.get('href');assets.append(url)
     if n.tag=='video':
-        check('Video has no downloaded or external source','src' not in n.a and not any(c.tag=='source' for c in n.children))
+        check('Video sources are local files','src' not in n.a and all(c.a.get('src','').startswith('/assets/') for c in n.children if c.tag=='source'))
         if n.a.get('poster'):assets.append(n.a['poster'])
 lucide_url='https://unpkg.com/lucide@1.63.0/dist/umd/lucide.min.js'
 for url in sorted(set(filter(None,assets))):check('Asset is local or the pinned Lucide library',url.startswith('/assets/') or url==lucide_url,url)
