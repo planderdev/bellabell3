@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 // Korean source text => translation. A "text|context" key overrides the plain key for that use.
 return [
+    "언어 선택" => "选择语言",
     "프롬한라" => "FROM HALLA",
     "벨아벨팜" => "BellaBellFarm",
     "아우아우" => "AWOO",

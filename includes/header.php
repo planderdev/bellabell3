@@ -66,9 +66,10 @@ $pagePath = $_SERVER['LOCALE_PAGE'] ?? '/';
 </nav>
 <div class="header-util">
 <div class="language-wrap">
-<button class="language" type="button">
+<button class="language" type="button" aria-label="<?= e(t('언어 선택')) ?>">
+<i data-lucide="globe" class="site-icon language-globe" aria-hidden="true" focusable="false"></i>
 <span class="language-current"><?= e(LOCALES[locale()]['label']) ?></span>
-<i data-lucide="chevron-down" class="site-icon" aria-hidden="true" focusable="false"></i>
+<i data-lucide="chevron-down" class="site-icon language-chevron" aria-hidden="true" focusable="false"></i>
 </button>
 <div class="language-list">
 <?php foreach (LOCALES as $code => $language): ?>
