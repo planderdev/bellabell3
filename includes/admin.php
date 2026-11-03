@@ -68,7 +68,7 @@ function admin_layout(string $title, string $body, int $status = 200): never
 {
     http_response_code($status);
     echo '<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex, nofollow">'
-        . '<title>' . e($title) . ' | 벨아벨팜 관리</title>'
+        . '<title>' . e($title) . ' | 벨아벨팜운영관리대시보드</title>'
         . '<link rel="stylesheet" href="' . admin_asset('/assets/css/fonts.css') . '"><link rel="stylesheet" href="' . admin_asset('/assets/css/base.css') . '"><link rel="stylesheet" href="' . admin_asset('/assets/css/admin.css') . '">'
         . '<script defer src="' . admin_asset('/assets/js/admin-slides.js') . '"></script>'
         . '</head><body class="admin-body">' . $body . (str_contains($body, 'data-admin-app') ? '</div></div>' : '') . '</body></html>';
@@ -115,7 +115,7 @@ function admin_navigation(): array
         $pages[] = ['href' => '/admin/sections?page=' . $key, 'label' => $page['label'], 'icon' => 'page'];
     }
     return [
-        'overview' => ['label' => '개요', 'icon' => 'overview', 'href' => '/admin', 'blocks' => [
+        'overview' => ['label' => "벨아벨팜\n운영관리", 'icon' => 'overview', 'href' => '/admin', 'blocks' => [
             ['label' => '개요', 'items' => [
                 ['href' => '/admin', 'label' => '홈', 'icon' => 'home'],
                 ['href' => '/admin/inbox', 'label' => '문의', 'icon' => 'inbox', 'count' => admin_open_inquiries()],
@@ -151,7 +151,7 @@ function admin_header(string $title, string $current, string $formToken): string
     $rail = '';
     foreach ($navigation as $key => $group) {
         $active = $key === $activeGroup;
-        $rail .= '<a class="admin-rail-link' . ($active ? ' is-active' : '') . '" href="' . e($group['href']) . '" title="' . e($group['label']) . '" aria-label="' . e($group['label']) . '"' . ($active ? ' aria-current="true"' : '') . '>' . admin_icon($group['icon']) . '</a>';
+        $rail .= '<a class="admin-rail-link' . ($active ? ' is-active' : '') . '" href="' . e($group['href']) . '" title="' . e(str_replace("\n", ' ', $group['label'])) . '" aria-label="' . e(str_replace("\n", ' ', $group['label'])) . '"' . ($active ? ' aria-current="true"' : '') . '>' . admin_icon($group['icon']) . '</a>';
     }
     $side = '';
     foreach ($navigation[$activeGroup]['blocks'] as $block) {
@@ -165,7 +165,7 @@ function admin_header(string $title, string $current, string $formToken): string
     }
     return '<div class="admin-app" data-admin-app>'
         . '<nav class="admin-rail" aria-label="관리 영역"><a class="admin-rail-logo" href="/admin" aria-label="관리자 홈"><svg class="admin-rail-mark" width="24" height="15" viewBox="0 0 233 141" fill="currentColor" aria-hidden="true" focusable="false"><rect x="99.65" y="9.83" width="33.43" height="33.43" rx="7.88" ry="7.88" transform="translate(15.31 90.06) rotate(-45)"/><path d="M178.38,66.33l50.44,51.3c8.4,8.54,2.35,22.97-9.63,22.97H13.53c-11.98,0-18.03-14.43-9.63-22.97l50.44-51.3-.2.2c3.11-3.38,6.15-6.95,12.38-6.95,12.45,0,12.45,13.5,24.91,13.5s12.46-13.5,24.92-13.5,12.45,13.5,24.91,13.5,12.46-13.5,24.93-13.5c6.15,0,9.13,3.42,12.2,6.75Z"/></svg></a>' . $rail . '</nav>'
-        . '<aside class="admin-side" id="admin-side"><div class="admin-side-head"><strong>' . e($navigation[$activeGroup]['label']) . '</strong><button class="admin-side-toggle" type="button" data-admin-collapse aria-controls="admin-side" aria-expanded="true" aria-label="메뉴 접기">' . admin_icon('panel') . '</button></div>'
+        . '<aside class="admin-side" id="admin-side"><div class="admin-side-head"><strong>' . nl2br(e($navigation[$activeGroup]['label']), false) . '</strong><button class="admin-side-toggle" type="button" data-admin-collapse aria-controls="admin-side" aria-expanded="true" aria-label="메뉴 접기">' . admin_icon('panel') . '</button></div>'
         . '<nav class="admin-side-nav" aria-label="관리 메뉴">' . $side . '</nav>'
         . '<div class="admin-side-foot"><a class="admin-side-link" href="/" target="_blank" rel="noopener">' . admin_icon('external') . '<span>홈페이지 보기</span></a>'
         . '<form method="post" action="/admin/logout"><input type="hidden" name="token" value="' . e($formToken) . '"><button class="admin-side-link" type="submit">' . admin_icon('logout') . '<span>로그아웃</span></button></form></div></aside>'
