@@ -882,7 +882,11 @@ function initLocalRouting() {
     document.addEventListener("click", event => {
         const link = event.target.closest("a[href]");
         if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-        if (!link.getAttribute("href").startsWith("#")) return;
+        if (!link.getAttribute("href").startsWith("#")) {
+            // A link to a tab on this page doesn't reload, so the full menu has to close itself.
+            if (link.pathname === location.pathname && link.hash) closeLocalMenu(false);
+            return;
+        }
         event.preventDefault();
         navigateLocal(link.getAttribute("href"));
     });
