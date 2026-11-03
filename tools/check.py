@@ -139,6 +139,7 @@ brand_status,brand_raw,_=fetch('/brand');brand_nodes=list(Tree(brand_raw.decode(
 check('Brand page returns 200',brand_status==200)
 check('Brand page has three tabs in order',[n.text() for n in brand_nodes if n.has('brand-tab')]==['벨아벨팜','프롬한라','아우아우'])
 check('Brand page shows only the first panel',[('hidden' in n.a) for n in brand_nodes if n.has('brand-panel')]==[False,True,True])
+check('Brand page has six full-screen slides with existing images',len([n for n in brand_nodes if n.has('brand-slide')])==6 and all((ROOT/'public'/n.a['src'].lstrip('/')).is_file() for n in brand_nodes if n.has('brand-slide-media')))
 check('Brand intro link opens the brand page',[n.a.get('href') for n in byclass('about-reveal-link')][0]=='/brand')
 product_status,product_raw,_=fetch('/product');product_nodes=list(Tree(product_raw.decode()).root.descendants())
 check('Product page returns 200',product_status==200)
