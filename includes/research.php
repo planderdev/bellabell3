@@ -15,7 +15,7 @@ for ($pass = 0; $pass === 0 || ($researchLoop && count($researchTrack) < 20); $p
 <section class="research-section" data-section="research" id="research" aria-labelledby="research-title">
 <div class="inner">
 <div class="section-head" data-fade="">
-<div class="section-category"><p lang="en">Research &amp; Technology</p></div>
+<div class="section-category"><p lang="en"><?= e($content['labels']['research']) ?></p></div>
 <h2 class="section-title" id="research-title" data-section-title="research" data-copy="research"><?= e($content['research']) ?></h2>
 </div>
 <h3 class="research-statement" data-copy="research-statement" data-fade=""><?= nl2br(e($content['research_statement']), false) ?></h3>

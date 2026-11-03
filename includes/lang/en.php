@@ -150,7 +150,7 @@ return [
     "애월아빠들 MOU" => "MOU with Aewol Appadeul",
     "대만 Meow Expo 참가" => "Exhibited at Meow Expo, Taiwan",
     "제주형 예비사회적기업 선정" => "Selected as a Jeju Preliminary Social Enterprise",
-    "From HALLA, For PET / 제주의 자연과 연구를 담은 반려동물 웰니스 브랜드" => "From HALLA, For PET / A pet wellness brand built on Jeju's nature and research",
+    "제주의 자연과 연구를 담은 반려동물 웰니스 브랜드" => "A pet wellness brand built on Jeju's nature and research",
     "한라산에서 찾은 생명력\n웰니스의 가능성으로" => "Vitality found on Hallasan,\nthe promise of wellness",
     "생명력" => "Vitality",
     "웰니스" => "wellness",

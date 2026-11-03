@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/i18n.php';
+require_once __DIR__ . '/site.php';
 
 // Shared response settings and template helpers.
 header('Content-Type: text/html; charset=utf-8');

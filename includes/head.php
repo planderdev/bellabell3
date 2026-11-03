@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 $metaTitle = $pageTitle ?? t('벨아벨팜');
-$metaDescription = t('From HALLA, For PET / 제주의 자연과 연구를 담은 반려동물 웰니스 브랜드');
+$metaDescription = $content['intro_title'] . ' / ' . $content['intro_body'];
 $metaPath = $_SERVER['LOCALE_PAGE'] ?? '/';
 ?>
 <head>
