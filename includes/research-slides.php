@@ -9,9 +9,14 @@ const RESEARCH_SLIDE_MAX_BYTES = 3145728; // 3 MB. The admin page shrinks images
 const RESEARCH_SLIDE_MAX_COUNT = 20;
 const RESEARCH_SLIDE_TYPES = [IMAGETYPE_JPEG => 'image/jpeg', IMAGETYPE_PNG => 'image/png', IMAGETYPE_WEBP => 'image/webp'];
 
+function research_slide_src(array $row): string
+{
+    return (string)($row['src'] ?: '/media/research/' . (int)$row['id']);
+}
+
 function research_slides_uploaded(\PDO $pdo): array
 {
-    return $pdo->query('SELECT id, width, height, alt FROM research_slides ORDER BY position, id')->fetchAll(\PDO::FETCH_ASSOC);
+    return $pdo->query('SELECT id, src, width, height, alt FROM research_slides ORDER BY position, id')->fetchAll(\PDO::FETCH_ASSOC);
 }
 
 // Slides for the home page. A missing database or table must never break the page.
@@ -31,7 +36,7 @@ function research_slides(array $fallback): array
         return $fallback;
     }
     return array_map(fn (array $row): array => [
-        'src' => '/media/research/' . (int)$row['id'],
+        'src' => research_slide_src($row),
         'alt' => t((string)$row['alt']),
         'width' => (int)$row['width'],
         'height' => (int)$row['height'],
@@ -52,23 +57,49 @@ function research_slide_read_upload(array $file): array|string
         return 'failed';
     }
     $bytes = (string)file_get_contents((string)$file['tmp_name']);
-    $info = getimagesizefromstring($bytes);
+    $info = @getimagesizefromstring($bytes);
     if (!$info || !isset(RESEARCH_SLIDE_TYPES[$info[2]]) || $info[0] < 1 || $info[1] < 1) {
         return 'bad-type';
     }
     return [$bytes, RESEARCH_SLIDE_TYPES[$info[2]], $info[0], $info[1]];
 }
 
-function research_slide_store(\PDO $pdo, array $image, string $alt): void
+// The first visit to /admin/slides lists the temporary slides as ordinary rows, so they can be reordered and deleted too.
+function research_slides_seed(\PDO $pdo, array $defaults): void
+{
+    if ((int)$pdo->query('SELECT count(*) FROM research_slides')->fetchColumn() > 0) {
+        return;
+    }
+    $statement = $pdo->prepare("INSERT INTO research_slides (src, mime, width, height, alt, position) VALUES (:src, 'image/webp', :width, :height, :alt, :position)");
+    $pdo->beginTransaction();
+    foreach ($defaults as $index => $slide) {
+        $statement->execute(['src' => $slide['src'], 'width' => $slide['width'], 'height' => $slide['height'], 'alt' => $slide['alt'], 'position' => $index + 1]);
+    }
+    $pdo->commit();
+}
+
+// Saves a dragged order. Ids not in the list keep their place after the listed ones.
+function research_slides_order(\PDO $pdo, array $ids): void
+{
+    $statement = $pdo->prepare('UPDATE research_slides SET position = :position WHERE id = :id');
+    $pdo->beginTransaction();
+    foreach (array_values($ids) as $index => $id) {
+        $statement->execute(['position' => $index + 1, 'id' => $id]);
+    }
+    $pdo->commit();
+}
+
+function research_slide_store(\PDO $pdo, array $image, string $alt): int
 {
     [$bytes, $mime, $width, $height] = $image;
-    $statement = $pdo->prepare('INSERT INTO research_slides (image, mime, width, height, alt, position) VALUES (:image, :mime, :width, :height, :alt, (SELECT coalesce(max(position), 0) + 1 FROM research_slides))');
+    $statement = $pdo->prepare('INSERT INTO research_slides (image, mime, width, height, alt, position) VALUES (:image, :mime, :width, :height, :alt, (SELECT coalesce(max(position), 0) + 1 FROM research_slides)) RETURNING id');
     $statement->bindValue('image', $bytes, \PDO::PARAM_LOB);
     $statement->bindValue('mime', $mime);
     $statement->bindValue('width', $width, \PDO::PARAM_INT);
     $statement->bindValue('height', $height, \PDO::PARAM_INT);
     $statement->bindValue('alt', $alt);
     $statement->execute();
+    return (int)$statement->fetchColumn();
 }
 
 // Swaps a slide with its neighbour. $direction is -1 (earlier) or 1 (later).
@@ -113,7 +144,7 @@ function serve_stored_image(string $table, int $id): void
             error_log('Stored image read failed (' . get_class($exception) . ').');
         }
     }
-    if (!$row) {
+    if (!$row || $row['image'] === null) {
         http_response_code(404);
         header('Content-Type: text/plain; charset=utf-8');
         return;

@@ -64,13 +64,14 @@ function admin_asset(string $path): string
     return e($path . '?v=' . substr($version, 0, 12));
 }
 
-function admin_layout(string $title, string $body, int $status = 200): never
+function admin_layout(string $title, string $body, int $status = 200, array $scripts = []): never
 {
     http_response_code($status);
     echo '<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex, nofollow">'
         . '<title>' . e($title) . ' | 벨아벨팜운영관리대시보드</title>'
         . '<link rel="stylesheet" href="' . admin_asset('/assets/css/fonts.css') . '"><link rel="stylesheet" href="' . admin_asset('/assets/css/base.css') . '"><link rel="stylesheet" href="' . admin_asset('/assets/css/admin.css') . '">'
         . '<script defer src="' . admin_asset('/assets/js/admin-slides.js') . '"></script>'
+        . implode('', array_map(fn (string $script): string => '<script defer src="' . admin_asset($script) . '"></script>', $scripts))
         . '</head><body class="admin-body">' . $body . (str_contains($body, 'data-admin-app') ? '</div></div>' : '') . '</body></html>';
     exit;
 }
@@ -192,7 +193,7 @@ function admin_home_page(\PDO $pdo, string $formToken): never
         ['/admin/inbox', 'inbox', '미처리 문의', $count('SELECT count(*) FROM business_inquiries WHERE handled_at IS NULL')],
         ['/admin/sections', 'page', '수정한 문구·이미지', $count('SELECT count(*) FROM site_content')],
         ['/admin/menu', 'menu', '메뉴 항목', $count('SELECT count(*) FROM site_menu_items')],
-        ['/admin/slides', 'images', '올린 슬라이드', $count('SELECT count(*) FROM research_slides')],
+        ['/admin/slides', 'images', '연구·기술 슬라이드', $count('SELECT count(*) FROM research_slides')],
     ];
     ob_start();
     ?>
@@ -227,11 +228,12 @@ function admin_slide_messages(): array
         'bad-type' => 'JPG, PNG, WEBP 이미지만 올릴 수 있습니다.',
         'too-many' => '슬라이드는 최대 ' . RESEARCH_SLIDE_MAX_COUNT . '장까지 올릴 수 있습니다.',
         'failed' => '저장하지 못했습니다. 다시 시도해 주세요.',
+        'last-one' => '슬라이드는 최소 1장이 있어야 합니다. 새 이미지를 먼저 추가해 주세요.',
     ];
 }
 
-// POST /admin/slides. Returns an error code from admin_slide_messages(), or '' on success.
-function admin_slide_action(\PDO $pdo, string $op): string
+// POST /admin/slides. Returns an error code from admin_slide_messages(), or '' on success. $created receives a new slide's id.
+function admin_slide_action(\PDO $pdo, string $op, ?int &$created = null): string
 {
     $id = (int)inquiry_value($_POST, 'id');
     try {
@@ -243,72 +245,78 @@ function admin_slide_action(\PDO $pdo, string $op): string
             if (count(research_slides_uploaded($pdo)) >= RESEARCH_SLIDE_MAX_COUNT) {
                 return 'too-many';
             }
-            research_slide_store($pdo, $image, mb_substr(inquiry_value($_POST, 'alt'), 0, 200));
+            $created = research_slide_store($pdo, $image, mb_substr(inquiry_value($_POST, 'alt'), 0, 200));
         } elseif ($op === 'alt') {
             $pdo->prepare('UPDATE research_slides SET alt = :alt WHERE id = :id')->execute(['alt' => mb_substr(inquiry_value($_POST, 'alt'), 0, 200), 'id' => $id]);
         } elseif ($op === 'up' || $op === 'down') {
             research_slide_move($pdo, $id, $op === 'up' ? -1 : 1);
+        } elseif ($op === 'order') {
+            research_slides_order($pdo, array_map('intval', array_filter(explode(',', inquiry_value($_POST, 'ids')), 'ctype_digit')));
         } elseif ($op === 'delete') {
+            if (count(research_slides_uploaded($pdo)) <= 1) {
+                return 'last-one';
+            }
             $pdo->prepare('DELETE FROM research_slides WHERE id = :id')->execute(['id' => $id]);
         }
     } catch (\Throwable $exception) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
         error_log('Admin slide action failed (' . get_class($exception) . ').');
         return 'failed';
     }
     return '';
 }
 
+function admin_slide_card(array $slide, string $formToken, int $number, int $total): string
+{
+    $id = (int)$slide['id'];
+    $hidden = fn (string $op): string => admin_hidden($formToken, ['op' => $op, 'id' => $id]);
+    return '<li class="admin-card admin-slide-card" data-slide-id="' . $id . '">'
+        . '<div class="admin-slide-top"><button class="admin-slide-handle" type="button" title="끌어서 순서 변경" aria-label="' . $number . '번 슬라이드, 끌어서 순서 변경">' . admin_icon('grip') . '</button><span class="admin-slide-number">' . $number . '</span>'
+        . '<form method="post" action="/admin/slides" data-slide-form data-confirm="이 이미지를 삭제할까요?">' . $hidden('delete') . '<button class="admin-slide-delete" type="submit">삭제</button></form></div>'
+        . '<div class="admin-slide-frame"><img src="' . e(research_slide_src($slide)) . '" alt="" width="' . (int)$slide['width'] . '" height="' . (int)$slide['height'] . '" loading="lazy" draggable="false"></div>'
+        . '<form class="admin-slide-alt" method="post" action="/admin/slides" data-slide-form data-slide-alt>' . $hidden('alt') . '<label class="admin-label" for="slide-alt-' . $id . '">이미지 설명</label><input class="admin-input" type="text" id="slide-alt-' . $id . '" name="alt" value="' . e((string)$slide['alt']) . '" maxlength="200"></form>'
+        . '<div class="admin-slide-moves">'
+        . '<form method="post" action="/admin/slides" data-slide-form>' . $hidden('up') . '<button class="admin-button admin-button--outline" type="submit" data-move="up"' . ($number === 1 ? ' disabled' : '') . '>앞으로</button></form>'
+        . '<form method="post" action="/admin/slides" data-slide-form>' . $hidden('down') . '<button class="admin-button admin-button--outline" type="submit" data-move="down"' . ($number === $total ? ' disabled' : '') . '>뒤로</button></form>'
+        . '</div></li>';
+}
+
 function admin_slides_page(\PDO $pdo, string $formToken): never
 {
     try {
+        research_slides_seed($pdo, site_defaults('ko')['research_slides']);
         $slides = research_slides_uploaded($pdo);
     } catch (\Throwable $exception) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
         error_log('Admin slides query failed (' . get_class($exception) . ').');
-        admin_layout('데이터베이스 오류', admin_header('연구·기술 슬라이드', '/admin/slides', $formToken) . '<main class="admin-shell"><h1>슬라이드 목록을 불러오지 못했습니다.</h1><p><code>db/schema.sql</code>의 <code>research_slides</code> 테이블이 적용되었는지 확인해 주세요.</p></main>', 502);
+        admin_layout('데이터베이스 오류', admin_header('연구·기술 슬라이드', '/admin/slides', $formToken) . '<main class="admin-shell"><h1>슬라이드 목록을 불러오지 못했습니다.</h1><p><code>db/schema.sql</code>이 최신으로 적용되었는지 확인해 주세요.</p></main>', 502);
     }
     $error = admin_slide_messages()[(string)($_GET['error'] ?? '')] ?? '';
-    $last = count($slides) - 1;
+    $total = count($slides);
     ob_start();
     ?>
 <main class="admin-shell">
 <?php if ($error !== ''): ?><p class="admin-error" role="alert"><?= e($error) ?></p><?php endif; ?>
-<form class="admin-card admin-slide-upload" method="post" action="/admin/slides" enctype="multipart/form-data" data-slide-upload>
-<input type="hidden" name="token" value="<?= e($formToken) ?>"><input type="hidden" name="op" value="upload">
-<h2>이미지 추가</h2>
-<p class="admin-help">JPG, PNG, WEBP. 큰 이미지는 올리기 전에 자동으로 줄입니다. 세로 이미지는 전체가 보이고, 가로 이미지는 카드에 맞게 잘립니다.</p>
-<label class="admin-label" for="slide-image">이미지</label>
-<input class="admin-input" type="file" id="slide-image" name="image" accept="image/jpeg,image/png,image/webp,image/heic" required>
-<label class="admin-label" for="slide-alt">이미지 설명 (화면에 보이지 않고 시각장애인용 음성 안내에 쓰입니다)</label>
-<input class="admin-input" type="text" id="slide-alt" name="alt" maxlength="200">
-<button class="admin-button admin-button--block" type="submit" data-busy-label="올리는 중...">올리기</button>
+<p class="admin-slide-status" id="slide-status" role="status" aria-live="polite" hidden></p>
+<form class="admin-slide-drop" method="post" action="/admin/slides" enctype="multipart/form-data" data-slide-drop>
+<?= admin_hidden($formToken, ['op' => 'upload']) ?>
+<label for="slide-image"><?= admin_icon('upload') ?><strong>이미지 추가</strong><span>여기로 끌어다 놓거나 눌러서 선택하세요. 여러 장도 됩니다. JPG, PNG, WEBP</span></label>
+<input type="file" id="slide-image" name="image" accept="image/jpeg,image/png,image/webp,image/heic" multiple>
+<noscript><button class="admin-button" type="submit">올리기</button></noscript>
 </form>
-<?php if (!$slides): ?>
-<p class="admin-empty" role="status">아직 올린 이미지가 없어 사이트에는 임시 이미지가 나옵니다. 첫 이미지를 올리면 임시 이미지는 사라집니다.</p>
-<?php else: ?>
-<ol class="admin-list admin-slide-list">
-<?php foreach ($slides as $index => $slide): $id = (int)$slide['id']; ?>
-<li class="admin-card admin-slide">
-<img src="/media/research/<?= $id ?>" alt="" width="<?= (int)$slide['width'] ?>" height="<?= (int)$slide['height'] ?>" loading="lazy">
-<div class="admin-slide-body">
-<form class="admin-search" method="post" action="/admin/slides">
-<input type="hidden" name="token" value="<?= e($formToken) ?>"><input type="hidden" name="op" value="alt"><input type="hidden" name="id" value="<?= $id ?>">
-<input class="admin-input" type="text" name="alt" value="<?= e((string)$slide['alt']) ?>" maxlength="200" placeholder="이미지 설명" aria-label="<?= $index + 1 ?>번 이미지 설명">
-<button class="admin-button admin-button--outline" type="submit">저장</button>
-</form>
-<div class="admin-slide-actions">
-<?php foreach (['up' => ['위로', $index === 0], 'down' => ['아래로', $index === $last]] as $op => [$label, $disabled]): ?>
-<form method="post" action="/admin/slides"><input type="hidden" name="token" value="<?= e($formToken) ?>"><input type="hidden" name="op" value="<?= $op ?>"><input type="hidden" name="id" value="<?= $id ?>"><button class="admin-button admin-button--outline" type="submit"<?= $disabled ? ' disabled' : '' ?>><?= $label ?></button></form>
-<?php endforeach; ?>
-<form method="post" action="/admin/slides" data-confirm="이 이미지를 삭제할까요?"><input type="hidden" name="token" value="<?= e($formToken) ?>"><input type="hidden" name="op" value="delete"><input type="hidden" name="id" value="<?= $id ?>"><button class="admin-button admin-button--outline" type="submit">삭제</button></form>
-</div>
-</div>
-</li>
+<div class="admin-slide-head"><h2>슬라이드 목록 <span id="slide-count"><?= $total ?></span>장</h2><p class="admin-help">끌어서 순서를 바꾸면 홈페이지에 바로 반영됩니다. 왼쪽 위부터 차례로 나옵니다.</p></div>
+<ol class="admin-slide-board" id="slide-board">
+<?php foreach ($slides as $index => $slide): ?>
+<?= admin_slide_card($slide, $formToken, $index + 1, $total) ?>
 <?php endforeach; ?>
 </ol>
-<?php endif; ?>
 </main>
 <?php
-    admin_layout('연구·기술 슬라이드', admin_header('연구·기술 슬라이드', '/admin/slides', $formToken) . ob_get_clean());
+    admin_layout('연구·기술 슬라이드', admin_header('연구·기술 슬라이드', '/admin/slides', $formToken) . ob_get_clean(), 200, ['/assets/js/vendor/Sortable.min.js', '/assets/js/admin-slide-board.js']);
 }
 
 function handle_admin_request(string $action): void
@@ -398,15 +406,41 @@ function handle_admin_request(string $action): void
 
     if ($action === 'slides') {
         if ($method === 'POST') {
+            $wantsJson = ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'fetch';
+            $respond = function (string $error, int $status = 200, array $extra = []) use ($wantsJson): never {
+                if (!$wantsJson) {
+                    admin_redirect('/admin/slides' . ($error !== '' ? '?error=' . $error : ''));
+                }
+                http_response_code($status);
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode(['error' => $error === '' ? null : (admin_slide_messages()[$error] ?? $error)] + $extra, JSON_UNESCAPED_UNICODE);
+                exit;
+            };
             // PHP empties $_POST when the body is over post_max_size.
             if (!$_POST && (int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
-                admin_redirect('/admin/slides?error=too-large');
+                $respond('too-large', 413);
             }
             if (!$formTokenValid()) {
+                if ($wantsJson) {
+                    http_response_code(419);
+                    header('Content-Type: application/json; charset=utf-8');
+                    echo json_encode(['error' => '세션이 만료되었습니다. 새로고침해 주세요.'], JSON_UNESCAPED_UNICODE);
+                    exit;
+                }
                 admin_layout('세션 만료', '<main class="admin-shell"><h1>세션이 만료되었습니다.</h1><p><a href="/admin/slides">다시 열기</a></p></main>', 419);
             }
-            $error = admin_slide_action($pdo, inquiry_value($_POST, 'op'));
-            admin_redirect('/admin/slides' . ($error !== '' ? '?error=' . $error : ''));
+            $created = null;
+            $error = admin_slide_action($pdo, inquiry_value($_POST, 'op'), $created);
+            $extra = [];
+            if ($created !== null && $wantsJson) {
+                $rows = research_slides_uploaded($pdo);
+                foreach ($rows as $row) {
+                    if ((int)$row['id'] === $created) {
+                        $extra['html'] = admin_slide_card($row, $formToken, count($rows), count($rows));
+                    }
+                }
+            }
+            $respond($error, $error === '' ? 200 : 422, $extra);
         }
         admin_slides_page($pdo, $formToken);
     }

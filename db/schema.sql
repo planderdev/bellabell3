@@ -39,6 +39,10 @@ create table if not exists research_slides (
     created_at timestamptz not null default now()
 );
 
+-- A slide is either an uploaded image or, for the temporary slides, a file path under /assets.
+alter table research_slides add column if not exists src text;
+alter table research_slides alter column image drop not null;
+
 -- Admin edits of site copy and images (/admin/sections). content.php holds the defaults; rows here override them.
 -- key is the field's path in content.php; locale is ko, en, zh, or all for images.
 create table if not exists site_content (
