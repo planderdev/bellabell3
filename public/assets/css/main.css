@@ -1317,6 +1317,10 @@ html[lang="en"] .about-reveal-line {
     margin-bottom: clamp(60px, 8.33vw, 160px);
 }
 
+.main-page .care-section .section-desc {
+    margin-top: clamp(20px, 1.67vw, 32px);
+}
+
 .care-process {
     display: flex;
     width: 100%;

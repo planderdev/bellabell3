@@ -175,6 +175,7 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 <p lang="en">Social Value</p>
 </div>
 <h2 class="section-title" data-fade="" data-section-title="social" data-copy="social"><?= e($content['social']) ?></h2>
+<p class="section-desc" data-fade="" data-copy="social-body"><?= nl2br(e($content['social_body']), false) ?></p>
 </div>
 <div class="care-process inner">
 <a class="care-item" href="#partner">
