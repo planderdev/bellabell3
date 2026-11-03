@@ -68,7 +68,7 @@ expected_copy={
 'global-title':'제주에서 세계로',
 'research':'벨아벨팜만의 특별한 기술력','research-statement':'Safety from JEJU\n치료가 아닌 예방을 위한 펫제품 천연물질 특화기술',
 'social':'우리 모두는 지구의 시민입니다','social-body':'지구의 시민인 우리 모두의 공존을 위한 지속가능한 가치를 지향하며\n제품 개발부터 경영까지 사회적기업으로서의 책임을 다하고 있습니다.','family':'벨아벨팜이 만드는 브랜드','brand-label':'프롬한라','brand-subtitle':'펫 웰니스','partner':'함께할 파트너를 찾습니다',
-'contact':'partner@jejubellabell.com · 064-803-0060','value-0':'인증 사회적기업·SVI 우수등급','value-1':'지역 청년·취약계층 고용','value-2':'플라스틱 제로 포장','value-3':'지역 원물 제값 구매','value-4':'유기동물 사회공헌',
+'contact':'partner@jejubellabell.com · 064-803-0060','value-0':'인증 사회적기업·SVI 우수등급','value-1':'지역 청년·취약계층 고용','value-2':'환경 친화적인 포장','value-3':'로컬 원료 사용','value-4':'유기동물 사회공헌',
 }
 copies={n.a['data-copy']:n.text() for n in nodes if 'data-copy' in n.a}
 for key,text in expected_copy.items():check('Confirmed copy is verbatim',copies.get(key)==text,key)

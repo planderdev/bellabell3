@@ -170,6 +170,7 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 </section>
 <?php require __DIR__ . '/../includes/research.php'; ?>
 <section class="care-section" data-section="social" id="social">
+<img class="care-backdrop" src="/assets/media/social-earth.webp" alt="" loading="lazy" decoding="async"/>
 <div class="section-head inner">
 <div class="section-category" data-fade="">
 <p lang="en">Social Value</p>
