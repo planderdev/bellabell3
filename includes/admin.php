@@ -56,13 +56,21 @@ function admin_time(?string $value): string
     }
 }
 
+// Assets are cached for an hour, so a new deploy could pair fresh markup with old styles. A per-deploy version forces a new copy.
+// public/assets is not in the function bundle on Vercel, so the version cannot come from the files themselves.
+function admin_asset(string $path): string
+{
+    $version = getenv('VERCEL_GIT_COMMIT_SHA') ?: getenv('VERCEL_DEPLOYMENT_ID') ?: (string)filemtime(__FILE__);
+    return e($path . '?v=' . substr($version, 0, 12));
+}
+
 function admin_layout(string $title, string $body, int $status = 200): never
 {
     http_response_code($status);
     echo '<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex, nofollow">'
         . '<title>' . e($title) . ' | 벨아벨팜 관리</title>'
-        . '<link rel="stylesheet" href="/assets/css/fonts.css"><link rel="stylesheet" href="/assets/css/base.css"><link rel="stylesheet" href="/assets/css/admin.css">'
-        . '<script defer src="/assets/js/admin-slides.js"></script>'
+        . '<link rel="stylesheet" href="' . admin_asset('/assets/css/fonts.css') . '"><link rel="stylesheet" href="' . admin_asset('/assets/css/base.css') . '"><link rel="stylesheet" href="' . admin_asset('/assets/css/admin.css') . '">'
+        . '<script defer src="' . admin_asset('/assets/js/admin-slides.js') . '"></script>'
         . '</head><body class="admin-body">' . $body . (str_contains($body, 'data-admin-app') ? '</div></div>' : '') . '</body></html>';
     exit;
 }
@@ -83,7 +91,7 @@ function admin_icon(string $name): string
 {
     static $icons = null;
     $icons ??= require __DIR__ . '/admin-icons.php';
-    return '<svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' . ($icons[$name] ?? '') . '</svg>';
+    return '<svg class="admin-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' . ($icons[$name] ?? '') . '</svg>';
 }
 
 function admin_open_inquiries(): ?int
@@ -156,7 +164,7 @@ function admin_header(string $title, string $current, string $formToken): string
         $side .= '</ul>';
     }
     return '<div class="admin-app" data-admin-app>'
-        . '<nav class="admin-rail" aria-label="관리 영역"><a class="admin-rail-logo" href="/admin" aria-label="관리자 홈"><svg class="admin-rail-mark" viewBox="0 0 233 141" fill="currentColor" aria-hidden="true" focusable="false"><rect x="99.65" y="9.83" width="33.43" height="33.43" rx="7.88" ry="7.88" transform="translate(15.31 90.06) rotate(-45)"/><path d="M178.38,66.33l50.44,51.3c8.4,8.54,2.35,22.97-9.63,22.97H13.53c-11.98,0-18.03-14.43-9.63-22.97l50.44-51.3-.2.2c3.11-3.38,6.15-6.95,12.38-6.95,12.45,0,12.45,13.5,24.91,13.5s12.46-13.5,24.92-13.5,12.45,13.5,24.91,13.5,12.46-13.5,24.93-13.5c6.15,0,9.13,3.42,12.2,6.75Z"/></svg></a>' . $rail . '</nav>'
+        . '<nav class="admin-rail" aria-label="관리 영역"><a class="admin-rail-logo" href="/admin" aria-label="관리자 홈"><svg class="admin-rail-mark" width="24" height="15" viewBox="0 0 233 141" fill="currentColor" aria-hidden="true" focusable="false"><rect x="99.65" y="9.83" width="33.43" height="33.43" rx="7.88" ry="7.88" transform="translate(15.31 90.06) rotate(-45)"/><path d="M178.38,66.33l50.44,51.3c8.4,8.54,2.35,22.97-9.63,22.97H13.53c-11.98,0-18.03-14.43-9.63-22.97l50.44-51.3-.2.2c3.11-3.38,6.15-6.95,12.38-6.95,12.45,0,12.45,13.5,24.91,13.5s12.46-13.5,24.92-13.5,12.45,13.5,24.91,13.5,12.46-13.5,24.93-13.5c6.15,0,9.13,3.42,12.2,6.75Z"/></svg></a>' . $rail . '</nav>'
         . '<aside class="admin-side" id="admin-side"><div class="admin-side-head"><strong>' . e($navigation[$activeGroup]['label']) . '</strong><button class="admin-side-toggle" type="button" data-admin-collapse aria-controls="admin-side" aria-expanded="true" aria-label="메뉴 접기">' . admin_icon('panel') . '</button></div>'
         . '<nav class="admin-side-nav" aria-label="관리 메뉴">' . $side . '</nav>'
         . '<div class="admin-side-foot"><a class="admin-side-link" href="/" target="_blank" rel="noopener">' . admin_icon('external') . '<span>홈페이지 보기</span></a>'
