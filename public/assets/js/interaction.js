@@ -483,18 +483,35 @@ function syncBackgroundVideo(video) {
 }
 
 function initPillarVideo() {
-    const video = document.getElementById("pillar-video");
-    const toggle = document.getElementById("pillar-video-toggle");
-    if (!video || !toggle) return;
-    const syncToggle = () => toggle.setAttribute("aria-pressed", String(!video.paused));
-    toggle.addEventListener("click", () => {
-        if (video.paused) video.play().catch(() => {});
-        else video.pause();
-    });
-    ["play", "pause", "ended"].forEach(type => video.addEventListener(type, syncToggle));
+    const section = document.querySelector(".pillars-section");
+    if (!section) return;
+    const buttons = [...section.querySelectorAll(".pillars-label")];
+    const panelOf = button => document.getElementById(button.getAttribute("aria-controls"));
+    const videos = buttons.map(panelOf).filter(panel => panel?.tagName === "VIDEO");
+    const syncPlaying = () => buttons.forEach(button => button.classList.toggle("is-playing", panelOf(button)?.tagName === "VIDEO" && !panelOf(button).paused));
+
+    buttons.forEach(button => button.addEventListener("click", () => {
+        const panel = panelOf(button);
+        const video = panel.tagName === "VIDEO" ? panel : null;
+        if (button.classList.contains("is-active")) {
+            // Pressing the shown label again plays or pauses its video.
+            if (video) video.paused ? video.play().catch(() => {}) : video.pause();
+            return;
+        }
+        videos.forEach(other => { if (other !== video) other.pause(); });
+        buttons.forEach(other => {
+            const active = other === button;
+            other.classList.toggle("is-active", active);
+            other.setAttribute("aria-pressed", String(active));
+            panelOf(other).classList.toggle("is-active", active);
+        });
+        video?.play().catch(() => {});
+    }));
+
+    videos.forEach(video => ["play", "pause", "ended"].forEach(type => video.addEventListener(type, syncPlaying)));
     new IntersectionObserver(entries => {
-        if (!entries[0].isIntersecting) video.pause();
-    }).observe(video);
+        if (!entries[0].isIntersecting) videos.forEach(video => video.pause());
+    }).observe(section);
 }
 
 function initBackgroundVideos() {

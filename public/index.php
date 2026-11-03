@@ -59,18 +59,28 @@ $content = site_content();
 </section>
 <section class="pillars-section" data-section="pillars" id="pillars" aria-label="<?= e(t('벨아벨팜의 사업 분야')) ?>">
 <div class="pillars-media">
-<video id="pillar-video" muted playsinline preload="metadata" poster="/assets/media/pillar-ragdoll-poster.webp" width="1280" height="660" aria-label="<?= e(t('랙돌 고양이가 프롬한라스틱 앞에서 입맛을 다시는 영상')) ?>">
+<video class="pillars-panel is-active" id="pillar-video" muted loop playsinline preload="metadata" poster="/assets/media/pillar-ragdoll-poster.webp" width="1280" height="660" aria-label="<?= e(t('랙돌 고양이가 프롬한라스틱 앞에서 입맛을 다시는 영상')) ?>">
 <source src="/assets/media/pillar-ragdoll.mp4" type="video/mp4"/>
 </video>
+<video class="pillars-panel" id="pillar-skin-video" muted loop playsinline preload="none" poster="/assets/media/pillar-bichon-poster.webp" aria-label="<?= e(t('보호자가 비숑의 볼을 티티패드로 닦아 주는 영상')) ?>">
+<source src="/assets/media/pillar-bichon.mp4" type="video/mp4"/>
+</video>
+<img class="pillars-panel" id="pillar-sustain-image" src="<?= e($content['social_image']) ?>" alt="" loading="lazy" decoding="async"/>
 </div>
 <div class="pillars-labels" lang="en">
-<button class="pillars-label pillars-label-food" id="pillar-video-toggle" type="button" aria-controls="pillar-video" aria-pressed="false">
+<button class="pillars-label pillars-label-food is-active" id="pillar-video-toggle" type="button" aria-controls="pillar-video" aria-pressed="true">
 <span><?= e($content['pillars'][0]) ?></span>
 <i data-lucide="play" class="site-icon pillars-icon-play" aria-hidden="true" focusable="false"></i>
 <i data-lucide="pause" class="site-icon pillars-icon-pause" aria-hidden="true" focusable="false"></i>
 </button>
-<span class="pillars-label pillars-label-skin"><?= e($content['pillars'][1]) ?></span>
-<span class="pillars-label pillars-label-sustain"><?= e($content['pillars'][2]) ?></span>
+<button class="pillars-label pillars-label-skin" type="button" aria-controls="pillar-skin-video" aria-pressed="false">
+<span><?= e($content['pillars'][1]) ?></span>
+<i data-lucide="play" class="site-icon pillars-icon-play" aria-hidden="true" focusable="false"></i>
+<i data-lucide="pause" class="site-icon pillars-icon-pause" aria-hidden="true" focusable="false"></i>
+</button>
+<button class="pillars-label pillars-label-sustain" type="button" aria-controls="pillar-sustain-image" aria-pressed="false">
+<span><?= e($content['pillars'][2]) ?></span>
+</button>
 </div>
 </section>
 <section class="bongbong-story-section" data-section="bongbong-story" id="bongbong-story" aria-labelledby="bongbong-story-title">

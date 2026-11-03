@@ -564,11 +564,25 @@ html[lang="en"] .about-reveal-line {
     background: var(--white);
 }
 
-.pillars-media video {
+/* Panels share one grid cell, so switching never moves the page. */
+.pillars-media {
+    display: grid;
+}
+
+.pillars-panel {
     display: block;
+    grid-area: 1 / 1;
     width: 100%;
     height: 100svh;
     object-fit: cover;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .4s ease, visibility .4s ease;
+}
+
+.pillars-panel.is-active {
+    opacity: 1;
+    visibility: visible;
 }
 
 .pillars-labels {
@@ -601,40 +615,53 @@ html[lang="en"] .about-reveal-line {
     white-space: nowrap;
 }
 
-/* The one interactive label uses the primary action colors, as the contact form's submit button does. */
-.pillars-label-food {
-    border-color: var(--primary);
-    background: var(--primary);
+.pillars-label {
     cursor: pointer;
     transition: color .25s ease, background .25s ease, border-color .25s ease;
 }
 
-.pillars-label-food:hover,
-.pillars-label-food[aria-pressed="true"] {
+.pillars-label:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* The shown panel's label uses the primary action colors, as the contact form's submit button does. */
+.pillars-label.is-active {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: var(--text);
+}
+
+.pillars-label.is-active:hover,
+.pillars-label.is-active.is-playing {
     border-color: var(--green-800);
     background: var(--green-800);
     color: var(--white);
 }
 
-.pillars-label-food:focus-visible {
+.pillars-label:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
 }
 
-.pillars-label-food .site-icon {
+.pillars-label .site-icon {
     flex: none;
     width: 16px;
     height: 16px;
     fill: currentColor;
 }
 
-.pillars-label-food[aria-pressed="false"] .pillars-icon-pause,
-.pillars-label-food[aria-pressed="true"] .pillars-icon-play {
+.pillars-label .pillars-icon-pause,
+.pillars-label.is-playing .pillars-icon-play {
     display: none;
 }
 
+.pillars-label.is-playing .pillars-icon-pause {
+    display: block;
+}
+
 @media (max-width:970px) {
-    .pillars-media video {
+    .pillars-panel {
         height: auto;
         aspect-ratio: 1280/660;
     }
@@ -646,7 +673,8 @@ html[lang="en"] .about-reveal-line {
 }
 
 @media (prefers-reduced-motion:reduce) {
-    .pillars-label-food {
+    .pillars-label,
+    .pillars-panel {
         transition: none;
     }
 }
