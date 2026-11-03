@@ -119,7 +119,7 @@ function research_slide_move(\PDO $pdo, int $id, int $direction): void
     $pdo->commit();
 }
 
-// GET /media/research/<id>. An id is never reused for different bytes, so it can be cached for good.
+// GET /media/research/<id>. The short cache lets a deleted image disappear from the CDN within minutes.
 function serve_research_slide(int $id): void
 {
     serve_stored_image('research_slides', $id);
@@ -153,6 +153,6 @@ function serve_stored_image(string $table, int $id): void
     header('Content-Type: ' . $row['mime']);
     header('Content-Length: ' . strlen($bytes));
     header('X-Content-Type-Options: nosniff');
-    header('Cache-Control: public, max-age=31536000, immutable');
+    header('Cache-Control: public, max-age=300');
     echo $bytes;
 }
