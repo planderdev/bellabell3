@@ -179,47 +179,47 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 <p class="section-desc" data-fade="" data-copy="social-body"><?= nl2br(e($content['social_body']), false) ?></p>
 </div>
 <div class="care-process inner">
-<a class="care-item" href="#partner">
-<div class="care-icon" data-fade="">
+<a class="care-item" href="#partner" data-fade="" data-fade-delay="0.00">
+<div class="care-icon">
 <i data-lucide="shield-check" class="site-icon" width="24" height="24" stroke-width="2" aria-hidden="true" focusable="false"></i>
 </div>
-<div class="care-content" data-fade="">
+<div class="care-content">
 <h3 data-copy="value-0"><?= e($content['values'][0]) ?></h3>
 <p data-copy="value-body-0"><?= nl2br(e($content['value_descriptions'][0]), false) ?></p>
 </div>
 </a>
-<a class="care-item" href="#partner">
-<div class="care-icon" data-fade="">
+<a class="care-item" href="#partner" data-fade="" data-fade-delay="0.18">
+<div class="care-icon">
 <i data-lucide="users" class="site-icon" width="24" height="24" stroke-width="2" aria-hidden="true" focusable="false"></i>
 </div>
-<div class="care-content" data-fade="">
+<div class="care-content">
 <h3 data-copy="value-1"><?= e($content['values'][1]) ?></h3>
 <p data-copy="value-body-1"><?= nl2br(e($content['value_descriptions'][1]), false) ?></p>
 </div>
 </a>
-<a class="care-item" href="#partner">
-<div class="care-icon" data-fade="">
+<a class="care-item" href="#partner" data-fade="" data-fade-delay="0.36">
+<div class="care-icon">
 <i data-lucide="leaf" class="site-icon" width="24" height="24" stroke-width="2" aria-hidden="true" focusable="false"></i>
 </div>
-<div class="care-content" data-fade="">
+<div class="care-content">
 <h3 data-copy="value-2"><?= e($content['values'][2]) ?></h3>
 <p data-copy="value-body-2"><?= nl2br(e($content['value_descriptions'][2]), false) ?></p>
 </div>
 </a>
-<a class="care-item" href="#partner">
-<div class="care-icon" data-fade="">
+<a class="care-item" href="#partner" data-fade="" data-fade-delay="0.54">
+<div class="care-icon">
 <i data-lucide="plus" class="site-icon" width="24" height="24" stroke-width="2" aria-hidden="true" focusable="false"></i>
 </div>
-<div class="care-content" data-fade="">
+<div class="care-content">
 <h3 data-copy="value-3"><?= e($content['values'][3]) ?></h3>
 <p data-copy="value-body-3"><?= nl2br(e($content['value_descriptions'][3]), false) ?></p>
 </div>
 </a>
-<a class="care-item" href="#partner">
-<div class="care-icon" data-fade="">
+<a class="care-item" href="#partner" data-fade="" data-fade-delay="0.72">
+<div class="care-icon">
 <i data-lucide="heart" class="site-icon" width="24" height="24" stroke-width="2" aria-hidden="true" focusable="false"></i>
 </div>
-<div class="care-content" data-fade="">
+<div class="care-content">
 <h3 data-copy="value-4"><?= e($content['values'][4]) ?></h3>
 <p data-copy="value-body-4"><?= nl2br(e($content['value_descriptions'][4]), false) ?></p>
 </div>
