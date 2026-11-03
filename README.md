@@ -28,6 +28,7 @@ php -S 127.0.0.1:8086 -t public public/router.php
 - 문의 폼은 `POST /api/contact`로 PostgreSQL(Supabase) `business_inquiries` 테이블에 저장합니다. `db/schema.sql`을 먼저 적용합니다.
 - 환경변수: `APP_SECRET`, `DATABASE_URL`, `ADMIN_PASSWORD_HASH` (`.env.example` 참고). 앞의 둘이 없으면 폼 제출 버튼이 비활성으로 남습니다.
 - 접수 내역은 `/admin`에서 비밀번호로 로그인해 보고, 처리 완료를 표시합니다.
+- 연구·기술 슬라이드 이미지는 `/admin/slides`에서 올리고 순서를 바꿉니다. 이미지는 DB `research_slides`에 저장되어 `/media/research/<id>`로 나갑니다. 올린 이미지가 없으면 `includes/content.php`의 임시 이미지가 나옵니다.
 
 ## 구성
 
@@ -37,7 +38,8 @@ php -S 127.0.0.1:8086 -t public public/router.php
 - `includes/header.php`: 상단 헤더·내비게이션·전체 메뉴.
 - `includes/contact-form.php`: B2B 문의 폼 화면과 개인정보 수집·이용 안내.
 - `includes/contact-handler.php`: 문의 검증·서명 토큰·전송 횟수 제한·DB 저장.
-- `includes/admin.php`: `/admin` 문의 관리 화면.
+- `includes/admin.php`: `/admin` 문의 관리와 슬라이드 관리 화면.
+- `includes/research-slides.php`: 연구·기술 슬라이드 이미지 저장·조회.
 - `includes/footer.php`: 하단 로고·인증 이미지 영역·회사 정보·연락처.
 - `includes/content.php`: 확정 카피와 비공개 연혁 후보.
 - `public/product.php`: 제품 페이지(`/product`). 제품명·용량은 실제 패키지 기준이고 사진은 실제 촬영본입니다. 미확정 문구는 Lorem ipsum, 나노트릿 사진은 회색입니다.

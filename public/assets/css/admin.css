@@ -231,3 +231,62 @@
     border-radius: 4px;
     background: var(--grey-100);
 }
+
+/* Research slider images (/admin/slides) */
+.admin-button:disabled {
+    cursor: not-allowed;
+    opacity: .4;
+}
+
+.admin-slide-upload {
+    margin-bottom: 16px;
+}
+
+.admin-slide-upload h2 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.admin-help {
+    margin-bottom: 12px;
+    color: var(--text-sub);
+    font-size: 14px;
+}
+
+.admin-slide-upload .admin-label:not(:first-of-type) {
+    margin-top: 12px;
+}
+
+.admin-slide {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+}
+
+.admin-slide img {
+    width: 120px;
+    height: 120px;
+    border: 1px solid var(--grey-200);
+    border-radius: 8px;
+    background: #fff;
+    object-fit: contain;
+}
+
+.admin-slide-body {
+    display: flex;
+    flex: 1 1 280px;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin-slide-body .admin-input {
+    flex: 1;
+    min-width: 0;
+}
+
+.admin-slide-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}

@@ -1089,7 +1089,8 @@ html[lang="en"] .about-reveal-line {
 
 /* Research */
 .research-section {
-    padding-top: clamp(88px, 8.33vw, 160px);
+    padding-block: clamp(88px, 8.33vw, 160px);
+    overflow: hidden;
     background: var(--white);
     color: var(--text);
     scroll-margin-top: 100px;
@@ -1101,7 +1102,7 @@ html[lang="en"] .about-reveal-line {
 }
 
 .research-section .section-head {
-    margin-bottom: clamp(36px, 4.17vw, 72px);
+    margin-bottom: clamp(40px, 5.2vw, 100px);
 }
 
 .research-section .section-title {
@@ -1111,93 +1112,99 @@ html[lang="en"] .about-reveal-line {
     text-wrap: balance;
 }
 
-.research-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
-    align-items: start;
-    gap: clamp(40px, 6.25vw, 120px);
-}
-
-.research-copy {
-    min-width: 0;
-    max-width: 740px;
-}
-
-.research-copy h3 {
-    margin: 0 0 28px;
+.research-statement {
+    margin: 0 0 clamp(40px, 3.65vw, 70px);
     color: var(--text);
-    font-size: clamp(22px, 1.67vw, 32px);
-    font-weight: var(--fw-600);
-    line-height: 1.5;
+    font-size: clamp(22px, 2.45vw, 46px);
+    font-weight: var(--fw-500);
+    line-height: 1.35;
     word-break: keep-all;
 }
 
-.research-copy p {
-    margin: 0 0 24px;
-    color: var(--text-sub);
-    font-size: clamp(16px, 1.25vw, 20px);
-    font-weight: var(--fw-400);
-    line-height: 1.9;
-    word-break: keep-all;
-    overflow-wrap: anywhere;
-}
-
-.research-copy p:last-child {
-    margin-bottom: 0;
-}
-
-.research-copy .research-ingredients {
-    margin-bottom: clamp(40px, 3.33vw, 64px);
-    color: var(--text-sub);
-    font-size: clamp(18px, 1.25vw, 24px);
-}
-
-.research-patent {
-    justify-self: center;
+/* Side cards sit on a full-width band; the centre card grows past the band and over its neighbours. */
+.research-slider {
+    --research-card-w: clamp(150px, 16.25vw, 320px);
+    --research-card-h: calc(var(--research-card-w) * .93);
+    --research-active-w: calc(var(--research-card-w) * 1.73);
+    --research-active-h: calc(var(--research-card-w) * 1.41);
+    position: relative;
     width: 100%;
-    max-width: 340px;
+}
+
+.research-slider::before {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    height: calc(var(--research-card-w) * 1.32);
+    background: var(--grey-100);
+    content: "";
+    transform: translateY(-50%);
+}
+
+.research-swiper {
+    width: 100%;
+    margin-block: -48px;
+    padding-block: 48px;
+    overflow: hidden;
+}
+
+.research-slide {
+    position: relative;
+    width: var(--research-card-w);
+    height: var(--research-active-h);
+    cursor: pointer;
+}
+
+.research-slide.swiper-slide-active {
+    z-index: 2;
+    cursor: grab;
+}
+
+.research-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: var(--research-card-h);
     margin: 0;
-}
-
-.research-patent-image {
-    padding: clamp(12px, 1.25vw, 24px);
-    border: 1px solid var(--grey-200);
+    overflow: hidden;
     border-radius: 16px;
-    background: var(--grey-50);
-    box-shadow: 0 16px 48px color-mix(in srgb, var(--grey-900) 8%, var(--transparent));
+    background: var(--white);
+    transform: translate(-50%, -50%);
+    transition: width .5s ease, height .5s ease, box-shadow .5s ease;
 }
 
-.research-patent img {
+.swiper-slide-active .research-card {
+    width: var(--research-active-w);
+    height: var(--research-active-h);
+    box-shadow: 0 16px 48px color-mix(in srgb, var(--grey-900) 16%, var(--transparent));
+}
+
+.research-card img {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    -webkit-user-drag: none;
 }
 
-.research-patent figcaption {
-    margin-top: 16px;
-    color: var(--text-sub);
-    font-size: 14px;
-    line-height: 1.6;
-    text-align: center;
-    word-break: keep-all;
+/* Upright documents are shown whole. */
+.research-card.is-portrait img {
+    box-sizing: border-box;
+    padding: clamp(6px, .75vw, 14px);
+    object-fit: contain;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .research-card {
+        transition: none;
+    }
 }
 
 @media (max-width:970px) {
     .research-section {
         scroll-margin-top: 70px;
-    }
-
-    .research-layout {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 40px;
-    }
-
-    .research-copy p br {
-        display: none;
-    }
-
-    .research-patent {
-        justify-self: center;
     }
 }
 

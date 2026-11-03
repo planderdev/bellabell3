@@ -27,6 +27,11 @@ if ($urlPath === '/api/contact') {
     handle_inquiry_request();
     return true;
 }
+if (preg_match('~^/media/research/([1-9]\d{0,14})$~', $urlPath, $slideMatch)) {
+    require __DIR__ . '/../includes/research-slides.php';
+    serve_research_slide((int) $slideMatch[1]);
+    return true;
+}
 if (preg_match('~^/admin(?:/([a-z]+))?/?$~', $urlPath, $adminMatch)) {
     require __DIR__ . '/../includes/common.php';
     require __DIR__ . '/../includes/admin.php';
