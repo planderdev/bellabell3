@@ -1,4 +1,4 @@
-// /admin/slides: shrink images in the browser so uploads stay under the server's limits, and confirm deletes.
+// Admin image uploads: shrink images in the browser so uploads stay under the server's limits, and confirm deletes.
 const MAX_IMAGE_SIDE = 1800;
 const KEEP_UNDER_BYTES = 1500000;
 
@@ -18,25 +18,25 @@ async function shrinkImage(file) {
 }
 
 function initSlideUpload() {
-    const form = document.querySelector("[data-slide-upload]");
-    if (!form) return;
-    const input = form.querySelector("input[type=file]");
-    const button = form.querySelector("button[type=submit]");
-    let shrunk = false;
-    form.addEventListener("submit", async event => {
-        if (shrunk || !input.files.length) return;
-        event.preventDefault();
-        button.disabled = true;
-        button.textContent = button.dataset.busyLabel;
-        try {
-            const transfer = new DataTransfer();
-            transfer.items.add(await shrinkImage(input.files[0]));
-            input.files = transfer.files;
-        } catch {
-            // The browser cannot decode it; let the server answer with its own message.
-        }
-        shrunk = true;
-        form.submit();
+    document.querySelectorAll("[data-slide-upload]").forEach(form => {
+        const input = form.querySelector("input[type=file]");
+        const button = form.querySelector("button[type=submit]");
+        let shrunk = false;
+        form.addEventListener("submit", async event => {
+            if (shrunk || !input.files.length) return;
+            event.preventDefault();
+            button.disabled = true;
+            button.textContent = button.dataset.busyLabel;
+            try {
+                const transfer = new DataTransfer();
+                transfer.items.add(await shrinkImage(input.files[0]));
+                input.files = transfer.files;
+            } catch {
+                // The browser cannot decode it; let the server answer with its own message.
+            }
+            shrunk = true;
+            form.submit();
+        });
     });
 }
 

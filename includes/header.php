@@ -1,9 +1,6 @@
 <?php
 declare(strict_types=1);
 
-$introParts = explode(' / ', $content['intro'], 2);
-$introFirst = $introParts[0] . (isset($introParts[1]) ? ' / ' : '');
-$introSecond = $introParts[1] ?? '';
 $pagePath = $_SERVER['LOCALE_PAGE'] ?? '/';
 ?>
 <div id="hd">
@@ -17,28 +14,18 @@ $pagePath = $_SERVER['LOCALE_PAGE'] ?? '/';
 </div>
 <nav class="gnb">
 <ul>
+<?php foreach (site_menu($content) as $menuItem): ?>
 <li>
-<a href="<?= e(page_url('/brand')) ?>"><?= e(t('브랜드')) ?></a>
+<a href="<?= e(site_href($menuItem['href'])) ?>"<?= site_link_attributes($menuItem['href']) ?>><?= e($menuItem['label']) ?></a>
+<?php if ($menuItem['children']): ?>
 <div class="gnb-depth">
-<?php foreach ($content['brand_tabs'] as $brand): ?>
-<a href="<?= e(page_url('/brand#' . $brand['id'])) ?>"><?= e($brand['name']) ?></a>
+<?php foreach ($menuItem['children'] as $menuChild): ?>
+<a href="<?= e(site_href($menuChild['href'])) ?>"<?= site_link_attributes($menuChild['href']) ?>><?= e($menuChild['label']) ?></a>
 <?php endforeach; ?>
 </div>
+<?php endif; ?>
 </li>
-<li>
-<a href="<?= e(page_url('/product')) ?>"><?= e(t('상품소개')) ?></a>
-<div class="gnb-depth">
-<a href="<?= e(page_url('/product#stick')) ?>"><?= e(t('프롬한라스틱')) ?></a>
-<a href="<?= e(page_url('/product#biotics')) ?>"><?= e(t('바이오틱스')) ?></a>
-<a href="<?= e(page_url('/product#nanotreat')) ?>"><?= e(t('나노트릿')) ?></a>
-</div>
-</li>
-<li>
-<a href="#research"><?= e(t('연구기술')) ?></a>
-</li>
-<li>
-<a href="#partner"><?= e(t('제안&협업')) ?></a>
-</li>
+<?php endforeach; ?>
 </ul>
 </nav>
 <div class="header-util">
@@ -65,7 +52,7 @@ $pagePath = $_SERVER['LOCALE_PAGE'] ?? '/';
 <div class="all-menu-inner">
 <div class="all-menu-content">
 <div class="all-menu-copy">
-<p><?= e($introFirst) ?><br/><?= e($introSecond) ?></p>
+<p><?= e($content['intro_title']) ?> / <br/><?= e($content['intro_body']) ?></p>
 <div class="all-menu-image">
 <img alt="" aria-hidden="true" src="/assets/gray.svg"/>
 </div>

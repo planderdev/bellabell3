@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-// Internal admin: /admin, /admin/login, /admin/logout (POST), /admin/handle (POST), /admin/slides.
+// Internal admin: /admin, /admin/login, /admin/logout (POST), /admin/handle (POST), /admin/slides, /admin/menu, /admin/sections.
 // Single shared password (ADMIN_PASSWORD_HASH) and a stateless signed cookie (APP_SECRET).
 require_once __DIR__ . '/contact-handler.php';
 require_once __DIR__ . '/research-slides.php';
+require_once __DIR__ . '/admin-site.php';
 
 const ADMIN_SESSION_TTL = 43200; // 12 hours
 const ADMIN_PAGE_SIZE = 50;
@@ -81,7 +82,7 @@ function admin_query(array $overrides = []): string
 function admin_header(string $title, string $current, string $formToken): string
 {
     $nav = '';
-    foreach (['/admin' => '문의', '/admin/slides' => '연구·기술 슬라이드'] as $href => $label) {
+    foreach (['/admin' => '문의', '/admin/menu' => '메뉴 관리', '/admin/sections' => '섹션 관리', '/admin/slides' => '연구·기술 슬라이드'] as $href => $label) {
         $nav .= '<a class="admin-chip' . ($href === $current ? ' is-active' : '') . '" href="' . $href . '"' . ($href === $current ? ' aria-current="page"' : '') . '>' . e($label) . '</a>';
     }
     return '<header class="admin-header"><div class="admin-shell admin-header-inner">'
@@ -191,7 +192,7 @@ function handle_admin_request(string $action): void
     $cookieOptions = ['path' => '/admin', 'secure' => $isHttps, 'httponly' => true, 'samesite' => 'Strict'];
     $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
-    if (!in_array($action, ['', 'login', 'logout', 'handle', 'slides'], true)) {
+    if (!in_array($action, ['', 'login', 'logout', 'handle', 'slides', 'menu', 'sections'], true)) {
         admin_layout('찾을 수 없음', '<main class="admin-shell"><h1>페이지를 찾을 수 없습니다.</h1><p><a href="/admin">문의 목록으로</a></p></main>', 404);
     }
     if (admin_password_hash() === '' || !inquiry_ready()) {
@@ -281,6 +282,32 @@ function handle_admin_request(string $action): void
             admin_redirect('/admin/slides' . ($error !== '' ? '?error=' . $error : ''));
         }
         admin_slides_page($pdo, $formToken);
+    }
+
+    if ($action === 'menu') {
+        if ($method === 'POST') {
+            if (!$formTokenValid()) {
+                admin_layout('세션 만료', '<main class="admin-shell"><h1>세션이 만료되었습니다.</h1><p><a href="/admin/menu">다시 열기</a></p></main>', 419);
+            }
+            $error = admin_menu_action($pdo, inquiry_value($_POST, 'op'));
+            admin_redirect('/admin/menu' . ($error !== '' ? '?error=' . $error : '?saved=1'));
+        }
+        admin_menu_page($pdo, $formToken);
+    }
+
+    if ($action === 'sections') {
+        if ($method === 'POST') {
+            if (!$_POST && (int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+                admin_redirect('/admin/sections?error=too-large');
+            }
+            if (!$formTokenValid()) {
+                admin_layout('세션 만료', '<main class="admin-shell"><h1>세션이 만료되었습니다.</h1><p><a href="/admin/sections">다시 열기</a></p></main>', 419);
+            }
+            [$pageKey, $sectionKey, $lang] = admin_section_selection();
+            $error = admin_sections_action($pdo, inquiry_value($_POST, 'op'), site_sections()[$pageKey]['sections'][$sectionKey]['fields'], $lang);
+            admin_redirect(admin_section_url($pageKey, $sectionKey, $lang, $error !== '' ? '&error=' . $error : '&saved=1'));
+        }
+        admin_sections_page($pdo, $formToken);
     }
 
     $status = (string)($_GET['status'] ?? 'open');

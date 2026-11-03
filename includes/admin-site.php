@@ -1,0 +1,368 @@
+<?php
+declare(strict_types=1);
+
+// /admin/menu and /admin/sections: header menu items and per-section text and images.
+require_once __DIR__ . '/site.php';
+
+const ADMIN_TEXT_MAX = 5000;
+
+function admin_site_messages(): array
+{
+    return admin_slide_messages() + [
+        'bad-link' => '주소는 /brand, #research, https://... 형식으로 적어 주세요.',
+        'no-label' => '한국어 메뉴 이름을 입력해 주세요.',
+    ];
+}
+
+function admin_notice(): string
+{
+    $error = admin_site_messages()[(string)($_GET['error'] ?? '')] ?? '';
+    if ($error !== '') {
+        return '<p class="admin-error" role="alert">' . e($error) . '</p>';
+    }
+    return isset($_GET['saved']) ? '<p class="admin-saved" role="status">저장했습니다. 홈페이지에 바로 반영됩니다.</p>' : '';
+}
+
+function admin_hidden(string $formToken, array $values): string
+{
+    $html = '<input type="hidden" name="token" value="' . e($formToken) . '">';
+    foreach ($values as $name => $value) {
+        $html .= '<input type="hidden" name="' . e($name) . '" value="' . e((string)$value) . '">';
+    }
+    return $html;
+}
+
+function admin_link_valid(string $href): bool
+{
+    return preg_match(SITE_LINK_PATTERN, $href) === 1;
+}
+
+// ---- Menu ----
+
+// The first visit copies the current menu into the table, so editing starts from what the site shows.
+function site_menu_seed(\PDO $pdo): void
+{
+    if ((int)$pdo->query('SELECT count(*) FROM site_menu_items')->fetchColumn() > 0) {
+        return;
+    }
+    $menus = array_map(fn (string $code): array => site_defaults($code)['menu'], array_keys(LOCALES));
+    $insert = $pdo->prepare('INSERT INTO site_menu_items (parent_id, label_ko, label_en, label_zh, href, position) VALUES (:parent, :ko, :en, :zh, :href, :position) RETURNING id');
+    $pdo->beginTransaction();
+    foreach ($menus[0] as $index => $item) {
+        $insert->execute(['parent' => null, 'ko' => $item['label'], 'en' => $menus[1][$index]['label'], 'zh' => $menus[2][$index]['label'], 'href' => $item['href'], 'position' => $index + 1]);
+        $parent = (int)$insert->fetchColumn();
+        foreach ($item['children'] as $childIndex => $child) {
+            $insert->execute(['parent' => $parent, 'ko' => $child['label'], 'en' => $menus[1][$index]['children'][$childIndex]['label'], 'zh' => $menus[2][$index]['children'][$childIndex]['label'], 'href' => $child['href'], 'position' => $childIndex + 1]);
+        }
+    }
+    $pdo->commit();
+}
+
+function site_menu_move(\PDO $pdo, int $id, int $direction): void
+{
+    $statement = $pdo->prepare('SELECT id FROM site_menu_items WHERE parent_id IS NOT DISTINCT FROM (SELECT parent_id FROM site_menu_items WHERE id = :id) ORDER BY position, id');
+    $statement->execute(['id' => $id]);
+    $ids = array_map('intval', $statement->fetchAll(\PDO::FETCH_COLUMN));
+    $from = array_search($id, $ids, true);
+    if ($from === false || !isset($ids[$from + $direction])) {
+        return;
+    }
+    [$ids[$from], $ids[$from + $direction]] = [$ids[$from + $direction], $ids[$from]];
+    $pdo->beginTransaction();
+    $update = $pdo->prepare('UPDATE site_menu_items SET position = :position WHERE id = :id');
+    foreach ($ids as $index => $itemId) {
+        $update->execute(['position' => $index + 1, 'id' => $itemId]);
+    }
+    $pdo->commit();
+}
+
+// POST /admin/menu. Returns an error code from admin_site_messages(), or '' on success.
+function admin_menu_action(\PDO $pdo, string $op): string
+{
+    $id = (int)inquiry_value($_POST, 'id');
+    $values = [
+        'ko' => mb_substr(trim(inquiry_value($_POST, 'label_ko')), 0, 60),
+        'en' => mb_substr(trim(inquiry_value($_POST, 'label_en')), 0, 60),
+        'zh' => mb_substr(trim(inquiry_value($_POST, 'label_zh')), 0, 60),
+        'href' => mb_substr(trim(inquiry_value($_POST, 'href')), 0, 500),
+    ];
+    try {
+        if ($op === 'add' || $op === 'save') {
+            if ($values['ko'] === '') {
+                return 'no-label';
+            }
+            if (!admin_link_valid($values['href'])) {
+                return 'bad-link';
+            }
+        }
+        if ($op === 'add') {
+            $parent = (int)inquiry_value($_POST, 'parent_id');
+            $statement = $pdo->prepare('INSERT INTO site_menu_items (parent_id, label_ko, label_en, label_zh, href, position) VALUES (:parent, :ko, :en, :zh, :href, (SELECT coalesce(max(position), 0) + 1 FROM site_menu_items))');
+            $statement->execute($values + ['parent' => $parent > 0 ? $parent : null]);
+        } elseif ($op === 'save') {
+            $statement = $pdo->prepare('UPDATE site_menu_items SET label_ko = :ko, label_en = :en, label_zh = :zh, href = :href, visible = :visible WHERE id = :id');
+            $statement->execute($values + ['visible' => inquiry_value($_POST, 'visible') === '1' ? 'true' : 'false', 'id' => $id]);
+        } elseif ($op === 'up' || $op === 'down') {
+            site_menu_move($pdo, $id, $op === 'up' ? -1 : 1);
+        } elseif ($op === 'delete') {
+            $pdo->prepare('DELETE FROM site_menu_items WHERE id = :id')->execute(['id' => $id]);
+        } elseif ($op === 'reset') {
+            $pdo->exec('DELETE FROM site_menu_items');
+        }
+    } catch (\Throwable $exception) {
+        error_log('Admin menu action failed (' . get_class($exception) . ').');
+        return 'failed';
+    }
+    return '';
+}
+
+function admin_menu_row(array $row, string $formToken, bool $first, bool $last): string
+{
+    $id = (int)$row['id'];
+    $fieldId = 'menu-' . $id;
+    $html = '<form class="admin-menu-fields" method="post" action="/admin/menu">' . admin_hidden($formToken, ['op' => 'save', 'id' => $id]);
+    foreach (['label_ko' => '한국어', 'label_en' => '영문', 'label_zh' => '중문', 'href' => '주소'] as $name => $label) {
+        $html .= '<div><label class="admin-label" for="' . $fieldId . '-' . $name . '">' . $label . '</label><input class="admin-input" type="text" id="' . $fieldId . '-' . $name . '" name="' . $name . '" value="' . e((string)$row[$name]) . '"' . ($name === 'label_ko' || $name === 'href' ? ' required' : '') . '></div>';
+    }
+    $html .= '<label class="admin-check"><input type="checkbox" name="visible" value="1"' . ($row['visible'] ? ' checked' : '') . '> 사이트에 표시</label>'
+        . '<button class="admin-button" type="submit">저장</button></form><div class="admin-slide-actions">';
+    foreach (['up' => ['위로', $first], 'down' => ['아래로', $last]] as $op => [$label, $disabled]) {
+        $html .= '<form method="post" action="/admin/menu">' . admin_hidden($formToken, ['op' => $op, 'id' => $id]) . '<button class="admin-button admin-button--outline" type="submit"' . ($disabled ? ' disabled' : '') . '>' . $label . '</button></form>';
+    }
+    return $html . '<form method="post" action="/admin/menu" data-confirm="이 메뉴를 삭제할까요? 하위 메뉴도 함께 삭제됩니다.">' . admin_hidden($formToken, ['op' => 'delete', 'id' => $id]) . '<button class="admin-button admin-button--outline" type="submit">삭제</button></form></div>';
+}
+
+function admin_menu_page(\PDO $pdo, string $formToken): never
+{
+    try {
+        site_menu_seed($pdo);
+        $rows = site_menu_rows($pdo);
+    } catch (\Throwable $exception) {
+        error_log('Admin menu query failed (' . get_class($exception) . ').');
+        admin_layout('데이터베이스 오류', admin_header('메뉴 관리', '/admin/menu', $formToken) . '<main class="admin-shell"><h1>메뉴를 불러오지 못했습니다.</h1><p><code>db/schema.sql</code>의 <code>site_menu_items</code> 테이블이 적용되었는지 확인해 주세요.</p></main>', 502);
+    }
+    $top = array_values(array_filter($rows, fn (array $row): bool => $row['parent_id'] === null));
+    ob_start();
+    ?>
+<main class="admin-shell">
+<?= admin_notice() ?>
+<p class="admin-help">헤더와 전체 메뉴에 나옵니다. 영문·중문을 비워 두면 한국어가 나옵니다. 주소는 <code>/brand</code>, <code>/brand#awoo</code>, <code>#research</code>, <code>https://...</code> 형식입니다.</p>
+<ol class="admin-list">
+<?php foreach ($top as $index => $row): $children = array_values(array_filter($rows, fn (array $child): bool => (int)$child['parent_id'] === (int)$row['id'])); ?>
+<li class="admin-card admin-menu-item">
+<?= admin_menu_row($row, $formToken, $index === 0, $index === count($top) - 1) ?>
+<?php if ($children): ?>
+<ol class="admin-menu-children">
+<?php foreach ($children as $childIndex => $child): ?>
+<li><?= admin_menu_row($child, $formToken, $childIndex === 0, $childIndex === count($children) - 1) ?></li>
+<?php endforeach; ?>
+</ol>
+<?php endif; ?>
+</li>
+<?php endforeach; ?>
+</ol>
+<form class="admin-card admin-menu-add" method="post" action="/admin/menu">
+<?= admin_hidden($formToken, ['op' => 'add']) ?>
+<h2>메뉴 추가</h2>
+<div class="admin-menu-fields">
+<div><label class="admin-label" for="add-parent">위치</label><select class="admin-input" id="add-parent" name="parent_id"><option value="0">최상위 메뉴</option><?php foreach ($top as $row): ?><option value="<?= (int)$row['id'] ?>"><?= e((string)$row['label_ko']) ?> 아래</option><?php endforeach; ?></select></div>
+<div><label class="admin-label" for="add-ko">한국어</label><input class="admin-input" id="add-ko" name="label_ko" required></div>
+<div><label class="admin-label" for="add-en">영문</label><input class="admin-input" id="add-en" name="label_en"></div>
+<div><label class="admin-label" for="add-zh">중문</label><input class="admin-input" id="add-zh" name="label_zh"></div>
+<div><label class="admin-label" for="add-href">주소</label><input class="admin-input" id="add-href" name="href" required></div>
+<button class="admin-button" type="submit">추가</button>
+</div>
+</form>
+<form class="admin-menu-reset" method="post" action="/admin/menu" data-confirm="지금 메뉴를 지우고 기본 메뉴로 되돌릴까요?"><?= admin_hidden($formToken, ['op' => 'reset']) ?><button class="admin-button admin-button--outline" type="submit">기본 메뉴로 되돌리기</button></form>
+</main>
+<?php
+    admin_layout('메뉴 관리', admin_header('메뉴 관리', '/admin/menu', $formToken) . ob_get_clean(), 200, '/assets/js/admin-slides.js');
+}
+
+// ---- Sections ----
+
+function admin_section_selection(): array
+{
+    $sections = site_sections();
+    $page = (string)($_REQUEST['page'] ?? '');
+    $page = isset($sections[$page]) ? $page : array_key_first($sections);
+    $section = (string)($_REQUEST['section'] ?? '');
+    $section = isset($sections[$page]['sections'][$section]) ? $section : array_key_first($sections[$page]['sections']);
+    $lang = (string)($_REQUEST['lang'] ?? 'ko');
+    return [$page, $section, isset(LOCALES[$lang]) ? $lang : 'ko'];
+}
+
+function admin_section_url(string $page, string $section, string $lang, string $extra = ''): string
+{
+    return '/admin/sections?' . http_build_query(['page' => $page, 'section' => $section, 'lang' => $lang]) . $extra;
+}
+
+function site_content_upsert(\PDO $pdo, string $key, string $code, string $value): void
+{
+    $pdo->prepare('INSERT INTO site_content (key, locale, value) VALUES (:key, :code, :value) ON CONFLICT (key, locale) DO UPDATE SET value = excluded.value, updated_at = now()')
+        ->execute(['key' => $key, 'code' => $code, 'value' => $value]);
+}
+
+function site_image_remove(\PDO $pdo, string $key): void
+{
+    $statement = $pdo->prepare("SELECT value FROM site_content WHERE key = :key AND locale = 'all'");
+    $statement->execute(['key' => $key]);
+    $value = (string)$statement->fetchColumn();
+    if (preg_match('~^/media/site/(\d+)$~', $value, $match)) {
+        $pdo->prepare('DELETE FROM site_images WHERE id = :id')->execute(['id' => (int)$match[1]]);
+    }
+    $pdo->prepare("DELETE FROM site_content WHERE key = :key AND locale = 'all'")->execute(['key' => $key]);
+}
+
+function site_image_store(\PDO $pdo, string $key, array $image): void
+{
+    [$bytes, $mime, $width, $height] = $image;
+    $pdo->beginTransaction();
+    site_image_remove($pdo, $key);
+    $statement = $pdo->prepare('INSERT INTO site_images (image, mime, width, height) VALUES (:image, :mime, :width, :height) RETURNING id');
+    $statement->bindValue('image', $bytes, \PDO::PARAM_LOB);
+    $statement->bindValue('mime', $mime);
+    $statement->bindValue('width', $width, \PDO::PARAM_INT);
+    $statement->bindValue('height', $height, \PDO::PARAM_INT);
+    $statement->execute();
+    site_content_upsert($pdo, $key, 'all', '/media/site/' . (int)$statement->fetchColumn());
+    $pdo->commit();
+}
+
+// POST /admin/sections. Returns an error code from admin_site_messages(), or '' on success.
+function admin_sections_action(\PDO $pdo, string $op, array $fields, string $lang): string
+{
+    try {
+        if ($op === 'text') {
+            $defaults = site_defaults($lang);
+            $submitted = is_array($_POST['fields'] ?? null) ? $_POST['fields'] : [];
+            foreach ($fields as $field) {
+                $value = $submitted[$field['key']] ?? null;
+                if ($field['type'] === 'link' && is_string($value) && trim($value) !== '' && !admin_link_valid(trim($value))) {
+                    return 'bad-link';
+                }
+            }
+            $pdo->beginTransaction();
+            foreach ($fields as $field) {
+                $value = $submitted[$field['key']] ?? null;
+                if ($field['type'] === 'image' || !is_string($value)) {
+                    continue;
+                }
+                $value = mb_substr(trim(str_replace("\r\n", "\n", $value)), 0, ADMIN_TEXT_MAX);
+                // An empty box or the original wording means "use the default", so later copy fixes still reach it.
+                if ($value === '' || $value === (string)site_get($defaults, $field['key'])) {
+                    $pdo->prepare('DELETE FROM site_content WHERE key = :key AND locale = :code')->execute(['key' => $field['key'], 'code' => $lang]);
+                } else {
+                    site_content_upsert($pdo, $field['key'], $lang, $value);
+                }
+            }
+            $pdo->commit();
+            return '';
+        }
+        $key = inquiry_value($_POST, 'key');
+        $isImage = (bool)array_filter($fields, fn (array $field): bool => $field['key'] === $key && $field['type'] === 'image');
+        if (!$isImage) {
+            return 'failed';
+        }
+        if ($op === 'image') {
+            $image = research_slide_read_upload($_FILES['image'] ?? []);
+            if (is_string($image)) {
+                return $image;
+            }
+            site_image_store($pdo, $key, $image);
+        } elseif ($op === 'image-reset') {
+            site_image_remove($pdo, $key);
+        }
+    } catch (\Throwable $exception) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        error_log('Admin section action failed (' . get_class($exception) . ').');
+        return 'failed';
+    }
+    return '';
+}
+
+function admin_sections_page(\PDO $pdo, string $formToken): never
+{
+    [$pageKey, $sectionKey, $lang] = admin_section_selection();
+    $pages = site_sections();
+    $page = $pages[$pageKey];
+    $section = $page['sections'][$sectionKey];
+    try {
+        $saved = site_rows($pdo, $lang);
+    } catch (\Throwable $exception) {
+        error_log('Admin section query failed (' . get_class($exception) . ').');
+        admin_layout('데이터베이스 오류', admin_header('섹션 관리', '/admin/sections', $formToken) . '<main class="admin-shell"><h1>섹션 내용을 불러오지 못했습니다.</h1><p><code>db/schema.sql</code>의 <code>site_content</code> 테이블이 적용되었는지 확인해 주세요.</p></main>', 502);
+    }
+    $defaults = site_defaults($lang);
+    $textFields = array_filter($section['fields'], fn (array $field): bool => $field['type'] !== 'image');
+    $imageFields = array_filter($section['fields'], fn (array $field): bool => $field['type'] === 'image');
+    $previewPath = page_url($page['url'], $lang) . ($section['anchor'] ?? '');
+    ob_start();
+    ?>
+<main class="admin-shell">
+<?= admin_notice() ?>
+<nav class="admin-tabs admin-section-nav" aria-label="페이지">
+<?php foreach ($pages as $key => $item): ?>
+<a class="admin-chip<?= $key === $pageKey ? ' is-active' : '' ?>" href="<?= e(admin_section_url($key, array_key_first($item['sections']), $lang)) ?>"<?= $key === $pageKey ? ' aria-current="page"' : '' ?>><?= e($item['label']) ?></a>
+<?php endforeach; ?>
+</nav>
+<nav class="admin-tabs admin-section-nav admin-section-nav--sub" aria-label="섹션">
+<?php foreach ($page['sections'] as $key => $item): ?>
+<a class="admin-chip<?= $key === $sectionKey ? ' is-active' : '' ?>" href="<?= e(admin_section_url($pageKey, $key, $lang)) ?>"<?= $key === $sectionKey ? ' aria-current="page"' : '' ?>><?= e($item['label']) ?></a>
+<?php endforeach; ?>
+</nav>
+<div class="admin-section-head">
+<h2><?= e($page['label']) ?> · <?= e($section['label']) ?></h2>
+<a class="admin-button admin-button--outline" href="<?= e($previewPath) ?>" target="_blank" rel="noopener">홈페이지에서 보기</a>
+</div>
+<?php if (isset($section['note'])): ?><p class="admin-help"><?= e($section['note']) ?></p><?php endif; ?>
+<?php if ($textFields): ?>
+<form class="admin-card admin-section-form" method="post" action="/admin/sections">
+<?= admin_hidden($formToken, ['op' => 'text', 'page' => $pageKey, 'section' => $sectionKey, 'lang' => $lang]) ?>
+<div class="admin-section-form-head">
+<nav class="admin-tabs" aria-label="언어">
+<?php foreach (['ko' => '한국어', 'en' => '영문', 'zh' => '중문'] as $code => $label): ?>
+<a class="admin-chip<?= $code === $lang ? ' is-active' : '' ?>" href="<?= e(admin_section_url($pageKey, $sectionKey, $code)) ?>"<?= $code === $lang ? ' aria-current="true"' : '' ?>><?= $label ?></a>
+<?php endforeach; ?>
+</nav>
+<p class="admin-help">언어별로 따로 저장됩니다. 칸을 비우고 저장하면 원래 문구로 돌아갑니다.</p>
+</div>
+<?php foreach ($textFields as $index => $field): $key = $field['key']; $id = 'field-' . $index; $value = (string)($saved[$key] ?? site_get($defaults, $key) ?? ''); ?>
+<div class="admin-field">
+<label class="admin-label" for="<?= $id ?>"><?= e($field['label']) ?><?php if (isset($saved[$key])): ?> <span class="admin-badge">수정됨</span><?php endif; ?></label>
+<?php if ($field['type'] === 'textarea'): ?>
+<textarea class="admin-input" id="<?= $id ?>" name="fields[<?= e($key) ?>]" rows="<?= max(2, min(12, substr_count($value, "\n") + 1 + intdiv(mb_strlen($value), 60))) ?>" maxlength="<?= ADMIN_TEXT_MAX ?>"><?= e($value) ?></textarea>
+<?php else: ?>
+<input class="admin-input" type="text" id="<?= $id ?>" name="fields[<?= e($key) ?>]" value="<?= e($value) ?>" maxlength="<?= ADMIN_TEXT_MAX ?>">
+<?php endif; ?>
+</div>
+<?php endforeach; ?>
+<button class="admin-button admin-button--block" type="submit">저장</button>
+</form>
+<?php endif; ?>
+<?php if ($imageFields): ?>
+<h3 class="admin-section-subtitle">이미지</h3>
+<p class="admin-help">이미지는 모든 언어에 함께 적용됩니다. JPG, PNG, WEBP. 큰 이미지는 올리기 전에 자동으로 줄입니다.</p>
+<ul class="admin-image-grid">
+<?php foreach ($imageFields as $index => $field): $key = $field['key']; $src = (string)($saved[$key] ?? site_get($defaults, $key) ?? ''); $id = 'image-' . $index; ?>
+<li class="admin-card admin-image-field">
+<?php if ($src !== ''): ?><img src="<?= e($src) ?>" alt="" loading="lazy"><?php else: ?><div class="admin-image-empty">이미지 없음</div><?php endif; ?>
+<form method="post" action="/admin/sections" enctype="multipart/form-data" data-slide-upload>
+<?= admin_hidden($formToken, ['op' => 'image', 'page' => $pageKey, 'section' => $sectionKey, 'lang' => $lang, 'key' => $key]) ?>
+<label class="admin-label" for="<?= $id ?>"><?= e($field['label']) ?><?php if (isset($saved[$key])): ?> <span class="admin-badge">수정됨</span><?php endif; ?></label>
+<input class="admin-input" type="file" id="<?= $id ?>" name="image" accept="image/jpeg,image/png,image/webp,image/heic" required>
+<button class="admin-button admin-button--block" type="submit" data-busy-label="올리는 중...">이미지 바꾸기</button>
+</form>
+<?php if (isset($saved[$key])): ?>
+<form method="post" action="/admin/sections" data-confirm="원래 이미지로 되돌릴까요?"><?= admin_hidden($formToken, ['op' => 'image-reset', 'page' => $pageKey, 'section' => $sectionKey, 'lang' => $lang, 'key' => $key]) ?><button class="admin-button admin-button--outline admin-button--block" type="submit">원래 이미지로</button></form>
+<?php endif; ?>
+</li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
+</main>
+<?php
+    admin_layout('섹션 관리', admin_header('섹션 관리', '/admin/sections', $formToken) . ob_get_clean(), 200, '/assets/js/admin-slides.js');
+}

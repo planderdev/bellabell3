@@ -48,6 +48,11 @@ if (preg_match('~^/media/research/([1-9]\d{0,14})$~', $urlPath, $slideMatch)) {
     serve_research_slide((int) $slideMatch[1]);
     return true;
 }
+if (preg_match('~^/media/site/([1-9]\d{0,14})$~', $urlPath, $siteImageMatch)) {
+    require __DIR__ . '/../includes/research-slides.php';
+    serve_site_image((int) $siteImageMatch[1]);
+    return true;
+}
 if (preg_match('~^/admin(?:/([a-z]+))?/?$~', $urlPath, $adminMatch)) {
     require __DIR__ . '/../includes/common.php';
     require __DIR__ . '/../includes/admin.php';

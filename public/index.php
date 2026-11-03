@@ -1,8 +1,7 @@
 <?php
 declare(strict_types=1);
 require __DIR__ . '/../includes/common.php';
-$content = t_deep(require __DIR__ . '/../includes/content.php');
-$heroCopy = explode(' / ', $content['intro'], 2);
+$content = site_content();
 ?>
 <!doctype html><html lang="<?= e(LOCALES[locale()]['html']) ?>">
 <?php require __DIR__ . '/../includes/head.php'; ?>
@@ -23,8 +22,8 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 <img class="hero-logo-fromhalla" alt="<?= e(t('프롬한라')) ?>" src="/assets/fromhalla.svg" width="750" height="351"/>
 <img class="hero-logo-bellabelfarm" alt="<?= e(t('벨아벨팜')) ?>" src="/assets/bellabelfarm.svg" width="1155" height="506"/>
 </div>
-<h2 class="hero-title" data-copy="intro-title"><?= e($heroCopy[0]) ?></h2>
-<p class="hero-description" data-copy="intro-body"><?= e($heroCopy[1]) ?></p>
+<h2 class="hero-title" data-copy="intro-title"><?= e($content['intro_title']) ?></h2>
+<p class="hero-description" data-copy="intro-body"><?= e($content['intro_body']) ?></p>
 </div>
 </div>
 </section>
@@ -38,7 +37,7 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 <?php endif; ?>
 <div class="about-reveal-backdrops" aria-hidden="true">
 <?php foreach ($content['about_links'] as $aboutLink): ?>
-<img class="about-reveal-backdrop" src="/assets/media/<?= e($aboutLink['image']) ?>" alt="" loading="lazy" decoding="async"/>
+<img class="about-reveal-backdrop" src="<?= e($aboutLink['image']) ?>" alt="" loading="lazy" decoding="async"/>
 <?php endforeach; ?>
 </div>
 <div class="about-reveal-stage">
@@ -66,12 +65,12 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 </div>
 <div class="pillars-labels" lang="en">
 <button class="pillars-label pillars-label-food" id="pillar-video-toggle" type="button" aria-controls="pillar-video" aria-pressed="false">
-<span>Global K-PET FOOD</span>
+<span><?= e($content['pillars'][0]) ?></span>
 <i data-lucide="play" class="site-icon pillars-icon-play" aria-hidden="true" focusable="false"></i>
 <i data-lucide="pause" class="site-icon pillars-icon-pause" aria-hidden="true" focusable="false"></i>
 </button>
-<span class="pillars-label pillars-label-skin">PET SKINCARE</span>
-<span class="pillars-label pillars-label-sustain">Sustainability</span>
+<span class="pillars-label pillars-label-skin"><?= e($content['pillars'][1]) ?></span>
+<span class="pillars-label pillars-label-sustain"><?= e($content['pillars'][2]) ?></span>
 </div>
 </section>
 <section class="bongbong-story-section" data-section="bongbong-story" id="bongbong-story" aria-labelledby="bongbong-story-title">
@@ -100,13 +99,13 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 </div>
 <div class="bongbong-story-cards">
 <figure class="bongbong-story-card bongbong-story-photo bongbong-story-photo-first">
-<img src="/assets/bongbong.webp" alt="<?= e(t('나무 곁에 있는 봉봉이')) ?>" width="1600" height="2000" loading="lazy" decoding="async"/>
+<img src="<?= e($content['bongbong_photos'][0]['src']) ?>" alt="<?= e($content['bongbong_photos'][0]['alt']) ?>" width="1600" height="2000" loading="lazy" decoding="async"/>
 </figure>
 <figure class="bongbong-story-card bongbong-story-photo bongbong-story-photo-second">
-<img src="/assets/media/mission-bongbong.webp" alt="<?= e(t('제주 바닷가에 앉아 있는 봉봉이')) ?>" width="1536" height="1920" loading="lazy" decoding="async"/>
+<img src="<?= e($content['bongbong_photos'][1]['src']) ?>" alt="<?= e($content['bongbong_photos'][1]['alt']) ?>" width="1536" height="1920" loading="lazy" decoding="async"/>
 </figure>
 <figure class="bongbong-story-card bongbong-story-photo bongbong-story-photo-third">
-<img src="/assets/media/mission-beach.webp" alt="<?= e(t('제주 모래사장을 걷는 봉봉이')) ?>" width="1536" height="1920" loading="lazy" decoding="async"/>
+<img src="<?= e($content['bongbong_photos'][2]['src']) ?>" alt="<?= e($content['bongbong_photos'][2]['alt']) ?>" width="1536" height="1920" loading="lazy" decoding="async"/>
 </figure>
 <article class="bongbong-story-card bongbong-story-copy">
 <h2 id="bongbong-story-title" data-copy="bongbong-title"><?= nl2br(e($content['bongbong_title']), false) ?></h2>
@@ -170,10 +169,10 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 </section>
 <?php require __DIR__ . '/../includes/research.php'; ?>
 <section class="care-section" data-section="social" id="social">
-<img class="care-backdrop" src="/assets/media/social-earth.webp" alt="" loading="lazy" decoding="async"/>
+<img class="care-backdrop" src="<?= e($content['social_image']) ?>" alt="" loading="lazy" decoding="async"/>
 <div class="section-head inner">
 <div class="section-category" data-fade="">
-<p lang="en">Social Value</p>
+<p lang="en"><?= e($content['labels']['social']) ?></p>
 </div>
 <h2 class="section-title" data-fade="" data-section-title="social" data-copy="social"><?= e($content['social']) ?></h2>
 <p class="section-desc" data-fade="" data-copy="social-body"><?= nl2br(e($content['social_body']), false) ?></p>
@@ -293,7 +292,7 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 </svg>
 <div class="solution-media-vid">
 <div class="thumb">
-<video aria-hidden="true" autoplay="" data-media-state="ready" loop="" muted="" playsinline="" poster="/assets/media/global-gallery.webp">
+<video aria-hidden="true" autoplay="" data-media-state="ready" loop="" muted="" playsinline="" poster="<?= e($content['global_image']) ?>">
 
 </video>
 </div>
@@ -303,17 +302,17 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 <div class="solution-content inner">
 <div class="section-head">
 <div class="section-category">
-<p lang="en">Global</p>
+<p lang="en"><?= e($content['labels']['global']) ?></p>
 </div>
 <h2 class="section-title" id="global-title" data-section-title="global" data-copy="global-title"><?= e($content['global_title']) ?></h2>
 </div>
 <a class="solution-card" data-index="0" href="#partner">
 <div class="card-info">
-<strong class="card-title">Lorem ipsum dolor.</strong>
-<p class="card-desc">Lorem ipsum dolor sit.<br/>Lorem ipsum dolor sit amet, consectetur.</p>
+<strong class="card-title"><?= e($content['global_cards'][0]['title']) ?></strong>
+<p class="card-desc"><?= nl2br(e($content['global_cards'][0]['desc']), false) ?></p>
 </div>
 <div class="solution-card-image">
-<img alt="" aria-hidden="true" class="solution-card-img" data-media-state="missing" src="/assets/gray.svg"/>
+<img alt="" aria-hidden="true" class="solution-card-img" data-media-state="<?= $content['global_cards'][0]['image'] === '/assets/gray.svg' ? 'missing' : 'ready' ?>" src="<?= e($content['global_cards'][0]['image']) ?>"/>
 <span class="more-btn"><i data-lucide="plus" class="site-icon" aria-hidden="true" focusable="false"></i></span>
 </div>
 <div class="solution-card-pagination">
@@ -324,10 +323,9 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 </div>
 </a>
 <div class="solution-card-data">
-<div data-desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit." data-href="#partner" data-image="/assets/gray.svg" data-title="Lorem ipsum"></div>
-<div data-desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit." data-href="#partner" data-image="/assets/gray.svg" data-title="Lorem ipsum"></div>
-<div data-desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit." data-href="#partner" data-image="/assets/gray.svg" data-title="Lorem ipsum"></div>
-<div data-desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit." data-href="#partner" data-image="/assets/gray.svg" data-title="Lorem ipsum"></div>
+<?php foreach ($content['global_cards'] as $globalCard): ?>
+<div data-desc="<?= e($globalCard['desc']) ?>" data-href="#partner" data-image="<?= e($globalCard['image']) ?>" data-title="<?= e($globalCard['title']) ?>"></div>
+<?php endforeach; ?>
 </div>
 </div>
 </div>
@@ -337,12 +335,12 @@ $heroCopy = explode(' / ', $content['intro'], 2);
 <div class="inner">
 <div class="section-head">
 <div class="section-category" data-fade="">
-<p lang="en">Partnership</p>
+<p lang="en"><?= e($content['labels']['partner']) ?></p>
 </div>
-<h2 class="section-title" data-fade="" data-section-title="partner"><?= e(t('제안 & 협업', 'title')) ?></h2>
+<h2 class="section-title" data-fade="" data-section-title="partner"><?= e($content['partner_title']) ?></h2>
 <p class="section-desc" data-fade="" data-copy="partner"><?= e($content['partner']) ?></p>
-<p class="contact-intro"><?= e(t('유통·입점, 공동 연구, 해외 비즈니스까지')) ?><br/><?= e(t('벨아벨팜과의 협업을 제안해 주세요.')) ?></p>
-<p class="contact-direct" data-copy="contact"><a href="mailto:partner@jejubellabell.com">partner@jejubellabell.com</a> · <a href="<?= e(t('tel:0648030060')) ?>"><?= e(t('064-803-0060')) ?></a></p>
+<p class="contact-intro"><?= e($content['contact_intro'][0]) ?><br/><?= e($content['contact_intro'][1]) ?></p>
+<p class="contact-direct" data-copy="contact"><a href="mailto:<?= e($content['footer']['email']) ?>"><?= e($content['footer']['email']) ?></a> · <a href="<?= e($content['footer']['tel']) ?>"><?= e($content['footer']['phone']) ?></a></p>
 </div>
 <?php require __DIR__ . '/../includes/contact-form.php'; ?>
 </div>

@@ -1,31 +1,18 @@
 <?php
 declare(strict_types=1);
 
-$companyHistory = [
-    '2025' => [
-        ['date' => '2025.12.17', 'text' => 'SVI 우수등급'],
-        ['date' => '2025.11.05', 'text' => '농심과 제주 펫 산업 협력'],
-        ['date' => '2025.10.28', 'text' => '제주대학교와 반려동물용 기능성 천연물 원료·제품 개발 업무협약'],
-        ['date' => '2025.06.16', 'text' => '대만 30만 달러 수출 계약'],
-        ['date' => '2025.05.08', 'text' => '싱가포르 박람회 100만 달러 수출 상담'],
-        ['date' => '2025.04.09', 'text' => '펫 샴푸바 싱가포르 수출'],
-        ['date' => '2025.02.12', 'text' => '개랑과자 싱가포르 수출'],
-        ['date' => '2025.01.16', 'text' => '농촌융복합산업 인증'],
-    ],
-    '2024' => [
-        ['date' => '2024.11.13', 'text' => '애월아빠들 MOU'],
-        ['date' => '2024.10.17', 'text' => '대만 Meow Expo 참가'],
-    ],
-    '2022' => [
-        ['date' => '2022', 'text' => '제주형 예비사회적기업 선정'],
-    ],
-];
+// Grouped by the year each date starts with, so correcting a date in the admin moves the entry.
+$companyHistory = [];
+foreach ($content['history'] as $event) {
+    $companyHistory[substr($event['date'], 0, 4)][] = $event;
+}
+krsort($companyHistory);
 ?>
 <section class="history-section" data-section="history" id="history" aria-labelledby="history-title">
 <div class="inner">
 <div class="section-head">
-<div class="section-category"><p lang="en">History</p></div>
-<h2 class="section-title" id="history-title" data-section-title="history"><?= e(t('연혁', 'title')) ?></h2>
+<div class="section-category"><p lang="en"><?= e($content['labels']['history']) ?></p></div>
+<h2 class="section-title" id="history-title" data-section-title="history"><?= e($content['history_title']) ?></h2>
 </div>
 <div class="history-stage">
 <div class="history-tabs" role="tablist" aria-label="<?= e(t('연혁 연도')) ?>">
@@ -35,11 +22,11 @@ $companyHistory = [
 </div>
 <div class="history-panels">
 <?php foreach ($companyHistory as $year => $events): ?>
-<div class="history-panel<?= $year === 2025 ? ' is-active' : '' ?>" id="history-panel-<?= $year ?>" role="tabpanel" aria-labelledby="history-tab-<?= $year ?>">
+<div class="history-panel<?= $year === array_key_first($companyHistory) ? ' is-active' : '' ?>" id="history-panel-<?= $year ?>" role="tabpanel" aria-labelledby="history-tab-<?= $year ?>">
 <h3 class="history-year"><?= $year ?></h3>
 <ol class="history-events">
 <?php foreach ($events as $event): ?>
-<li><time class="history-event-date" datetime="<?= e(str_replace('.', '-', $event['date'])) ?>"><?= strlen($event['date']) > 4 ? e(substr($event['date'], 5)) : '' ?></time><span><?= e(t($event['text'])) ?></span></li>
+<li><time class="history-event-date" datetime="<?= e(str_replace('.', '-', $event['date'])) ?>"><?= strlen($event['date']) > 4 ? e(substr($event['date'], 5)) : '' ?></time><span><?= e(($event['text'])) ?></span></li>
 <?php endforeach; ?>
 </ol>
 </div>

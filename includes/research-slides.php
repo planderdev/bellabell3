@@ -91,15 +91,26 @@ function research_slide_move(\PDO $pdo, int $id, int $direction): void
 // GET /media/research/<id>. An id is never reused for different bytes, so it can be cached for good.
 function serve_research_slide(int $id): void
 {
+    serve_stored_image('research_slides', $id);
+}
+
+// GET /media/site/<id>: images uploaded at /admin/sections.
+function serve_site_image(int $id): void
+{
+    serve_stored_image('site_images', $id);
+}
+
+function serve_stored_image(string $table, int $id): void
+{
     $row = false;
     $pdo = db_connection();
     if ($pdo instanceof \PDO) {
         try {
-            $statement = $pdo->prepare('SELECT image, mime FROM research_slides WHERE id = :id');
+            $statement = $pdo->prepare('SELECT image, mime FROM ' . $table . ' WHERE id = :id');
             $statement->execute(['id' => $id]);
             $row = $statement->fetch(\PDO::FETCH_ASSOC);
         } catch (\Throwable $exception) {
-            error_log('Research slide read failed (' . get_class($exception) . ').');
+            error_log('Stored image read failed (' . get_class($exception) . ').');
         }
     }
     if (!$row) {

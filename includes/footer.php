@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 ?>
-<footer class="footer">
+<footer id="footer" class="footer">
 <div class="footer-inner inner">
 
 <div class="footer-top">
@@ -29,26 +29,26 @@ declare(strict_types=1);
 <a href="#partner"><?= e(t('제안 & 협업')) ?></a>
 </nav>
 <div class="footer-info">
-<p><span><?= e(t('농업회사법인 벨아벨팜 주식회사')) ?></span><span class="footer-info-separator" aria-hidden="true">|</span><span><?= e(t('대표이사: 문현아')) ?></span></p>
-<p><?= e(t('개인정보보호책임자: 문현아')) ?></p>
-<p><?= e(t('사업자등록번호: 340-86-02462')) ?> <a href="https://m.fromhalla.com/article/%EB%B3%B4%EB%8F%84%EC%9E%90%EB%A3%8C/2/13641/#" target="_blank" rel="noopener noreferrer"><?= e(t('사업자정보 확인')) ?></a></p>
-<p><?= e(t('통신판매업 신고번호: 2023-제주노형-0049호')) ?></p>
-<p><?= e(t('주소: 제주특별자치도 제주시 한라대학로 38 (노형동) 1층 1102호, 1103호(하이테크센터)')) ?></p>
-<p><span><?= e(t('연락처:')) ?> <a href="<?= e(t('tel:0648030060')) ?>"><?= e(t('064-803-0060')) ?></a></span><span class="footer-info-separator" aria-hidden="true">|</span><span><?= e(t('입점문의 및 제휴문의:')) ?> <a href="mailto:partner@jejubellabell.com">partner@jejubellabell.com</a></span></p>
+<p><span><?= e($content['footer']['company']) ?></span><span class="footer-info-separator" aria-hidden="true">|</span><span><?= e($content['footer']['ceo']) ?></span></p>
+<p><?= e($content['footer']['privacy']) ?></p>
+<p><?= e($content['footer']['business_number']) ?> <a href="https://m.fromhalla.com/article/%EB%B3%B4%EB%8F%84%EC%9E%90%EB%A3%8C/2/13641/#" target="_blank" rel="noopener noreferrer"><?= e(t('사업자정보 확인')) ?></a></p>
+<p><?= e($content['footer']['mail_order']) ?></p>
+<p><?= e($content['footer']['address']) ?></p>
+<p><span><?= e(t('연락처:')) ?> <a href="<?= e($content['footer']['tel']) ?>"><?= e($content['footer']['phone']) ?></a></span><span class="footer-info-separator" aria-hidden="true">|</span><span><?= e(t('입점문의 및 제휴문의:')) ?> <a href="mailto:<?= e($content['footer']['email']) ?>"><?= e($content['footer']['email']) ?></a></span></p>
 </div>
 </div>
 <div class="footer-right">
 <div class="footer-as">
-<strong><?= e(t('고객센터 운영시간')) ?></strong>
-<p class="footer-operating-hours"><?= e(t('월-금 9:00~18:00')) ?></p>
-<p><?= e(t('점심시간 12:00~13:00')) ?><br/><?= e(t('토,일,공휴일 휴무')) ?></p>
+<strong><?= e($content['footer']['hours_title']) ?></strong>
+<p class="footer-operating-hours"><?= e($content['footer']['hours']) ?></p>
+<p><?= e($content['footer']['lunch']) ?><br/><?= e($content['footer']['holiday']) ?></p>
 </div>
 <div class="footer-social">
 <p><?= e(t('카카오톡')) ?> <a href="https://pf.kakao.com/_JTnxks" target="_blank" rel="noopener noreferrer"><strong><?= e(t('@프롬한라')) ?></strong><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a></p>
-<p><?= e(t('친구 추가하고 소식과 혜택을 받아보세요.')) ?></p>
+<p><?= e($content['footer']['kakao_note']) ?></p>
 </div>
 </div>
 </div>
-<p class="footer-copyright"><?= e(t('Copyright© 2022 농업회사법인 벨아벨팜 주식회사. All Rights Reserved.')) ?></p>
+<p class="footer-copyright"><?= e($content['footer']['copyright']) ?></p>
 </div>
 </footer>
