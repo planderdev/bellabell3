@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-// Internal admin: /admin, /admin/login, /admin/logout (POST), /admin/handle (POST), /admin/slides, /admin/menu, /admin/sections.
+// Internal admin: /admin (home), /admin/inbox, /admin/login, /admin/logout (POST), /admin/handle (POST), /admin/slides, /admin/menu, /admin/sections.
 // Single shared password (ADMIN_PASSWORD_HASH) and a stateless signed cookie (APP_SECRET).
 require_once __DIR__ . '/contact-handler.php';
 require_once __DIR__ . '/research-slides.php';
@@ -56,14 +56,14 @@ function admin_time(?string $value): string
     }
 }
 
-function admin_layout(string $title, string $body, int $status = 200, string $script = ''): never
+function admin_layout(string $title, string $body, int $status = 200): never
 {
     http_response_code($status);
     echo '<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex, nofollow">'
         . '<title>' . e($title) . ' | 벨아벨팜 관리</title>'
         . '<link rel="stylesheet" href="/assets/css/fonts.css"><link rel="stylesheet" href="/assets/css/base.css"><link rel="stylesheet" href="/assets/css/admin.css">'
-        . ($script !== '' ? '<script defer src="' . e($script) . '"></script>' : '')
-        . '</head><body class="admin-body">' . $body . '</body></html>';
+        . '<script defer src="/assets/js/admin-slides.js"></script>'
+        . '</head><body class="admin-body">' . $body . (str_contains($body, 'data-admin-app') ? '</div></div>' : '') . '</body></html>';
     exit;
 }
 
@@ -79,17 +79,136 @@ function admin_query(array $overrides = []): string
     return $params ? '?' . http_build_query($params) : '';
 }
 
+function admin_icon(string $name): string
+{
+    static $icons = null;
+    $icons ??= require __DIR__ . '/admin-icons.php';
+    return '<svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' . ($icons[$name] ?? '') . '</svg>';
+}
+
+function admin_open_inquiries(): ?int
+{
+    $pdo = db_connection();
+    if (!$pdo instanceof \PDO) {
+        return null;
+    }
+    try {
+        return (int)$pdo->query('SELECT count(*) FROM business_inquiries WHERE handled_at IS NULL')->fetchColumn();
+    } catch (\Throwable) {
+        return null;
+    }
+}
+
+// Rail group > labelled block > items. Page items open that page in /admin/sections.
+function admin_navigation(): array
+{
+    $pages = [];
+    foreach (site_sections() as $key => $page) {
+        $pages[] = ['href' => '/admin/sections?page=' . $key, 'label' => $page['label'], 'icon' => 'page'];
+    }
+    return [
+        'overview' => ['label' => '개요', 'icon' => 'overview', 'href' => '/admin', 'blocks' => [
+            ['label' => '개요', 'items' => [
+                ['href' => '/admin', 'label' => '홈', 'icon' => 'home'],
+                ['href' => '/admin/inbox', 'label' => '문의', 'icon' => 'inbox', 'count' => admin_open_inquiries()],
+            ]],
+        ]],
+        'site' => ['label' => '사이트 관리', 'icon' => 'site', 'href' => '/admin/menu', 'blocks' => [
+            ['label' => '구성', 'items' => [
+                ['href' => '/admin/menu', 'label' => '메뉴 관리', 'icon' => 'menu'],
+            ]],
+            ['label' => '페이지 편집', 'items' => $pages],
+            ['label' => '미디어', 'items' => [
+                ['href' => '/admin/slides', 'label' => '연구·기술 슬라이드', 'icon' => 'images'],
+            ]],
+        ]],
+    ];
+}
+
+// Opens the app frame; admin_layout() closes it.
 function admin_header(string $title, string $current, string $formToken): string
 {
-    $nav = '';
-    foreach (['/admin' => '문의', '/admin/menu' => '메뉴 관리', '/admin/sections' => '섹션 관리', '/admin/slides' => '연구·기술 슬라이드'] as $href => $label) {
-        $nav .= '<a class="admin-chip' . ($href === $current ? ' is-active' : '') . '" href="' . $href . '"' . ($href === $current ? ' aria-current="page"' : '') . '>' . e($label) . '</a>';
+    if ($current === '/admin/sections') {
+        $current .= '?page=' . admin_section_selection()[0];
     }
-    return '<header class="admin-header"><div class="admin-shell admin-header-inner">'
-        . '<div><p class="admin-eyebrow">BELLABELL FARM</p><h1>' . e($title) . '</h1></div>'
-        . '<nav class="admin-tabs" aria-label="관리 메뉴">' . $nav . '</nav>'
-        . '<form method="post" action="/admin/logout"><input type="hidden" name="token" value="' . e($formToken) . '"><button class="admin-button admin-button--outline" type="submit">로그아웃</button></form>'
-        . '</div></header>';
+    $navigation = admin_navigation();
+    $activeGroup = array_key_first($navigation);
+    foreach ($navigation as $key => $group) {
+        foreach ($group['blocks'] as $block) {
+            if (in_array($current, array_column($block['items'], 'href'), true)) {
+                $activeGroup = $key;
+            }
+        }
+    }
+    $rail = '';
+    foreach ($navigation as $key => $group) {
+        $active = $key === $activeGroup;
+        $rail .= '<a class="admin-rail-link' . ($active ? ' is-active' : '') . '" href="' . e($group['href']) . '" title="' . e($group['label']) . '" aria-label="' . e($group['label']) . '"' . ($active ? ' aria-current="true"' : '') . '>' . admin_icon($group['icon']) . '</a>';
+    }
+    $side = '';
+    foreach ($navigation[$activeGroup]['blocks'] as $block) {
+        $side .= '<p class="admin-side-label">' . e($block['label']) . '</p><ul class="admin-side-list">';
+        foreach ($block['items'] as $item) {
+            $active = $item['href'] === $current;
+            $count = (int)($item['count'] ?? 0);
+            $side .= '<li><a class="admin-side-link' . ($active ? ' is-active' : '') . '" href="' . e($item['href']) . '"' . ($active ? ' aria-current="page"' : '') . '>' . admin_icon($item['icon']) . '<span>' . e($item['label']) . '</span>' . ($count > 0 ? '<b class="admin-side-count">' . $count . '</b>' : '') . '</a></li>';
+        }
+        $side .= '</ul>';
+    }
+    return '<div class="admin-app" data-admin-app>'
+        . '<nav class="admin-rail" aria-label="관리 영역"><a class="admin-rail-logo" href="/admin" aria-label="관리자 홈"><svg class="admin-rail-mark" viewBox="0 0 233 141" fill="currentColor" aria-hidden="true" focusable="false"><rect x="99.65" y="9.83" width="33.43" height="33.43" rx="7.88" ry="7.88" transform="translate(15.31 90.06) rotate(-45)"/><path d="M178.38,66.33l50.44,51.3c8.4,8.54,2.35,22.97-9.63,22.97H13.53c-11.98,0-18.03-14.43-9.63-22.97l50.44-51.3-.2.2c3.11-3.38,6.15-6.95,12.38-6.95,12.45,0,12.45,13.5,24.91,13.5s12.46-13.5,24.92-13.5,12.45,13.5,24.91,13.5,12.46-13.5,24.93-13.5c6.15,0,9.13,3.42,12.2,6.75Z"/></svg></a>' . $rail . '</nav>'
+        . '<aside class="admin-side" id="admin-side"><div class="admin-side-head"><strong>' . e($navigation[$activeGroup]['label']) . '</strong><button class="admin-side-toggle" type="button" data-admin-collapse aria-controls="admin-side" aria-expanded="true" aria-label="메뉴 접기">' . admin_icon('panel') . '</button></div>'
+        . '<nav class="admin-side-nav" aria-label="관리 메뉴">' . $side . '</nav>'
+        . '<div class="admin-side-foot"><a class="admin-side-link" href="/" target="_blank" rel="noopener">' . admin_icon('external') . '<span>홈페이지 보기</span></a>'
+        . '<form method="post" action="/admin/logout"><input type="hidden" name="token" value="' . e($formToken) . '"><button class="admin-side-link" type="submit">' . admin_icon('logout') . '<span>로그아웃</span></button></form></div></aside>'
+        . '<div class="admin-main"><header class="admin-topbar"><button class="admin-side-toggle admin-side-open" type="button" data-admin-collapse aria-controls="admin-side" aria-expanded="false" aria-label="메뉴 펼치기">' . admin_icon('panel') . '</button><h1>' . e($title) . '</h1></header>';
+}
+
+function admin_home_page(\PDO $pdo, string $formToken): never
+{
+    $count = function (string $sql) use ($pdo): ?int {
+        try {
+            return (int)$pdo->query($sql)->fetchColumn();
+        } catch (\Throwable $exception) {
+            error_log('Admin home count failed (' . get_class($exception) . ').');
+            return null;
+        }
+    };
+    $recent = [];
+    try {
+        $recent = $pdo->query('SELECT id, company, subject, created_at FROM business_inquiries WHERE handled_at IS NULL ORDER BY created_at DESC LIMIT 5')->fetchAll(\PDO::FETCH_ASSOC);
+    } catch (\Throwable $exception) {
+        error_log('Admin home inquiries failed (' . get_class($exception) . ').');
+    }
+    $cards = [
+        ['/admin/inbox', 'inbox', '미처리 문의', $count('SELECT count(*) FROM business_inquiries WHERE handled_at IS NULL')],
+        ['/admin/sections', 'page', '수정한 문구·이미지', $count('SELECT count(*) FROM site_content')],
+        ['/admin/menu', 'menu', '메뉴 항목', $count('SELECT count(*) FROM site_menu_items')],
+        ['/admin/slides', 'images', '올린 슬라이드', $count('SELECT count(*) FROM research_slides')],
+    ];
+    ob_start();
+    ?>
+<main class="admin-shell">
+<ul class="admin-stats">
+<?php foreach ($cards as [$href, $icon, $label, $value]): ?>
+<li><a class="admin-card admin-stat" href="<?= e($href) ?>"><?= admin_icon($icon) ?><span><?= e($label) ?></span><strong><?= $value === null ? '-' : $value ?></strong></a></li>
+<?php endforeach; ?>
+</ul>
+<section class="admin-card admin-recent">
+<div class="admin-section-head"><h2>최근 미처리 문의</h2><a class="admin-button admin-button--outline" href="/admin/inbox">전체 보기</a></div>
+<?php if (!$recent): ?>
+<p class="admin-help" role="status">미처리 문의가 없습니다.</p>
+<?php else: ?>
+<ul class="admin-recent-list">
+<?php foreach ($recent as $row): ?>
+<li><a href="/admin/inbox#inquiry-<?= (int)$row['id'] ?>"><strong><?= e($row['subject']) ?></strong><span><?= e($row['company']) ?></span><time datetime="<?= e($row['created_at']) ?>"><?= e(admin_time($row['created_at'])) ?></time></a></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
+</section>
+</main>
+<?php
+    admin_layout('홈', admin_header('홈', '/admin', $formToken) . ob_get_clean());
 }
 
 function admin_slide_messages(): array
@@ -181,7 +300,7 @@ function admin_slides_page(\PDO $pdo, string $formToken): never
 <?php endif; ?>
 </main>
 <?php
-    admin_layout('연구·기술 슬라이드', admin_header('연구·기술 슬라이드', '/admin/slides', $formToken) . ob_get_clean(), 200, '/assets/js/admin-slides.js');
+    admin_layout('연구·기술 슬라이드', admin_header('연구·기술 슬라이드', '/admin/slides', $formToken) . ob_get_clean());
 }
 
 function handle_admin_request(string $action): void
@@ -192,8 +311,8 @@ function handle_admin_request(string $action): void
     $cookieOptions = ['path' => '/admin', 'secure' => $isHttps, 'httponly' => true, 'samesite' => 'Strict'];
     $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
-    if (!in_array($action, ['', 'login', 'logout', 'handle', 'slides', 'menu', 'sections'], true)) {
-        admin_layout('찾을 수 없음', '<main class="admin-shell"><h1>페이지를 찾을 수 없습니다.</h1><p><a href="/admin">문의 목록으로</a></p></main>', 404);
+    if (!in_array($action, ['', 'login', 'logout', 'handle', 'inbox', 'slides', 'menu', 'sections'], true)) {
+        admin_layout('찾을 수 없음', '<main class="admin-shell"><h1>페이지를 찾을 수 없습니다.</h1><p><a href="/admin">관리자 홈으로</a></p></main>', 404);
     }
     if (admin_password_hash() === '' || !inquiry_ready()) {
         $missing = array_keys(array_filter([
@@ -251,10 +370,10 @@ function handle_admin_request(string $action): void
     }
     if ($action === 'handle') {
         if ($method !== 'POST') {
-            admin_redirect('/admin');
+            admin_redirect('/admin/inbox');
         }
         if (!$formTokenValid()) {
-            admin_layout('세션 만료', '<main class="admin-shell"><h1>세션이 만료되었습니다.</h1><p><a href="/admin">다시 열기</a></p></main>', 419);
+            admin_layout('세션 만료', '<main class="admin-shell"><h1>세션이 만료되었습니다.</h1><p><a href="/admin/inbox">다시 열기</a></p></main>', 419);
         }
         $id = (int)inquiry_value($_POST, 'id');
         if ($id > 0) {
@@ -266,7 +385,7 @@ function handle_admin_request(string $action): void
             }
         }
         $back = inquiry_value($_POST, 'back');
-        admin_redirect('/admin' . (preg_match('/^\?[A-Za-z0-9=&%+._-]*$/', $back) ? $back : '') . '#inquiry-' . $id);
+        admin_redirect('/admin/inbox' . (preg_match('/^\?[A-Za-z0-9=&%+._-]*$/', $back) ? $back : '') . '#inquiry-' . $id);
     }
 
     if ($action === 'slides') {
@@ -310,6 +429,10 @@ function handle_admin_request(string $action): void
         admin_sections_page($pdo, $formToken);
     }
 
+    if ($action === '') {
+        admin_home_page($pdo, $formToken);
+    }
+
     $status = (string)($_GET['status'] ?? 'open');
     if (!in_array($status, ['open', 'done', 'all'], true)) {
         $status = 'open';
@@ -345,15 +468,15 @@ function handle_admin_request(string $action): void
     $back = admin_query();
     ob_start();
     ?>
-<?= admin_header('문의 관리', '/admin', $formToken) ?>
+<?= admin_header('문의', '/admin/inbox', $formToken) ?>
 <main class="admin-shell">
 <div class="admin-toolbar">
 <nav class="admin-tabs" aria-label="상태">
 <?php foreach (['open' => '미처리 ' . $open, 'done' => '처리 완료 ' . $done, 'all' => '전체 ' . ($open + $done)] as $key => $label): ?>
-<a class="admin-chip<?= $status === $key ? ' is-active' : '' ?>" href="/admin<?= e(admin_query(['status' => $key, 'page' => ''])) ?>"<?= $status === $key ? ' aria-current="page"' : '' ?>><?= e($label) ?></a>
+<a class="admin-chip<?= $status === $key ? ' is-active' : '' ?>" href="/admin/inbox<?= e(admin_query(['status' => $key, 'page' => ''])) ?>"<?= $status === $key ? ' aria-current="page"' : '' ?>><?= e($label) ?></a>
 <?php endforeach; ?>
 </nav>
-<form class="admin-search" method="get" action="/admin" role="search">
+<form class="admin-search" method="get" action="/admin/inbox" role="search">
 <input type="hidden" name="status" value="<?= e($status) ?>">
 <input class="admin-input" type="search" name="q" value="<?= e($query) ?>" placeholder="회사, 담당자, 이메일, 제목, 내용 검색" aria-label="검색">
 <button class="admin-button admin-button--outline" type="submit">검색</button>
@@ -391,8 +514,8 @@ function handle_admin_request(string $action): void
 <?php endforeach; ?>
 </ol>
 <nav class="admin-pager" aria-label="페이지">
-<?php if ($pageNo > 1): ?><a class="admin-button admin-button--outline" href="/admin<?= e(admin_query(['page' => $pageNo - 1 > 1 ? $pageNo - 1 : ''])) ?>">이전</a><?php endif; ?>
-<?php if ($more): ?><a class="admin-button admin-button--outline" href="/admin<?= e(admin_query(['page' => $pageNo + 1])) ?>">다음</a><?php endif; ?>
+<?php if ($pageNo > 1): ?><a class="admin-button admin-button--outline" href="/admin/inbox<?= e(admin_query(['page' => $pageNo - 1 > 1 ? $pageNo - 1 : ''])) ?>">이전</a><?php endif; ?>
+<?php if ($more): ?><a class="admin-button admin-button--outline" href="/admin/inbox<?= e(admin_query(['page' => $pageNo + 1])) ?>">다음</a><?php endif; ?>
 </nav>
 <?php endif; ?>
 </main>

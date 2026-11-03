@@ -1326,17 +1326,17 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
       "detail": "/assets/fonts/Poppins-Regular.woff2"
     },
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Bold.woff2"
+      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Light.woff2"
     },
     {
       "check": "CSS asset responds 200",
@@ -1346,7 +1346,7 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Light.woff2"
+      "detail": "/assets/fonts/Poppins-Bold.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",

@@ -1,4 +1,4 @@
-// Admin image uploads: shrink images in the browser so uploads stay under the server's limits, and confirm deletes.
+// Admin side menu toggle. Image uploads: shrink images in the browser so uploads stay under the server's limits, and confirm deletes.
 const MAX_IMAGE_SIDE = 1800;
 const KEEP_UNDER_BYTES = 1500000;
 
@@ -40,8 +40,21 @@ function initSlideUpload() {
     });
 }
 
+function initSideToggle() {
+    const app = document.querySelector("[data-admin-app]");
+    if (!app) return;
+    const buttons = app.querySelectorAll("[data-admin-collapse]");
+    const set = collapsed => {
+        app.classList.toggle("is-collapsed", collapsed);
+        try { localStorage.setItem("admin-side-collapsed", collapsed ? "1" : "0"); } catch {}
+    };
+    try { app.classList.toggle("is-collapsed", localStorage.getItem("admin-side-collapsed") === "1"); } catch {}
+    buttons.forEach(button => button.addEventListener("click", () => set(!app.classList.contains("is-collapsed"))));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     initSlideUpload();
+    initSideToggle();
     document.querySelectorAll("[data-confirm]").forEach(form => {
         form.addEventListener("submit", event => {
             if (!window.confirm(form.dataset.confirm)) event.preventDefault();
