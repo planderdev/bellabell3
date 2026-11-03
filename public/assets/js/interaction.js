@@ -325,7 +325,7 @@ function initHeaderScroll(){
 
 	if(!header) return;
 
-	const isMain=document.body.classList.contains("main");
+	const isMain=document.body.classList.contains("main")||document.body.classList.contains("has-hero-header");
 
 	let lastScroll=0;
 
