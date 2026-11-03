@@ -14,12 +14,17 @@ return [
     'about_body' => "세계적으로도 특별한 생태계를 품은 한라산.\n벨아벨팜은 이 생명력의 원천에서 반려동물 웰니스와 롱제비티의 가능성을 탐구합니다.",
     'bongbong_title' => "그 희망의 증거, BongBong\n제주에서 찾은 Health",
     'bongbong_body' => "프롬한라는 시한부 고양이 ‘봉봉이’를 구조하며 탄생하게 되었습니다.\n\n구조 당시 피를 흘리고 있던 봉봉이는 주인에게 버려진 후 차에 치여 횡경막이 터지고 신부전증, 피부염을 앓고 있어 병원에서 수술도 회복도 불가능한 시한부 선고를 받았지만\n\n현재는 제주의 건강한 먹거리를 통해 수술 없이 건강을 되찾았습니다.\n\n제주어로 ‘봉봉하다’는 말은 ‘한가득차다’라는 뜻입니다.\n이 말처럼 제주의 자연을 건강에 봉봉하게 채워드리고 싶습니다.",
-    'research' => '벨아벨팜만의 특별한 기술',
-    'research_statement' => "Safety from JEJU\n제주의 천연이 우리 아이의 밥상 위로",
-    'research_ingredients' => 'JEJU SASA / GREENTEA / PUMPKIN',
-    'research_body' => [
-        "아프고 나서 화학적인 개입을 하는 것이 아닌,\n아프기 전에 자연에서 온 원료들의 힘으로 건강을 유지하자는 것이\n벨아벨팜의 생각입니다.",
-        "한라산으로부터 얻은 조릿대는 AMPK 효소의 활성을 증가시켜\n지방 분해, 암과 당뇨 예방에 도움을 주며 항염, 진정, 보습 효과 등\n실내 생활을 하는 동물들의 피부 질환 개선에도 도움을 줍니다.",
+    'research' => '벨아벨팜만의 특별한 기술력',
+    'research_statement' => "Safety from JEJU\n치료가 아닌 예방을 위한 펫제품 천연물질 특화기술",
+    // Temporary slides, shown until images are uploaded at /admin/slides.
+    'research_slides' => [
+        ['src' => '/assets/media/patents/pet-treat-application.webp', 'alt' => '제주조릿대 펫푸드 제조 방법 특허 출원사실증명원', 'width' => 720, 'height' => 973],
+        ['src' => '/assets/media/patents/vegan-cookie-application.webp', 'alt' => '반려견용 비건 사료 조성물 특허 출원사실증명원', 'width' => 720, 'height' => 973],
+        ['src' => '/assets/media/patents/freeze-drying-patent.webp', 'alt' => '호박분말을 포함하는 동결건조 보호제 조성물 특허증', 'width' => 708, 'height' => 1000],
+        ['src' => '/assets/media/patents/pet-mist-patent.webp', 'alt' => '조릿대 추출물 피부 보습용 미스트 조성물 특허증', 'width' => 707, 'height' => 1000],
+        ['src' => '/assets/media/patents/pet-shampoo-bar-patent.webp', 'alt' => '조릿대 추출물 비누 조성물 특허증', 'width' => 707, 'height' => 1000],
+        ['src' => '/assets/media/patents/lava-seawater-application.webp', 'alt' => '용암해수를 이용한 반려동물 피부 조성물 특허 출원사실증명원', 'width' => 720, 'height' => 973],
+        ['src' => '/assets/media/patents/technology-transfer.webp', 'alt' => '한국농업기술진흥원 기술이전 확인서', 'width' => 720, 'height' => 973],
     ],
     'social' => '우리가 만드는 방식이 제주와 동물에게 돌아갑니다',
     'family' => '벨아벨팜이 만드는 브랜드',

@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "passed": 284,
-  "total": 284,
+  "passed": 300,
+  "total": 300,
   "checks": [
     {
       "check": "Localized page returns 200",
@@ -154,6 +154,21 @@
       "detail": "/zh/product"
     },
     {
+      "check": "Missing slide image is 404",
+      "pass": true,
+      "detail": "/media/research/999999"
+    },
+    {
+      "check": "Missing slide image is 404",
+      "pass": true,
+      "detail": "/media/research/abc"
+    },
+    {
+      "check": "Missing slide image is 404",
+      "pass": true,
+      "detail": "/en/media/research/1"
+    },
+    {
       "check": "Language prefix serves only pages",
       "pass": true,
       "detail": "/en/admin"
@@ -292,11 +307,6 @@
       "check": "Confirmed copy is verbatim",
       "pass": true,
       "detail": "research-statement"
-    },
-    {
-      "check": "Confirmed copy is verbatim",
-      "pass": true,
-      "detail": "research-ingredients"
     },
     {
       "check": "Confirmed copy is verbatim",
@@ -796,6 +806,11 @@
     {
       "check": "Asset is local or the pinned Lucide library",
       "pass": true,
+      "detail": "/assets/js/research-slider.js"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
       "detail": "/assets/js/vendor/ScrollToPlugin.min.js"
     },
     {
@@ -921,7 +936,37 @@
     {
       "check": "Asset is local or the pinned Lucide library",
       "pass": true,
-      "detail": "/assets/media/patents/vegan-cookie-application.jpg"
+      "detail": "/assets/media/patents/freeze-drying-patent.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/patents/lava-seawater-application.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/patents/pet-mist-patent.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/patents/pet-shampoo-bar-patent.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/patents/pet-treat-application.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/patents/technology-transfer.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/patents/vegan-cookie-application.webp"
     },
     {
       "check": "Asset is local or the pinned Lucide library",
@@ -1051,6 +1096,11 @@
     {
       "check": "Local asset responds 200",
       "pass": true,
+      "detail": "/assets/js/research-slider.js"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
       "detail": "/assets/js/vendor/ScrollToPlugin.min.js"
     },
     {
@@ -1176,7 +1226,37 @@
     {
       "check": "Local asset responds 200",
       "pass": true,
-      "detail": "/assets/media/patents/vegan-cookie-application.jpg"
+      "detail": "/assets/media/patents/freeze-drying-patent.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/patents/lava-seawater-application.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/patents/pet-mist-patent.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/patents/pet-shampoo-bar-patent.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/patents/pet-treat-application.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/patents/technology-transfer.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/patents/vegan-cookie-application.webp"
     },
     {
       "check": "Local asset responds 200",
@@ -1266,17 +1346,17 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
       "detail": "/assets/fonts/Poppins-Regular.woff2"
     },
     {
       "check": "CSS asset responds 200",
       "pass": true,
       "detail": "/assets/fonts/Poppins-Bold.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",

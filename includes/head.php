@@ -14,6 +14,7 @@ declare(strict_types=1);
 <script defer src="https://unpkg.com/lucide@1.63.0/dist/umd/lucide.min.js" integrity="sha384-kqSVAzIdvqiedZsb49zLXfAO7CRNm8lsCSTdNjJoKfkO3jyWSO75XMdRIvOzn3H0" crossorigin="anonymous"></script>
 <script defer src="/assets/js/interaction.js"></script>
 <script defer src="/assets/js/brand-gallery.js"></script>
+<script defer src="/assets/js/research-slider.js"></script>
 <script defer src="/assets/js/company-history.js"></script>
 <script defer src="/assets/js/contact-form.js"></script>
 <script defer src="/assets/js/brand-page.js"></script>

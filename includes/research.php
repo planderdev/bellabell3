@@ -1,5 +1,16 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/research-slides.php';
+
+$researchSlides = research_slides($content['research_slides']);
+// Loop mode needs more slides than fit on a wide screen, so short lists repeat. Repeats are hidden from screen readers.
+$researchLoop = count($researchSlides) > 1;
+$researchTrack = [];
+for ($pass = 0; $pass === 0 || ($researchLoop && count($researchTrack) < 20); $pass++) {
+    foreach ($researchSlides as $slide) {
+        $researchTrack[] = $slide + ['repeat' => $pass > 0];
+    }
+}
 ?>
 <section class="research-section" data-section="research" id="research" aria-labelledby="research-title">
 <div class="inner">
@@ -7,20 +18,17 @@ declare(strict_types=1);
 <div class="section-category"><p lang="en">Research &amp; Technology</p></div>
 <h2 class="section-title" id="research-title" data-section-title="research" data-copy="research"><?= e($content['research']) ?></h2>
 </div>
-<div class="research-layout">
-<div class="research-copy" data-fade="">
-<h3 data-copy="research-statement"><?= nl2br(e($content['research_statement']), false) ?></h3>
-<p class="research-ingredients" data-copy="research-ingredients" lang="en"><?= e($content['research_ingredients']) ?></p>
-<?php foreach ($content['research_body'] as $index => $paragraph): ?>
-<p data-copy="research-body-<?= $index ?>"><?= nl2br(e($paragraph), false) ?></p>
+<h3 class="research-statement" data-copy="research-statement" data-fade=""><?= nl2br(e($content['research_statement']), false) ?></h3>
+</div>
+<div class="research-slider" data-fade="">
+<div class="research-swiper swiper" id="research-slider" aria-label="<?= e(t('연구·기술 인증 자료')) ?>">
+<div class="swiper-wrapper">
+<?php foreach ($researchTrack as $slide): ?>
+<div class="swiper-slide research-slide"<?= $slide['repeat'] ? ' aria-hidden="true"' : '' ?>>
+<figure class="research-card<?= $slide['height'] > $slide['width'] ? ' is-portrait' : '' ?>"><img src="<?= e($slide['src']) ?>" alt="<?= $slide['repeat'] ? '' : e($slide['alt']) ?>" width="<?= (int)$slide['width'] ?>" height="<?= (int)$slide['height'] ?>" loading="lazy" decoding="async" draggable="false"/></figure>
+</div>
 <?php endforeach; ?>
 </div>
-<figure class="research-patent" data-fade="">
-<div class="research-patent-image">
-<img src="/assets/media/patents/vegan-cookie-application.jpg" alt="<?= e(t('반려견용 비건 사료 조성물 특허 출원사실증명원')) ?>" width="1624" height="2195" loading="lazy" decoding="async"/>
-</div>
-<figcaption><?= e(t('반려견용 비건 사료 조성물 · 출원사실증명원')) ?></figcaption>
-</figure>
 </div>
 </div>
 </section>

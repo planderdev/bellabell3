@@ -27,8 +27,23 @@ create table if not exists business_inquiries (
 );
 create index if not exists business_inquiries_created on business_inquiries (created_at desc);
 
+-- Research section slider images, uploaded at /admin/slides and served from /media/research/<id>.
+create table if not exists research_slides (
+    id         bigserial primary key,
+    image      bytea       not null,
+    mime       text        not null check (mime in ('image/jpeg','image/png','image/webp')),
+    width      integer     not null check (width > 0),
+    height     integer     not null check (height > 0),
+    alt        text        not null default '',
+    position   integer     not null default 0,
+    created_at timestamptz not null default now()
+);
+
 alter table contact_attempts   enable row level security;
 alter table business_inquiries enable row level security;
+alter table research_slides    enable row level security;
 
 alter table business_inquiries owner to bellabell_app;
 grant usage, select on sequence business_inquiries_id_seq to bellabell_app;
+alter table research_slides owner to bellabell_app;
+grant usage, select on sequence research_slides_id_seq to bellabell_app;
