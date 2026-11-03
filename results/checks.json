@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "passed": 307,
-  "total": 307,
+  "passed": 297,
+  "total": 297,
   "checks": [
     {
       "check": "Localized page returns 200",
@@ -269,7 +269,12 @@
       "detail": "care-section"
     },
     {
-      "check": "Six navigation groups with Product after research",
+      "check": "Four confirmed menu items with dropdowns only on pages",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Menu links open the finished pages and sections",
       "pass": true,
       "detail": ""
     },
@@ -446,17 +451,22 @@
     {
       "check": "Link uses a real section or confirmed destination",
       "pass": true,
-      "detail": "#research"
+      "detail": "/brand"
     },
     {
       "check": "Link uses a real section or confirmed destination",
       "pass": true,
-      "detail": "#research"
+      "detail": "/brand#bellabelfarm"
     },
     {
       "check": "Link uses a real section or confirmed destination",
       "pass": true,
-      "detail": "#family"
+      "detail": "/brand#fromhalla"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
+      "detail": "/brand#awoo"
     },
     {
       "check": "Link uses a real section or confirmed destination",
@@ -481,67 +491,7 @@
     {
       "check": "Link uses a real section or confirmed destination",
       "pass": true,
-      "detail": "#social"
-    },
-    {
-      "check": "Link uses a real section or confirmed destination",
-      "pass": true,
-      "detail": "#social"
-    },
-    {
-      "check": "Link uses a real section or confirmed destination",
-      "pass": true,
-      "detail": "#history"
-    },
-    {
-      "check": "Link uses a real section or confirmed destination",
-      "pass": true,
-      "detail": "#family"
-    },
-    {
-      "check": "Link uses a real section or confirmed destination",
-      "pass": true,
-      "detail": "#global"
-    },
-    {
-      "check": "Link uses a real section or confirmed destination",
-      "pass": true,
-      "detail": "#family"
-    },
-    {
-      "check": "Link uses a real section or confirmed destination",
-      "pass": true,
-      "detail": "#family"
-    },
-    {
-      "check": "Link uses a real section or confirmed destination",
-      "pass": true,
-      "detail": "#partner"
-    },
-    {
-      "check": "Link uses a real section or confirmed destination",
-      "pass": true,
-      "detail": "#global"
-    },
-    {
-      "check": "Link uses a real section or confirmed destination",
-      "pass": true,
-      "detail": "#global"
-    },
-    {
-      "check": "Link uses a real section or confirmed destination",
-      "pass": true,
-      "detail": "#intro"
-    },
-    {
-      "check": "Link uses a real section or confirmed destination",
-      "pass": true,
-      "detail": "#family"
-    },
-    {
-      "check": "Link uses a real section or confirmed destination",
-      "pass": true,
-      "detail": "#partner"
+      "detail": "#research"
     },
     {
       "check": "Link uses a real section or confirmed destination",
@@ -1366,7 +1316,17 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
+      "detail": "/assets/fonts/Poppins-Regular.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
       "detail": "/assets/fonts/Poppins-SemiBold.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Medium.woff2"
     },
     {
       "check": "CSS asset responds 200",
@@ -1376,17 +1336,7 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Regular.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
       "detail": "/assets/fonts/Poppins-Bold.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
-      "detail": "/assets/fonts/Poppins-Medium.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",
