@@ -176,7 +176,7 @@ function admin_menu_page(\PDO $pdo, string $formToken): never
 <form class="admin-menu-reset" method="post" action="/admin/menu" data-confirm="지금 메뉴를 지우고 기본 메뉴로 되돌릴까요?"><?= admin_hidden($formToken, ['op' => 'reset']) ?><button class="admin-button admin-button--outline" type="submit">기본 메뉴로 되돌리기</button></form>
 </main>
 <?php
-    admin_layout('메뉴 관리', admin_header('메뉴 관리', '/admin/menu', $formToken) . ob_get_clean(), 200, '/assets/js/admin-slides.js');
+    admin_layout('메뉴 관리', admin_header('메뉴 관리', '/admin/menu', $formToken) . ob_get_clean());
 }
 
 // ---- Sections ----
@@ -293,7 +293,7 @@ function admin_sections_page(\PDO $pdo, string $formToken): never
         $saved = site_rows($pdo, $lang);
     } catch (\Throwable $exception) {
         error_log('Admin section query failed (' . get_class($exception) . ').');
-        admin_layout('데이터베이스 오류', admin_header('섹션 관리', '/admin/sections', $formToken) . '<main class="admin-shell"><h1>섹션 내용을 불러오지 못했습니다.</h1><p><code>db/schema.sql</code>의 <code>site_content</code> 테이블이 적용되었는지 확인해 주세요.</p></main>', 502);
+        admin_layout('데이터베이스 오류', admin_header('페이지 편집', '/admin/sections', $formToken) . '<main class="admin-shell"><h1>섹션 내용을 불러오지 못했습니다.</h1><p><code>db/schema.sql</code>의 <code>site_content</code> 테이블이 적용되었는지 확인해 주세요.</p></main>', 502);
     }
     $defaults = site_defaults($lang);
     $textFields = array_filter($section['fields'], fn (array $field): bool => $field['type'] !== 'image');
@@ -303,18 +303,13 @@ function admin_sections_page(\PDO $pdo, string $formToken): never
     ?>
 <main class="admin-shell">
 <?= admin_notice() ?>
-<nav class="admin-tabs admin-section-nav" aria-label="페이지">
-<?php foreach ($pages as $key => $item): ?>
-<a class="admin-chip<?= $key === $pageKey ? ' is-active' : '' ?>" href="<?= e(admin_section_url($key, array_key_first($item['sections']), $lang)) ?>"<?= $key === $pageKey ? ' aria-current="page"' : '' ?>><?= e($item['label']) ?></a>
-<?php endforeach; ?>
-</nav>
 <nav class="admin-tabs admin-section-nav admin-section-nav--sub" aria-label="섹션">
 <?php foreach ($page['sections'] as $key => $item): ?>
 <a class="admin-chip<?= $key === $sectionKey ? ' is-active' : '' ?>" href="<?= e(admin_section_url($pageKey, $key, $lang)) ?>"<?= $key === $sectionKey ? ' aria-current="page"' : '' ?>><?= e($item['label']) ?></a>
 <?php endforeach; ?>
 </nav>
 <div class="admin-section-head">
-<h2><?= e($page['label']) ?> · <?= e($section['label']) ?></h2>
+<h2><?= e($section['label']) ?></h2>
 <a class="admin-button admin-button--outline" href="<?= e($previewPath) ?>" target="_blank" rel="noopener">홈페이지에서 보기</a>
 </div>
 <?php if (isset($section['note'])): ?><p class="admin-help"><?= e($section['note']) ?></p><?php endif; ?>
@@ -364,5 +359,5 @@ function admin_sections_page(\PDO $pdo, string $formToken): never
 <?php endif; ?>
 </main>
 <?php
-    admin_layout('섹션 관리', admin_header('섹션 관리', '/admin/sections', $formToken) . ob_get_clean(), 200, '/assets/js/admin-slides.js');
+    admin_layout($page['label'] . ' 편집', admin_header($page['label'] . ' 편집', '/admin/sections', $formToken) . ob_get_clean());
 }

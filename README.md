@@ -27,7 +27,7 @@ php -S 127.0.0.1:8086 -t public public/router.php
 - `vercel.json`의 `excludeFiles`에서 `.git/**`를 빼지 마세요. Git 연동 빌드는 저장소 기록(사진 원본 포함 300MB 이상)을 함수에 같이 담아 `launcher.launcher` 오류(500)로 깨집니다. 함수에는 `includes/`, `config/`, `public/*.php`만 들어가면 됩니다.
 - 문의 폼은 `POST /api/contact`로 PostgreSQL(Supabase) `business_inquiries` 테이블에 저장합니다. `db/schema.sql`을 먼저 적용합니다.
 - 환경변수: `APP_SECRET`, `DATABASE_URL`, `ADMIN_PASSWORD_HASH` (`.env.example` 참고). 앞의 둘이 없으면 폼 제출 버튼이 비활성으로 남습니다.
-- 접수 내역은 `/admin`에서 비밀번호로 로그인해 보고, 처리 완료를 표시합니다.
+- 접수 내역은 `/admin/inbox`에서 비밀번호로 로그인해 보고, 처리 완료를 표시합니다.
 - 연구·기술 슬라이드 이미지는 `/admin/slides`에서 올리고 순서를 바꿉니다. 이미지는 DB `research_slides`에 저장되어 `/media/research/<id>`로 나갑니다. 올린 이미지가 없으면 `includes/content.php`의 임시 이미지가 나옵니다.
 - 헤더 메뉴는 `/admin/menu`, 페이지별 문구와 이미지는 `/admin/sections`에서 바꿉니다. 기본값은 `includes/content.php`, 수정 내용은 DB `site_content`·`site_images`·`site_menu_items`에 저장되고, 수정할 수 있는 항목은 `includes/site-sections.php`에 적혀 있습니다.
 
