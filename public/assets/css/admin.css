@@ -769,3 +769,168 @@
         gap: 2px;
     }
 }
+
+/* Research slide board */
+.admin-slide-status {
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--primary) 12%, var(--white));
+    font-weight: 500;
+}
+
+.admin-slide-status.is-error {
+    background: var(--red-50);
+    color: var(--red-700, var(--text));
+}
+
+.admin-slide-drop {
+    position: relative;
+    margin-bottom: 24px;
+    border: 1.5px dashed var(--grey-300);
+    border-radius: 16px;
+    background: var(--grey-50);
+    transition: border-color .15s ease, background .15s ease;
+}
+
+.admin-slide-drop.is-over,
+.admin-slide-drop:hover {
+    border-color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 6%, var(--white));
+}
+
+.admin-slide-drop:focus-within {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.admin-slide-drop label {
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.admin-slide-drop label span {
+    color: var(--grey-600);
+    font-size: 13px;
+}
+
+.admin-slide-drop input[type=file] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.admin-slide-head {
+    margin-bottom: 12px;
+}
+
+.admin-slide-head h2 {
+    font-size: 18px;
+}
+
+.admin-slide-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+    list-style: none;
+}
+
+.admin-slide-card {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: 12px;
+}
+
+.admin-slide-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.admin-slide-top form {
+    margin-left: auto;
+}
+
+.admin-slide-handle {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: var(--grey-100);
+    color: var(--grey-700);
+    cursor: grab;
+    touch-action: none;
+}
+
+.admin-slide-handle:active {
+    cursor: grabbing;
+}
+
+.admin-slide-number {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.admin-slide-delete {
+    min-height: 32px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--transparent);
+    color: var(--grey-700);
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.admin-slide-delete:hover {
+    background: var(--red-50);
+}
+
+.admin-slide-frame {
+    aspect-ratio: 210 / 297;
+    overflow: hidden;
+    border: 1px solid var(--grey-200);
+    border-radius: 8px;
+    background: var(--white);
+    cursor: grab;
+}
+
+.admin-slide-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.admin-slide-moves {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.admin-slide-moves .admin-button {
+    width: 100%;
+    min-height: 34px;
+    padding: 0 6px;
+    font-size: 13px;
+}
+
+.admin-slide-card.is-ghost {
+    opacity: .35;
+}
+
+.admin-slide-card.is-dragging {
+    box-shadow: 0 16px 40px color-mix(in srgb, var(--grey-900) 24%, var(--transparent));
+}

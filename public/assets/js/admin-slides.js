@@ -55,7 +55,7 @@ function initSideToggle() {
 document.addEventListener("DOMContentLoaded", () => {
     initSlideUpload();
     initSideToggle();
-    document.querySelectorAll("[data-confirm]").forEach(form => {
+    document.querySelectorAll("[data-confirm]:not([data-slide-form])").forEach(form => {
         form.addEventListener("submit", event => {
             if (!window.confirm(form.dataset.confirm)) event.preventDefault();
         });
