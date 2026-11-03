@@ -665,6 +665,34 @@ body:is(.menu-open, .menu-closing) .header .language-wrap {
     display: none;
 }
 
+/* The centred menu runs into the logo and language button below 1440px, more so in English. */
+@media (min-width:1025px) and (max-width:1439px) {
+    .header-logo {
+        flex-shrink: 0;
+        width: clamp(130px, 12vw, 200px);
+    }
+
+    /* Static so the full-width dropdown still centres on .header-inner. */
+    .gnb {
+        position: static;
+        flex: 1;
+        min-width: 0;
+        transform: none;
+    }
+
+    .gnb ul {
+        justify-content: center;
+    }
+
+    .gnb>ul>li>a {
+        padding: 0 clamp(8px, calc((100vw - 1025px) * .06 + 14px), 40px);
+    }
+
+    .header-util {
+        flex-shrink: 0;
+    }
+}
+
 @media (max-width:1024px) {
     .all-menu-languages {
         display: flex;
