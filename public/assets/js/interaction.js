@@ -137,6 +137,8 @@ function checkFade(){
 				opacity:1,
 				y:0,
 				duration:1.2,
+				// Cards in one row appear in order; stacked on mobile, scrolling already sets the order.
+				delay:window.innerWidth>970?Number(item.dataset.fadeDelay)||0:0,
 				ease:"power3.out",
 				overwrite:true
 			});
