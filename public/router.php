@@ -20,6 +20,22 @@ if ($urlPath === '/product') {
     require __DIR__ . '/product.php';
     return true;
 }
+if ($urlPath === '/robots.txt') {
+    header('Content-Type: text/plain; charset=utf-8');
+    echo "User-agent: *\nDisallow: /admin\nDisallow: /api/\n\nSitemap: " . SITE_URL . "/sitemap.xml\n";
+    return true;
+}
+if ($urlPath === '/sitemap.xml') {
+    header('Content-Type: application/xml; charset=utf-8');
+    echo '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+    foreach (['/', '/brand', '/product'] as $page) {
+        foreach (array_keys(LOCALES) as $code) {
+            echo '<url><loc>' . SITE_URL . page_url($page, $code) . '</loc></url>';
+        }
+    }
+    echo '</urlset>';
+    return true;
+}
 if ($urlPath === '/api/contact') {
     require __DIR__ . '/../includes/common.php';
     require __DIR__ . '/../includes/contact-handler.php';
