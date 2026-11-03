@@ -55,8 +55,8 @@ for section,c,count in [('care-section','care-item',5)]:check('Card structure co
 gnb=byclass('gnb')[0];depths=[n for n in gnb.descendants() if n.has('gnb-depth')]
 check('Four confirmed menu items with dropdowns only on pages',[a.text() for a in gnb.descendants() if a.tag=='a' and a.parent.tag=='li']==['브랜드','상품소개','연구기술','제안&협업'] and [len([a for a in d.children if a.tag=='a']) for d in depths]==[3,3])
 check('Menu links open the finished pages and sections',[a.a.get('href') for a in gnb.descendants() if a.tag=='a' and a.parent.tag=='li']==['/brand','/product','#research','#partner'])
-check('Pillar labels keep the supplied wording',[n.children[0].text() if n.tag=='button' else n.text() for n in byclass('pillars-label')]==['Global K-PET FOOD','PET SKINCARE','Sustainability'])
-check('Pillar video starts paused until its button is pressed',[n.a.get('id') for n in nodes if n.tag=='video' and 'autoplay' not in n.a]==['pillar-video'] and byclass('pillars-label-food')[0].a.get('aria-controls')=='pillar-video')
+check('Pillar labels keep the supplied wording',[n.children[0].text() for n in byclass('pillars-label')]==['Global K-PET FOOD','PET SKINCARE','Sustainability'])
+check('Pillar videos start paused until a button is pressed',[n.a.get('id') for n in nodes if n.tag=='video' and 'autoplay' not in n.a]==['pillar-video','pillar-skin-video'] and [n.a.get('aria-controls') for n in byclass('pillars-label')]==['pillar-video','pillar-skin-video','pillar-sustain-image'])
 check('Deleted global selectors removed',not byclass('form-select-menu'))
 expected_copy={
 'intro-title':'From HALLA, For PET',
