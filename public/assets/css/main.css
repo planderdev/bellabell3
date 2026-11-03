@@ -1123,10 +1123,11 @@ html[lang="en"] .about-reveal-line {
 
 /* Side cards sit on a full-width band; the centre card grows past the band and over its neighbours. */
 .research-slider {
-    --research-card-w: clamp(150px, 16.25vw, 320px);
-    --research-card-h: calc(var(--research-card-w) * .93);
-    --research-active-w: calc(var(--research-card-w) * 1.73);
-    --research-active-h: calc(var(--research-card-w) * 1.41);
+    /* Cards keep the A4 ratio (210 x 297), so a certificate fills its card. */
+    --research-active-w: clamp(270px, min(30vw, 50svh), 520px);
+    --research-active-h: calc(var(--research-active-w) * 297 / 210);
+    --research-card-w: calc(var(--research-active-w) / 1.4);
+    --research-card-h: calc(var(--research-active-h) / 1.4);
     position: relative;
     width: 100%;
 }
@@ -1136,7 +1137,7 @@ html[lang="en"] .about-reveal-line {
     top: 50%;
     right: 0;
     left: 0;
-    height: calc(var(--research-card-w) * 1.32);
+    height: var(--research-card-w);
     background: var(--grey-100);
     content: "";
     transform: translateY(-50%);
@@ -1185,15 +1186,10 @@ html[lang="en"] .about-reveal-line {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    -webkit-user-drag: none;
-}
-
-/* Upright documents are shown whole. */
-.research-card.is-portrait img {
     box-sizing: border-box;
-    padding: clamp(6px, .75vw, 14px);
+    padding: clamp(4px, .5vw, 10px);
     object-fit: contain;
+    -webkit-user-drag: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1310,7 +1306,29 @@ html[lang="en"] .about-reveal-line {
 /* Social value */
 .care-section {
     position: relative;
+    isolation: isolate;
+    overflow: hidden;
     padding: clamp(100px, 11.46vw, 220px) 0;
+    background: var(--grey-900);
+    color: var(--white);
+    --care-line: color-mix(in srgb, var(--white) 28%, var(--transparent));
+}
+
+.care-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.care-section:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: color-mix(in srgb, var(--grey-900) 45%, var(--transparent));
 }
 
 .care-section .section-head {
@@ -1321,30 +1339,38 @@ html[lang="en"] .about-reveal-line {
     margin-top: clamp(20px, 1.67vw, 32px);
 }
 
+.care-section .section-category,
+.care-section .section-title,
+.care-section .section-desc {
+    color: var(--white);
+}
+
 .care-process {
-    display: flex;
+    /* Shared rows keep every card's title and description on the same lines. */
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-rows: minmax(160px, 1fr) auto auto;
     width: 100%;
-    border-top: 1px solid var(--grey-200);
-    border-bottom: 1px solid var(--grey-200);
+    min-height: 380px;
+    border-top: 1px solid var(--care-line);
+    border-bottom: 1px solid var(--care-line);
 }
 
 .care-item {
-    flex: 1;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 380px;
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
     padding: clamp(28px, 1.67vw, 32px);
     box-sizing: border-box;
-    border-left: 1px solid var(--grey-200);
-    color: var(--text);
+    border-left: 1px solid var(--care-line);
+    color: var(--white);
     text-decoration: none;
-    gap: clamp(10px, 1.04vw, 20px);
+    row-gap: 0;
 }
 
 .care-item:last-child {
-    border-right: 1px solid var(--grey-200);
+    border-right: 1px solid var(--care-line);
 }
 
 .care-icon {
@@ -1359,6 +1385,13 @@ html[lang="en"] .about-reveal-line {
     object-fit: contain;
 }
 
+.care-content {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+}
+
 .care-content h3 {
     margin: 0 0 8px;
     font-size: clamp(20px, 1.25vw, 24px);
@@ -1366,31 +1399,41 @@ html[lang="en"] .about-reveal-line {
 }
 
 .care-content p {
-    color: var(--text-sub);
+    color: color-mix(in srgb, var(--white) 86%, var(--transparent));
     font-size: 16px;
     font-weight: var(--fw-400);
+    line-height: 1.5;
+    word-break: keep-all;
 }
 
 .care-icon .site-icon {
     display: block;
     width: 100%;
     height: 100%;
-    color: var(--primary);
+    color: var(--white);
 }
 
 @media screen and (max-width:970px) {
+    .care-process {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
     .care-item {
-        border-right: 1px solid var(--grey-200);
-        border-bottom: 1px solid var(--grey-200);
-        height: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        border-right: 1px solid var(--care-line);
+        border-bottom: 1px solid var(--care-line);
     }
 
     .care-item:last-child {
         border-bottom: 0;
     }
 
-    .care-process {
-        flex-direction: column;
+    .care-content {
+        display: block;
     }
 }
 

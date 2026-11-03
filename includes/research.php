@@ -25,7 +25,7 @@ for ($pass = 0; $pass === 0 || ($researchLoop && count($researchTrack) < 20); $p
 <div class="swiper-wrapper">
 <?php foreach ($researchTrack as $slide): ?>
 <div class="swiper-slide research-slide"<?= $slide['repeat'] ? ' aria-hidden="true"' : '' ?>>
-<figure class="research-card<?= $slide['height'] > $slide['width'] ? ' is-portrait' : '' ?>"><img src="<?= e($slide['src']) ?>" alt="<?= $slide['repeat'] ? '' : e($slide['alt']) ?>" width="<?= (int)$slide['width'] ?>" height="<?= (int)$slide['height'] ?>" loading="lazy" decoding="async" draggable="false"/></figure>
+<figure class="research-card"><img src="<?= e($slide['src']) ?>" alt="<?= $slide['repeat'] ? '' : e($slide['alt']) ?>" width="<?= (int)$slide['width'] ?>" height="<?= (int)$slide['height'] ?>" loading="lazy" decoding="async" draggable="false"/></figure>
 </div>
 <?php endforeach; ?>
 </div>

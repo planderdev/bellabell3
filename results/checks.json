@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "passed": 297,
-  "total": 297,
+  "passed": 299,
+  "total": 299,
   "checks": [
     {
       "check": "Localized page returns 200",
@@ -956,6 +956,11 @@
     {
       "check": "Asset is local or the pinned Lucide library",
       "pass": true,
+      "detail": "/assets/media/social-earth.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
       "detail": "https://unpkg.com/lucide@1.63.0/dist/umd/lucide.min.js"
     },
     {
@@ -1244,6 +1249,11 @@
       "detail": "/assets/media/pillar-ragdoll-poster.webp"
     },
     {
+      "check": "Local asset responds 200",
+      "pass": true,
+      "detail": "/assets/media/social-earth.webp"
+    },
+    {
       "check": "Footer SNS links match the supplied local icons",
       "pass": true,
       "detail": ""
@@ -1316,17 +1326,17 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Regular.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
-      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
       "detail": "/assets/fonts/Poppins-Medium.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Bold.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Regular.woff2"
     },
     {
       "check": "CSS asset responds 200",
@@ -1336,7 +1346,7 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Bold.woff2"
+      "detail": "/assets/fonts/Poppins-SemiBold.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",
