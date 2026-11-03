@@ -33,6 +33,8 @@ function t_deep(array $values): array
     return array_map(fn ($value) => is_array($value) ? t_deep($value) : (is_string($value) ? t($value) : $value), $values);
 }
 
+const SITE_URL = 'https://www.jejubellabell.com';
+
 function page_url(string $path, ?string $code = null): string
 {
     $prefix = LOCALES[$code ?? locale()]['prefix'];

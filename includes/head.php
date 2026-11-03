@@ -1,9 +1,27 @@
 <?php
 declare(strict_types=1);
+
+$metaTitle = $pageTitle ?? t('벨아벨팜');
+$metaDescription = t('From HALLA, For PET / 제주의 자연과 연구를 담은 반려동물 웰니스 브랜드');
+$metaPath = $_SERVER['LOCALE_PAGE'] ?? '/';
 ?>
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title><?= e($pageTitle ?? t('벨아벨팜')) ?></title>
+<title><?= e($metaTitle) ?></title>
+<meta name="description" content="<?= e($metaDescription) ?>">
+<link rel="canonical" href="<?= e(SITE_URL . page_url($metaPath)) ?>">
+<?php foreach (LOCALES as $code => $language): ?>
+<link rel="alternate" hreflang="<?= e($language['html']) ?>" href="<?= e(SITE_URL . page_url($metaPath, $code)) ?>">
+<?php endforeach; ?>
+<link rel="alternate" hreflang="x-default" href="<?= e(SITE_URL . page_url($metaPath, 'ko')) ?>">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="<?= e(t('벨아벨팜')) ?>">
+<meta property="og:title" content="<?= e($metaTitle) ?>">
+<meta property="og:description" content="<?= e($metaDescription) ?>">
+<meta property="og:url" content="<?= e(SITE_URL . page_url($metaPath)) ?>">
+<meta property="og:image" content="<?= e(SITE_URL) ?>/assets/media/hero-brand-poster.jpg">
+<meta property="og:image:width" content="1920"><meta property="og:image:height" content="1080">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="/assets/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/fonts.css"><link rel="stylesheet" href="/assets/css/base.css">
 <link rel="stylesheet" href="/assets/css/vendor/swiper-bundle.min.css">

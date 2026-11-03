@@ -39,6 +39,9 @@ for prefix,lang,label in (('/en','en','ENG'),('/zh','zh-CN','中文')):
         check('Localized page has no leftover Korean',not re.search('[가-힣]',text.replace('@프롬한라','')),prefix+page)
         check('Language switcher shows current language',f'<span class="language-current">{label}</span>' in text,prefix+page)
         check('Language switcher links this page in every language',all(f'href="{p or "/"}"' in text for p in (page,'/en'+page,'/zh'+page)),prefix+page)
+check('Robots hides admin and points to the sitemap',all(x in fetch('/robots.txt')[1].decode() for x in ('Disallow: /admin','Sitemap: https://www.jejubellabell.com/sitemap.xml')))
+check('Sitemap lists every page in every language',fetch('/sitemap.xml')[1].decode().count('<loc>')==9)
+for page,canonical in (('/','https://www.jejubellabell.com/'),('/en/brand','https://www.jejubellabell.com/en/brand'),('/zh','https://www.jejubellabell.com/zh')):check('Page declares its canonical address',f'rel="canonical" href="{canonical}"' in fetch(page)[1].decode(),page)
 for path in ('/media/research/999999','/media/research/abc','/en/media/research/1'):check('Missing slide image is 404',fetch(path)[0]==404,path)
 for path in ('/en/admin','/zh/api/contact','/en/assets/css/base.css','/en/nope'):check('Language prefix serves only pages',fetch(path)[0]==404,path)
 status,raw,headers=fetch('/');html=raw.decode();nodes=list(Tree(html).root.descendants())
@@ -101,7 +104,7 @@ for a in [n for n in nodes if n.tag=='a']:
     check('Link uses a real section or confirmed destination',href in confirmed_destinations or (href.startswith('#') and href[1:] in ids),href)
 assets=[]
 for n in nodes:
-    if n.tag in ('script','img','link'):url=n.a.get('src') or n.a.get('href');assets.append(url)
+    if n.tag in ('script','img','link') and n.a.get('rel') not in ('canonical','alternate'):url=n.a.get('src') or n.a.get('href');assets.append(url)
     if n.tag=='video':
         check('Video sources are local files','src' not in n.a and all(c.a.get('src','').startswith('/assets/') for c in n.children if c.tag=='source'))
         if n.a.get('poster'):assets.append(n.a['poster'])
