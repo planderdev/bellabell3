@@ -216,9 +216,8 @@ return [
             ['title' => "그 희망의 증거, BongBong\n제주에서 찾은 Health", 'body' => "프롬한라는 시한부 고양이 ‘봉봉이’를 구조하며 탄생하게 되었습니다.\n\n구조 당시 피를 흘리고 있던 봉봉이는 주인에게 버려진 후 차에 치여 횡경막이 터지고 신부전증, 피부염을 앓고 있어 병원에서 수술도 회복도 불가능한 시한부 선고를 받았지만\n\n현재는 제주의 건강한 먹거리를 통해 수술 없이 건강을 되찾았습니다.\n\n제주어로 ‘봉봉하다’는 말은 ‘한가득차다’라는 뜻입니다.\n이 말처럼 제주의 자연을 건강에 봉봉하게 채워드리고 싶습니다.", 'image' => '/assets/media/brand/bongbong.webp'],
             ['title' => 'From HALLA, For PET', 'body' => '제주의 자연과 연구를 담은 반려동물 웰니스 브랜드', 'figure' => ['image' => '/assets/media/brand/fromhalla-characters.webp', 'caption' => '프롬한라 캐릭터 BongBong & Bell'], 'image' => '/assets/media/brand/fromhalla.webp'],
             ['title' => "먹는 건 귀엽게,\n만드는 건 진지하게!", 'body' => "잘 먹을까? 매일 써도 좋을까?\n보호자의 질문에서 시작해, 제주의 원료와 쓰임에 맞는 제형을 연구합니다.", 'image' => '/assets/media/product/story-abalone.webp'],
-            ['title' => '프롬한라스틱', 'body' => "제주 딱새우 & 연어순살\n제주 무항생제 닭가슴살\n제주 전복 & 오리순살\n제주 광어순살", 'image' => '/assets/media/brand/fromhalla-stick.webp'],
-            ['title' => '바이오틱스', 'body' => "골드 유산균 반려묘용\n골드 유산균 반려견용\n슬림 유산균 반려묘용\n슬림 유산균 반려견용", 'image' => '/assets/media/product/biotics-lineup.webp'],
-            ['title' => '한라산에서 제주바당까지', 'body' => '보호자의 질문에서 시작해, 제주의 원료와 쓰임에 맞는 제형을 연구합니다.', 'image' => '/assets/media/brand-ingredients.webp'],
+            ['title' => '프롬한라스틱', 'body' => "제주 딱새우 & 연어순살\n제주 무항생제 닭가슴살\n제주 전복 & 오리순살\n제주 광어순살", 'lineup' => ['title' => 'LINE UP', 'items' => [['label' => '프롬한라스틱', 'href' => '/product#stick'], ['label' => '나노트릿', 'href' => '/product#nanotreat'], ['label' => '골드유산균', 'href' => '/product#biotics']]], 'image' => '/assets/media/brand/fromhalla-stick.webp'],
+            ['title' => '바이오틱스', 'body' => "골드 유산균 반려묘용\n골드 유산균 반려견용\n슬림 유산균 반려묘용\n슬림 유산균 반려견용", 'body_links' => [['text' => '프롬한라 펫샴푸바', 'href' => '/product#shampoo'], ['text' => '프롬한라 티티패드', 'href' => '/product#ttpad']], 'image' => '/assets/media/product/biotics-lineup.webp'],
         ],
         'awoo' => [
             ['title' => '아우아우', 'body' => '제주 로컬 공간사업', 'image' => '/assets/media/brand/awoo.webp'],

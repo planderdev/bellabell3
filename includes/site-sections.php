@@ -124,10 +124,14 @@ return [
             ]),
         ]],
         'fromhalla' => ['label' => '프롬한라', 'anchor' => '#fromhalla', 'fields' => [
-            ...$repeat(6, fn (int $i, int $n): array => [
+            ...$repeat(5, fn (int $i, int $n): array => [
                 $long("brand_slides.fromhalla.$i.title", "슬라이드 $n 제목"),
                 $long("brand_slides.fromhalla.$i.body", "슬라이드 $n 본문"),
                 $image("brand_slides.fromhalla.$i.image", "슬라이드 $n 배경"),
+            ]),
+            $text('brand_slides.fromhalla.3.lineup.title', '슬라이드 4 버튼 묶음 제목'),
+            ...$repeat(3, fn (int $i, int $n): array => [
+                $text("brand_slides.fromhalla.3.lineup.items.$i.label", "슬라이드 4 버튼 $n 이름"),
             ]),
             $image('brand_slides.fromhalla.1.figure.image', '슬라이드 2 캐릭터 이미지'),
             $text('brand_slides.fromhalla.1.figure.caption', '슬라이드 2 캐릭터 설명'),
