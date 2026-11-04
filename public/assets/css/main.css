@@ -368,12 +368,23 @@ html[lang="en"] .about-reveal-line {
     transform: translateX(8px);
 }
 
-/* Wide screens follow the artwork: positions are in svh because the picture fits the screen height. */
+/* Wide screens follow the artwork, which is as tall as the larger of the screen and its own 16:9 height. */
 @media (min-width:971px) {
+    .about-reveal-section {
+        --art-height: max(100svh, 56.25vw);
+        --art-shift: 0px;
+        --page-gutter: clamp(24px, 3.33vw, 64px);
+    }
+
+    /* On very wide screens the crop is shared top and bottom, which keeps the fish below the title. */
+    .about-reveal-art {
+        object-position: left 40%;
+    }
+
     .about-reveal-title {
         position: absolute;
         top: max(96px, 12svh);
-        left: min(68.2svh, 46vw);
+        left: min(calc(var(--art-height) * .74 - var(--art-shift)), 50vw);
         font-size: min(5.2svh, 3.5vw);
         line-height: 1.38;
     }
@@ -383,17 +394,27 @@ html[lang="en"] .about-reveal-line {
         font-size: min(4svh, 2.6vw);
     }
 
+    /* The menu runs from just past the float to the same right margin as the header. */
     .about-reveal-links {
         position: absolute;
-        top: 60svh;
-        left: min(110.7svh, calc(100vw - 34svh - 3vw));
-        width: 34svh;
-        font-size: clamp(14px, 2.1svh, 20px);
+        right: var(--page-gutter);
+        bottom: clamp(40px, 8svh, 96px);
+        width: min(calc(100vw - var(--page-gutter) - var(--art-height) * 1.1 + var(--art-shift)), 36vw);
+        gap: 0;
+        font-size: clamp(15px, 2.1svh, 20px);
+    }
+
+    .about-reveal-link {
+        min-height: clamp(48px, 7svh, 68px);
     }
 }
 
 /* Squarer screens: slide the picture left so the float stays clear of the menu. */
 @media (min-width:971px) and (max-aspect-ratio:7/5) {
+    .about-reveal-section {
+        --art-shift: 10vw;
+    }
+
     .about-reveal-art {
         left: -10vw;
         width: 110vw;
