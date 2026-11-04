@@ -34,6 +34,16 @@ declare(strict_types=1);
 <?php if ($slide['body'] !== ''): ?>
 <p class="brand-slide-body"><?= e($slide['body']) ?></p>
 <?php endif; ?>
+<?php if (!empty($slide['stats'])): ?>
+<ul class="brand-stats">
+<?php foreach ($slide['stats'] as $stat): ?>
+<li class="brand-stat"><strong><span class="brand-stat-number" data-count="<?= e($stat['value']) ?>"><?= e($stat['value']) ?></span><?php if ($stat['unit'] !== ''): ?><small><?= e($stat['unit']) ?></small><?php endif; ?></strong><span class="brand-stat-label"><?= e($stat['label']) ?></span></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
+<?php if (($slide['body_after'] ?? '') !== ''): ?>
+<p class="brand-slide-body"><?= e($slide['body_after']) ?></p>
+<?php endif; ?>
 </div>
 </div>
 </article>

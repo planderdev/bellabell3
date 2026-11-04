@@ -1,3 +1,23 @@
+// Counts each number up from zero whenever its slide comes into view.
+function runBrandCounters(slide, reducedMotion) {
+    if (reducedMotion) return;
+    slide.querySelectorAll('.brand-stat-number').forEach(number => {
+        const target = Number(number.dataset.count.replace(/,/g, ''));
+        if (!Number.isFinite(target)) return;
+        cancelAnimationFrame(number.countFrame);
+        const finalText = number.dataset.count;
+        const started = performance.now() + 350;
+        number.textContent = '0';
+        const tick = now => {
+            const progress = Math.min(Math.max((now - started) / 1800, 0), 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            number.textContent = progress === 1 ? finalText : Math.round(target * eased).toLocaleString('en-US');
+            if (progress < 1) number.countFrame = requestAnimationFrame(tick);
+        };
+        number.countFrame = requestAnimationFrame(tick);
+    });
+}
+
 function initBrandSlider(panel) {
     const slider = panel.querySelector('.brand-slider');
     const dots = [...panel.querySelectorAll('.brand-slide-dot')];
@@ -13,6 +33,7 @@ function initBrandSlider(panel) {
             if (active) dot.setAttribute('aria-current', 'true');
             else dot.removeAttribute('aria-current');
         });
+        runBrandCounters(slides[swiper.activeIndex], reducedMotion);
     };
     const swiper = new Swiper(slider, {
         effect: 'fade',
