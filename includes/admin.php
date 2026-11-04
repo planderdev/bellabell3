@@ -134,6 +134,9 @@ function admin_navigation(): array
                 ['href' => '/admin/slides', 'label' => '연구·기술 슬라이드', 'icon' => 'images'],
                 ['href' => '/admin/gallery', 'label' => '브랜드 활동 사진', 'icon' => 'images'],
             ]],
+            ['label' => '설정', 'items' => [
+                ['href' => '/admin/settings', 'label' => '사이트 설정', 'icon' => 'site'],
+            ]],
         ]],
     ];
 }
@@ -341,7 +344,7 @@ function handle_admin_request(string $action): void
     $cookieOptions = ['path' => '/admin', 'secure' => $isHttps, 'httponly' => true, 'samesite' => 'Strict'];
     $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
-    if (!in_array($action, ['', 'login', 'logout', 'handle', 'inbox', 'slides', 'menu', 'sections', 'ingredients', 'research', 'gallery', 'products'], true)) {
+    if (!in_array($action, ['', 'login', 'logout', 'handle', 'inbox', 'slides', 'menu', 'sections', 'ingredients', 'research', 'gallery', 'products', 'settings'], true)) {
         admin_layout('찾을 수 없음', '<main class="admin-shell"><h1>페이지를 찾을 수 없습니다.</h1><p><a href="/admin">관리자 홈으로</a></p></main>', 404);
     }
     if (admin_password_hash() === '' || !inquiry_ready()) {
@@ -513,6 +516,16 @@ function handle_admin_request(string $action): void
             admin_redirect('/admin/products?' . http_build_query(['category' => $category] + ($error !== '' ? ['error' => $error] : ['saved' => 1])) . ($focus > 0 ? '#item-' . $focus : ''));
         }
         admin_products_page($pdo, $formToken);
+    }
+
+    if ($action === 'settings') {
+        if ($method === 'POST') {
+            if (!$formTokenValid()) {
+                admin_layout('세션 만료', '<main class="admin-shell"><h1>세션이 만료되었습니다.</h1><p><a href="/admin/settings">다시 열기</a></p></main>', 419);
+            }
+            admin_redirect('/admin/settings' . (admin_settings_save($pdo) ? '?saved=1' : '?error=settings'));
+        }
+        admin_settings_page($pdo, $formToken);
     }
 
     if ($action === 'gallery') {

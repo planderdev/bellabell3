@@ -717,7 +717,11 @@ body:is(.menu-open, .menu-closing) .header .language-wrap {
     }
 
     .header-logo {
-        width: 50px;
+        width: 150px;
+    }
+
+    .header-logo img {
+        aspect-ratio: auto;
     }
 
     .gnb {

@@ -25,7 +25,8 @@ $metaPath = $_SERVER['LOCALE_PAGE'] ?? '/';
 <link rel="preload" href="/assets/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/GodoB.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/BackGroove.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/fonts.css"><link rel="stylesheet" href="/assets/css/base.css">
+<?php if (site_context_menu_blocked()): ?><meta name="context-menu" content="blocked">
+<?php endif; ?><link rel="stylesheet" href="/assets/css/fonts.css"><link rel="stylesheet" href="/assets/css/base.css">
 <link rel="stylesheet" href="/assets/css/vendor/swiper-bundle.min.css">
 <link rel="stylesheet" href="/assets/css/layout.css"><link rel="stylesheet" href="/assets/css/main.css">
 <script defer src="/assets/js/vendor/gsap.min.js"></script><script defer src="/assets/js/vendor/ScrollTrigger.min.js"></script>

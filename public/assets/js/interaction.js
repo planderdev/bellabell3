@@ -1163,3 +1163,14 @@ document.addEventListener("DOMContentLoaded", function () {
     initLocalRouting();
     initSiteIcons();
 });
+
+// Right-click blocking, switched in /admin/settings. Form fields keep their menu so people can still paste.
+if (document.querySelector('meta[name="context-menu"][content="blocked"]')) {
+    document.documentElement.classList.add('no-context-menu');
+    document.addEventListener('contextmenu', event => {
+        if (!event.target.closest('input, textarea, select')) event.preventDefault();
+    });
+    document.addEventListener('dragstart', event => {
+        if (event.target.closest('img, video')) event.preventDefault();
+    });
+}
