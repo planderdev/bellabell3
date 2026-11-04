@@ -2927,6 +2927,95 @@ html[lang="en"] .about-reveal-line {
     }
 }
 
+/* Photo gallery: sits left of the copy on wide screens, above it on narrow ones. */
+.brand-gallery {
+    position: absolute;
+    top: 0;
+    right: calc(100% + clamp(24px, 3vw, 56px));
+    width: min(calc(47vw - var(--brand-gutter) - 230px), 560px);
+}
+
+:lang(en) .brand-gallery {
+    top: 70px;
+}
+
+.brand-gallery-main {
+    display: block;
+    width: 100%;
+    aspect-ratio: 11 / 10;
+    max-height: calc(100svh - var(--brand-top) - 200px);
+    border-radius: 12px;
+    background: var(--grey-800, #2a2f38);
+    object-fit: cover;
+}
+
+.brand-gallery-row {
+    position: relative;
+    margin-top: 12px;
+}
+
+.brand-gallery-thumbs {
+    display: grid;
+    grid-auto-columns: calc((100% - 24px) / 3);
+    grid-auto-flow: column;
+    gap: 12px;
+    position: relative;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.brand-gallery-thumbs::-webkit-scrollbar {
+    display: none;
+}
+
+.brand-gallery-thumb {
+    display: block;
+    padding: 0;
+    overflow: hidden;
+    border: 2px solid var(--transparent);
+    border-radius: 8px;
+    background: none;
+    cursor: pointer;
+    opacity: .7;
+    transition: opacity .2s, border-color .2s;
+}
+
+.brand-gallery-thumb:hover,
+.brand-gallery-thumb:focus-visible,
+.brand-gallery-thumb.is-active {
+    border-color: var(--white);
+    opacity: 1;
+}
+
+.brand-gallery-thumb img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 9 / 8;
+    object-fit: cover;
+}
+
+.brand-gallery-next {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(24px, 3vw, 44px);
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--white);
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+.brand-gallery-next .site-icon {
+    width: 28px;
+    height: 28px;
+}
+
 .brand-slide-arrows {
     position: absolute;
     right: clamp(24px, 3.33vw, 48px);
@@ -3030,6 +3119,27 @@ html[lang="en"] .about-reveal-line {
 
     .brand-slide-copy {
         justify-content: flex-start;
+    }
+
+    .brand-gallery,
+    :lang(en) .brand-gallery {
+        position: static;
+        width: 100%;
+        margin-bottom: 24px;
+    }
+
+    .brand-gallery-main {
+        aspect-ratio: 16 / 10;
+        max-height: none;
+    }
+
+    .brand-gallery-next {
+        left: auto;
+        right: 4px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--grey-900) 60%, var(--transparent));
     }
 
     .brand-slide-arrows {
