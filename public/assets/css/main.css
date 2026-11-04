@@ -2927,6 +2927,47 @@ html[lang="en"] .about-reveal-line {
     }
 }
 
+.brand-slide-arrows {
+    position: absolute;
+    right: clamp(24px, 3.33vw, 48px);
+    bottom: clamp(24px, 2.78vw, 48px);
+    z-index: 2;
+    display: flex;
+    gap: 8px;
+}
+
+.brand-slide-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 1px solid color-mix(in srgb, var(--white) 60%, var(--transparent));
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--grey-900) 35%, var(--transparent));
+    color: var(--white);
+    cursor: pointer;
+    transition: background-color .2s, color .2s, opacity .2s;
+}
+
+.brand-slide-arrow:focus-visible {
+    background: var(--white);
+    color: var(--grey-900);
+}
+
+@media (hover: hover) {
+    .brand-slide-arrow:hover:not(:disabled) {
+        background: var(--white);
+        color: var(--grey-900);
+    }
+}
+
+.brand-slide-arrow:disabled {
+    opacity: .35;
+    cursor: default;
+}
+
 .brand-slide-nav {
     position: absolute;
     left: 50%;
@@ -2989,6 +3030,16 @@ html[lang="en"] .about-reveal-line {
 
     .brand-slide-copy {
         justify-content: flex-start;
+    }
+
+    .brand-slide-arrows {
+        right: 16px;
+        bottom: 16px;
+    }
+
+    .brand-slide-arrow {
+        width: 44px;
+        height: 44px;
     }
 
     .brand-slide-nav {

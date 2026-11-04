@@ -36,6 +36,8 @@ return [
     "보호자의 질문에서 시작해, 제주의 원료와 쓰임에 맞는 제형을 연구합니다." => "Starting from these questions pet parents ask, we research Jeju ingredients and the right format for each use.",
     "제품 라인업 보기" => "View the Lineup",
     "상품소개" => "Product",
+    "이전 슬라이드" => "Previous slide",
+    "다음 슬라이드" => "Next slide",
     "한라산의 생명력이 웰니스의 가능성으로" => "Hallasan's vitality becomes the promise of wellness",
     "난대성 식물부터 온대림, 아한대·고산식물까지 공존하고\n제주에서만 발견되는 고유식물과\n빙하기부터 살아 남은 희귀식물까지 분포한 한라산." => "From warm-temperate plants to temperate forests and subarctic and alpine flora,\nHallasan is home to plants found only in Jeju\nand rare species that have survived since the Ice Age.",
     "벨아벨팜은 이 한라산의 식물생태계가 장차 우리의 건강한 먹거리 자원으로의 무궁무진한 가능성임을 발견했습니다." => "BellaBellFarm discovered in Hallasan's plant ecosystem boundless potential as a source of healthy food for the future.",
