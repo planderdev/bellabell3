@@ -23,6 +23,7 @@ $metaPath = $_SERVER['LOCALE_PAGE'] ?? '/';
 <meta property="og:image:width" content="1920"><meta property="og:image:height" content="1080">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="/assets/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
+<?php if (($_SERVER['LOCALE_PAGE'] ?? '') === '/ingredients'): ?><link rel="preload" href="/assets/fonts/GodoB.woff2" as="font" type="font/woff2" crossorigin><?php endif; ?>
 <link rel="stylesheet" href="/assets/css/fonts.css"><link rel="stylesheet" href="/assets/css/base.css">
 <link rel="stylesheet" href="/assets/css/vendor/swiper-bundle.min.css">
 <link rel="stylesheet" href="/assets/css/layout.css"><link rel="stylesheet" href="/assets/css/main.css">

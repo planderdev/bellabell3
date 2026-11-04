@@ -2993,24 +2993,27 @@ html[lang="en"] .about-reveal-line {
 }
 
 .ingredients-title {
-    margin-bottom: clamp(16px, 1.25vw, 24px);
+    margin-bottom: clamp(14px, 1.11vw, 20px);
+    font-family: "GodoB", var(--font-family-base);
     font-size: clamp(36px, 3.13vw, 60px);
-    font-weight: var(--fw-500);
+    font-weight: 700;
     line-height: 1.2;
-    letter-spacing: -.03em;
+    letter-spacing: -.02em;
 }
 
 .ingredients-nav {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 4px clamp(16px, 1.67vw, 32px);
+    gap: 6px clamp(16px, 1.53vw, 28px);
     list-style: none;
 }
 
 .ingredients-nav a {
     color: var(--text-sub);
-    font-size: clamp(20px, 1.46vw, 28px);
+    font-family: "GodoB", var(--font-family-base);
+    font-size: clamp(18px, 1.32vw, 24px);
+    font-weight: 700;
     line-height: 1.4;
 }
 
@@ -3114,6 +3117,11 @@ html[lang="en"] .about-reveal-line {
     gap: 14px;
     font-size: clamp(18px, 1.25vw, 24px);
     font-weight: var(--fw-600);
+}
+
+.ingredient-copy h3 span {
+    font-family: "GodoB", var(--font-family-base);
+    font-weight: 700;
 }
 
 .ingredient-icon {
