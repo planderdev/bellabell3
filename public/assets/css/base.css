@@ -2,6 +2,7 @@
 :root {
 
     --font-family-base: "Poppins", "Pretendard", sans-serif;
+    --font-family-title: "BackGroove", "GodoB", var(--font-family-base);
 
     --primary: #00AF86;
     --text: #0f172a;
