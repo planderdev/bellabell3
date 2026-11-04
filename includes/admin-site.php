@@ -9,6 +9,7 @@ const ADMIN_TEXT_MAX = 5000;
 function admin_site_messages(): array
 {
     return admin_slide_messages() + [
+        'settings' => '설정을 저장하지 못했습니다. 잠시 후 다시 시도해 주세요.',
         'bad-link' => '주소는 /brand, #research, https://... 형식으로 적어 주세요.',
         'no-label' => '한국어 메뉴 이름을 입력해 주세요.',
         'no-name' => '한국어 원료 이름을 입력해 주세요.',
@@ -607,6 +608,36 @@ function admin_gallery_action(\PDO $pdo, string $op): string
         return 'failed';
     }
     return '';
+}
+
+function admin_settings_save(\PDO $pdo): bool
+{
+    try {
+        $statement = $pdo->prepare("INSERT INTO site_content (key, locale, value) VALUES ('settings.block_context_menu', 'all', :value) ON CONFLICT (key, locale) DO UPDATE SET value = EXCLUDED.value, updated_at = now()");
+        $statement->execute(['value' => isset($_POST['block_context_menu']) ? '1' : '0']);
+        return true;
+    } catch (\Throwable $exception) {
+        error_log('Admin settings save failed (' . get_class($exception) . ').');
+        return false;
+    }
+}
+
+function admin_settings_page(\PDO $pdo, string $formToken): never
+{
+    ob_start();
+    ?>
+<main class="admin-shell">
+<?= admin_notice() ?>
+<form class="admin-card" method="post" action="/admin/settings">
+<h2>이미지 보호</h2>
+<?= admin_hidden($formToken, []) ?>
+<p><label class="admin-check"><input type="checkbox" name="block_context_menu" value="1"<?= site_context_menu_blocked() ? ' checked' : '' ?>> 홈페이지에서 우클릭과 이미지 끌어가기 막기</label></p>
+<p class="admin-help">켜면 방문자가 우클릭 메뉴로 사진을 저장하기 어려워집니다. 입력칸의 메뉴는 그대로 쓸 수 있고, 화면 캡처나 개발자 도구까지 막지는 못합니다.</p>
+<button class="admin-button" type="submit">저장</button>
+</form>
+</main>
+<?php
+    admin_layout('사이트 설정', admin_header('사이트 설정', '/admin/settings', $formToken) . ob_get_clean());
 }
 
 function admin_gallery_page(\PDO $pdo, string $formToken): never

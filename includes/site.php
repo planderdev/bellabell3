@@ -94,6 +94,23 @@ function site_content(): array
     return $content;
 }
 
+// Right-click blocking on public pages: on unless switched off in /admin/settings.
+function site_context_menu_blocked(): bool
+{
+    $pdo = db_connection();
+    if (!$pdo instanceof \PDO) {
+        return true;
+    }
+    try {
+        $statement = $pdo->prepare("SELECT value FROM site_content WHERE key = 'settings.block_context_menu' AND locale = 'all'");
+        $statement->execute();
+        return $statement->fetchColumn() !== '0';
+    } catch (\Throwable $exception) {
+        error_log('Context menu setting query failed (' . get_class($exception) . ').');
+        return true;
+    }
+}
+
 function site_menu_rows(\PDO $pdo): array
 {
     return $pdo->query('SELECT id, parent_id, label_ko, label_en, label_zh, href, visible, position FROM site_menu_items ORDER BY position, id')->fetchAll(\PDO::FETCH_ASSOC);

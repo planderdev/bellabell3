@@ -4009,3 +4009,39 @@ html[lang="en"] .about-reveal-line {
     font-family: var(--font-family-title);
     font-synthesis: none;
 }
+
+/* Phones: headings break between words, and two-column cards get type that fits them. */
+@media (max-width:600px) {
+    .brand-slide-title,
+    .product-card-name {
+        word-break: keep-all;
+        overflow-wrap: anywhere;
+    }
+
+    .brand-slide-title {
+        font-size: 22px;
+    }
+
+    .brand-slide-group {
+        font-size: 30px;
+    }
+
+    .product-card-name {
+        font-size: 16px;
+    }
+
+    .product-card-detail {
+        font-size: 13px;
+    }
+
+    .product-card-tag {
+        max-width: calc(100% - 16px);
+        font-size: 11px;
+    }
+}
+
+/* Set from interaction.js when right-click blocking is on in /admin/settings. */
+.no-context-menu :is(img, video) {
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none;
+}
