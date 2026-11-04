@@ -997,6 +997,30 @@
     resize: vertical;
 }
 
+[data-action="/admin/research"] .admin-ingredient-media img {
+    object-fit: contain;
+    background: var(--grey-100, #f2f3f5);
+}
+
+.admin-research-tags {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.admin-slide-visibility {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.admin-slide-card.is-hidden-home .admin-slide-frame {
+    opacity: .4;
+}
+
 .admin-ingredient-icon {
     grid-column: 1 / -1;
 }

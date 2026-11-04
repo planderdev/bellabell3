@@ -3159,6 +3159,25 @@ html[lang="en"] .about-reveal-line {
     }
 }
 
+/* Research page: product-style cards. Documents and photos both show whole, never cropped. */
+.research-page .research-page-head {
+    padding-top: clamp(120px, 9vw, 170px);
+    padding-bottom: 0;
+}
+
+.research-page .product-hero-title {
+    word-break: keep-all;
+}
+
+.research-page .product-card-media {
+    aspect-ratio: 1/1.15;
+}
+
+.research-page .product-card-media img {
+    padding: 48px 20px 28px;
+    object-fit: contain;
+}
+
 /* Product page */
 .product-page {
     background: var(--white);

@@ -42,6 +42,7 @@ create table if not exists research_slides (
 -- A slide is either an uploaded image or, for the temporary slides, a file path under /assets.
 alter table research_slides add column if not exists src text;
 alter table research_slides alter column image drop not null;
+alter table research_slides add column if not exists hidden_home boolean not null default false;
 
 -- Admin edits of site copy and images (/admin/sections). content.php holds the defaults; rows here override them.
 -- key is the field's path in content.php; locale is ko, en, zh, or all for images.
@@ -89,6 +90,22 @@ create table if not exists ingredient_items (
 );
 alter table ingredient_items add column if not exists icon text not null default '';
 
+-- Cards on /research, managed at /admin/research. Empty until that page is first opened.
+create table if not exists research_items (
+    id       bigserial primary key,
+    tag_ko   text not null default '',
+    tag_en   text not null default '',
+    tag_zh   text not null default '',
+    title_ko text not null,
+    title_en text not null default '',
+    title_zh text not null default '',
+    body_ko  text not null default '',
+    body_en  text not null default '',
+    body_zh  text not null default '',
+    image    text not null default '',
+    position integer not null default 0
+);
+
 alter table contact_attempts   enable row level security;
 alter table business_inquiries enable row level security;
 alter table research_slides    enable row level security;
@@ -106,5 +123,8 @@ alter table site_menu_items owner to bellabell_app;
 grant usage, select on sequence site_images_id_seq to bellabell_app;
 grant usage, select on sequence site_menu_items_id_seq to bellabell_app;
 alter table ingredient_items enable row level security;
+alter table research_items enable row level security;
 alter table ingredient_items owner to bellabell_app;
+alter table research_items owner to bellabell_app;
 grant usage, select on sequence ingredient_items_id_seq to bellabell_app;
+grant usage, select on sequence research_items_id_seq to bellabell_app;
