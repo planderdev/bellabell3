@@ -167,18 +167,14 @@ return [
         'closing_button' => '프롬한라 상품 보기',
     ],
     'ingredients_title' => '원료소개',
-    'ingredient_tabs' => [
-        ['id' => 'kimchi', 'name' => '김치'],
-        ['id' => 'shrimp', 'name' => '딱새우'],
-        ['id' => 'flounder', 'name' => '광어'],
-        ['id' => 'abalone', 'name' => '전복'],
-    ],
+    'ingredients_intro_title' => '제주의 자연과 연구를 담은 반려동물 웰니스 브랜드',
+    'ingredients_intro_body' => '보호자의 질문에서 시작해, 제주의 원료와 쓰임에 맞는 제형을 연구합니다.',
     // Only names printed on the packaging so far; descriptions and the missing photos come from the admin.
-    'ingredient_slides' => [
-        'kimchi' => [['title' => '김치', 'body' => '', 'image' => '']],
-        'shrimp' => [['title' => '딱새우', 'body' => '제주 딱새우 & 연어순살', 'image' => '/assets/media/brand/ingredient-shrimp.webp']],
-        'flounder' => [['title' => '광어', 'body' => '제주 광어순살', 'image' => '']],
-        'abalone' => [['title' => '전복', 'body' => '제주 전복 & 오리순살', 'image' => '/assets/media/brand/ingredient-abalone.webp']],
+    'ingredients' => [
+        ['id' => 'kimchi', 'name' => '김치', 'body' => '', 'image' => ''],
+        ['id' => 'shrimp', 'name' => '딱새우', 'body' => '제주 딱새우 & 연어순살', 'image' => '/assets/media/brand/ingredient-shrimp.webp'],
+        ['id' => 'flounder', 'name' => '광어', 'body' => '제주 광어순살', 'image' => ''],
+        ['id' => 'abalone', 'name' => '전복', 'body' => '제주 전복 & 오리순살', 'image' => '/assets/media/brand/ingredient-abalone.webp'],
     ],
     'brand_title' => '브랜드 소개',
     'brand_groups' => ['연구·기술', '사회적 가치'],

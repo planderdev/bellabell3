@@ -175,14 +175,16 @@ return [
         ]],
     ]],
     'ingredients' => ['label' => '원료소개', 'url' => '/ingredients', 'sections' => [
-        'common' => ['label' => '제목·메뉴', 'fields' => [
+        'intro' => ['label' => '소개', 'note' => '위쪽 영상은 용량 제한으로 여기서 바꿀 수 없습니다.', 'fields' => [
             $text('ingredients_title', '페이지 제목'),
-            ...$repeat(4, fn (int $i, int $n): array => [$text("ingredient_tabs.$i.name", "탭 $n 이름")]),
+            $text('ingredients_intro_title', '소개 제목'),
+            $long('ingredients_intro_body', '소개 설명'),
         ]],
-        'kimchi' => ['label' => '김치', 'anchor' => '#kimchi', 'fields' => [$long('ingredient_slides.kimchi.0.title', '제목'), $long('ingredient_slides.kimchi.0.body', '설명'), $image('ingredient_slides.kimchi.0.image', '배경')]],
-        'shrimp' => ['label' => '딱새우', 'anchor' => '#shrimp', 'fields' => [$long('ingredient_slides.shrimp.0.title', '제목'), $long('ingredient_slides.shrimp.0.body', '설명'), $image('ingredient_slides.shrimp.0.image', '배경')]],
-        'flounder' => ['label' => '광어', 'anchor' => '#flounder', 'fields' => [$long('ingredient_slides.flounder.0.title', '제목'), $long('ingredient_slides.flounder.0.body', '설명'), $image('ingredient_slides.flounder.0.image', '배경')]],
-        'abalone' => ['label' => '전복', 'anchor' => '#abalone', 'fields' => [$long('ingredient_slides.abalone.0.title', '제목'), $long('ingredient_slides.abalone.0.body', '설명'), $image('ingredient_slides.abalone.0.image', '배경')]],
+        ...array_combine(['kimchi', 'shrimp', 'flounder', 'abalone'], array_map(fn (int $i, string $label, string $anchor): array => ['label' => $label, 'anchor' => $anchor, 'fields' => [
+            $text("ingredients.$i.name", '이름'),
+            $long("ingredients.$i.body", '설명'),
+            $image("ingredients.$i.image", '사진'),
+        ]], [0, 1, 2, 3], ['김치', '딱새우', '광어', '전복'], ['#kimchi', '#shrimp', '#flounder', '#abalone'])),
     ]],
     'footer' => ['label' => '푸터', 'url' => '/', 'sections' => [
         'company' => ['label' => '회사 정보', 'anchor' => '#footer', 'fields' => [

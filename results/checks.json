@@ -1411,7 +1411,7 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Bold.woff2"
+      "detail": "/assets/fonts/Poppins-Medium.woff2"
     },
     {
       "check": "CSS asset responds 200",
@@ -1421,17 +1421,17 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Medium.woff2"
-    },
-    {
-      "check": "CSS asset responds 200",
-      "pass": true,
-      "detail": "/assets/fonts/Poppins-Light.woff2"
+      "detail": "/assets/fonts/Poppins-Bold.woff2"
     },
     {
       "check": "CSS asset responds 200",
       "pass": true,
       "detail": "/assets/fonts/Poppins-Regular.woff2"
+    },
+    {
+      "check": "CSS asset responds 200",
+      "pass": true,
+      "detail": "/assets/fonts/Poppins-Light.woff2"
     },
     {
       "check": "CSS has no remote or source image URL",
@@ -1534,7 +1534,7 @@
       "detail": "[\"products.8.size\",\"products.8.image.src\",\"products.8.image.alt\"]"
     },
     {
-      "check": "Ingredients page lists the four requested tabs",
+      "check": "Ingredients page lists the four requested items",
       "pass": true,
       "detail": ""
     },
