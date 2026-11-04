@@ -32,11 +32,13 @@ $pageTitle = $content['ingredients_title'] . ' | ' . t('벨아벨팜');
 <div class="ingredient-photo"<?= $item['image'] === '' ? ' data-media-state="missing"' : '' ?>>
 <?php if ($item['image'] !== ''): ?>
 <img src="<?= e($item['image']) ?>" alt="" loading="lazy" decoding="async"/>
+<?php else: ?>
+<?= site_ingredient_icon((string)($item['icon'] ?? ''), 'ingredient-photo-icon') ?>
 <?php endif; ?>
 </div>
 <div class="ingredient-copy">
 <p class="ingredient-number" aria-hidden="true"><?= sprintf('%02d', $index + 1) ?></p>
-<h3><?= e($item['name']) ?></h3>
+<h3><?= site_ingredient_icon((string)($item['icon'] ?? ''), 'ingredient-icon') ?><span><?= e($item['name']) ?></span></h3>
 <?php if ($item['body'] !== ''): ?>
 <p class="ingredient-body"><?= nl2br(e($item['body']), false) ?></p>
 <?php endif; ?>

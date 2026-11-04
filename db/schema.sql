@@ -87,6 +87,7 @@ create table if not exists ingredient_items (
     image    text    not null default '',
     position integer not null default 0
 );
+alter table ingredient_items add column if not exists icon text not null default '';
 
 alter table contact_attempts   enable row level security;
 alter table business_inquiries enable row level security;
