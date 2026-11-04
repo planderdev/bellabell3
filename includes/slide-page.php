@@ -60,6 +60,19 @@ declare(strict_types=1);
 <?php if (($slide['body_after'] ?? '') !== ''): ?>
 <p class="brand-slide-body brand-slide-body--after"><?= e($slide['body_after']) ?></p>
 <?php endif; ?>
+<?php if (!empty($slide['space_gallery'])): ?>
+<div class="brand-gallery brand-gallery--grid" data-brand-gallery>
+<div class="brand-gallery-thumbs">
+<?php foreach ($slide['space_gallery'] as $galleryIndex => $galleryImage): ?>
+<button class="brand-gallery-thumb<?= $galleryIndex === 0 ? ' is-active' : '' ?>" type="button" aria-label="<?= e(t('공간 사진')) ?> <?= $galleryIndex + 1 ?>"<?= $galleryIndex === 0 ? ' aria-current="true"' : '' ?>><img src="<?= e($galleryImage) ?>" alt="" loading="lazy" decoding="async"/></button>
+<?php endforeach; ?>
+</div>
+<div class="brand-gallery-stage">
+<img class="brand-gallery-main" src="<?= e($slide['space_gallery'][0]) ?>" alt="<?= e(t('공간 사진')) ?> 1" loading="lazy" decoding="async"/>
+<button class="brand-gallery-next" type="button" aria-label="<?= e(t('다음 사진')) ?>"><i data-lucide="chevron-right" class="site-icon" aria-hidden="true" focusable="false"></i></button>
+</div>
+</div>
+<?php endif; ?>
 <?php if (!empty($slide['lineup'])): ?>
 <div class="brand-lineup">
 <h4 class="brand-lineup-title"><?= e($slide['lineup']['title']) ?></h4>

@@ -47,8 +47,8 @@ $content = site_content();
 <video class="pillars-panel is-active" id="pillar-video" muted loop playsinline preload="metadata" poster="/assets/media/pillar-ragdoll-poster.webp" width="1280" height="660" aria-label="<?= e(t('랙돌 고양이가 프롬한라스틱 앞에서 입맛을 다시는 영상')) ?>">
 <source src="/assets/media/pillar-ragdoll.mp4" type="video/mp4"/>
 </video>
-<video class="pillars-panel" id="pillar-skin-video" muted loop playsinline preload="none" poster="/assets/media/pillar-bichon-poster.webp" aria-label="<?= e(t('보호자가 비숑의 볼을 티티패드로 닦아 주는 영상')) ?>">
-<source src="/assets/media/pillar-bichon.mp4" type="video/mp4"/>
+<video class="pillars-panel" id="pillar-skin-video" muted loop playsinline preload="none" poster="/assets/media/pillar-skincare-poster.webp" aria-label="<?= e(t('보호자가 비숑의 볼을 티티패드로 닦아 주는 영상')) ?>">
+<source src="/assets/media/pillar-skincare.mp4" type="video/mp4"/>
 </video>
 <video class="pillars-panel" id="pillar-sustain-video" muted loop playsinline preload="none" poster="/assets/media/pillar-jeju-poster.webp" aria-label="<?= e(t('보호자와 강아지가 한라산과 제주 바다를 함께 걷는 영상')) ?>">
 <source src="/assets/media/pillar-jeju.mp4" type="video/mp4"/>

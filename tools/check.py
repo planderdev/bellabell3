@@ -149,6 +149,7 @@ check('Brand page shows the two certificates with existing images',[n.text() for
 check('Brand page shows the BellaBellFarm logo',[(ROOT/'public'/n.a['src'].lstrip('/')).is_file() for n in brand_nodes if n.has('brand-slide-logo')]==[True])
 check('Brand page shows the FromHalla characters',[(ROOT/'public'/n.a['src'].lstrip('/')).is_file() for n in brand_nodes if n.tag=='img' and n.parent.has('brand-slide-figure')]==[True])
 check('Brand line-up buttons open the product filters',[n.a.get('href') for n in brand_nodes if n.tag=='a' and n.parent.parent is not None and n.parent.parent.parent is not None and n.parent.parent.parent.has('brand-lineup')]==['/product#stick','/product#nanotreat','/product#biotics'])
+check('Awoo space gallery has seven existing photos',len([n for n in brand_nodes if n.tag=='img' and n.parent.has('brand-gallery-thumb') and '/awoo-gallery/' in n.a['src'] and (ROOT/'public'/n.a['src'].lstrip('/')).is_file()])==7)
 check('Brand intro link opens the brand page',[n.a.get('href') for n in byclass('about-reveal-link')][0]=='/brand')
 product_status,product_raw,_=fetch('/product');product_nodes=list(Tree(product_raw.decode()).root.descendants())
 check('Product page returns 200',product_status==200)

@@ -221,7 +221,7 @@ return [
         ],
         'awoo' => [
             ['title' => '아우아우', 'body' => '제주 로컬 공간사업', 'image' => '/assets/media/brand/awoo.webp'],
-            ['title' => '아우아우', 'body' => '제주 로컬 공간사업', 'image' => '/assets/media/brand/awoo-house.webp'],
+            ['title' => '아우아우', 'body' => '제주 로컬 공간사업', 'space_gallery' => ['/assets/media/brand/awoo-gallery/entrance.webp', '/assets/media/brand/awoo-gallery/market.webp', '/assets/media/brand/awoo-gallery/halloween.webp', '/assets/media/brand/awoo-gallery/interior.webp', '/assets/media/brand/awoo-gallery/puppy.webp', '/assets/media/brand/awoo-gallery/shoot.webp', '/assets/media/brand/awoo-gallery/cookies.webp'], 'image' => '/assets/media/brand/awoo-house.webp'],
             ['title' => '아우아우', 'body' => '제주 로컬 공간사업', 'image' => '/assets/media/brand/awoo-eaves.webp'],
         ],
     ],

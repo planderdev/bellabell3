@@ -36,6 +36,7 @@ return [
     "보호자의 질문에서 시작해, 제주의 원료와 쓰임에 맞는 제형을 연구합니다." => "Starting from these questions pet parents ask, we research Jeju ingredients and the right format for each use.",
     "제품 라인업 보기" => "View the Lineup",
     "상품소개" => "Product",
+    "공간 사진" => "Space photo",
     "골드유산균" => "Gold Probiotics",
     "프롬한라 캐릭터 BongBong & Bell" => "FromHalla characters BongBong & Bell",
     "SVI사회적가치지표우수" => "SVI Social Value Index: Excellent",

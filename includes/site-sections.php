@@ -136,11 +136,16 @@ return [
             $image('brand_slides.fromhalla.1.figure.image', '슬라이드 2 캐릭터 이미지'),
             $text('brand_slides.fromhalla.1.figure.caption', '슬라이드 2 캐릭터 설명'),
         ]],
-        'awoo' => ['label' => '아우아우', 'anchor' => '#awoo', 'fields' => $repeat(3, fn (int $i, int $n): array => [
-            $long("brand_slides.awoo.$i.title", "슬라이드 $n 제목"),
-            $long("brand_slides.awoo.$i.body", "슬라이드 $n 본문"),
-            $image("brand_slides.awoo.$i.image", "슬라이드 $n 배경"),
-        ])],
+        'awoo' => ['label' => '아우아우', 'anchor' => '#awoo', 'fields' => [
+            ...$repeat(3, fn (int $i, int $n): array => [
+                $long("brand_slides.awoo.$i.title", "슬라이드 $n 제목"),
+                $long("brand_slides.awoo.$i.body", "슬라이드 $n 본문"),
+                $image("brand_slides.awoo.$i.image", "슬라이드 $n 배경"),
+            ]),
+            ...$repeat(7, fn (int $i, int $n): array => [
+                $image("brand_slides.awoo.1.space_gallery.$i", "슬라이드 2 공간 사진 $n"),
+            ]),
+        ]],
     ]],
     'product' => ['label' => '상품소개', 'url' => '/product', 'sections' => [
         'hero' => ['label' => '첫 화면', 'note' => '영상은 용량 제한으로 여기서 바꿀 수 없습니다.', 'fields' => [
