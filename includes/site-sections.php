@@ -117,6 +117,9 @@ return [
                 $text("brand_slides.bellabelfarm.1.stats.$i.label", "슬라이드 2 숫자 $n 설명"),
             ]),
             $long('brand_slides.bellabelfarm.1.body_after', '슬라이드 2 본문 아래 문장'),
+            ...$repeat(8, fn (int $i, int $n): array => [
+                $image("brand_slides.bellabelfarm.4.gallery.$i.image", "슬라이드 5 활동 사진 $n"),
+            ]),
         ]],
         'fromhalla' => ['label' => '프롬한라', 'anchor' => '#fromhalla', 'fields' => $repeat(6, fn (int $i, int $n): array => [
             $long("brand_slides.fromhalla.$i.title", "슬라이드 $n 제목"),

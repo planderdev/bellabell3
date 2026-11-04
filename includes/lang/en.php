@@ -36,6 +36,7 @@ return [
     "보호자의 질문에서 시작해, 제주의 원료와 쓰임에 맞는 제형을 연구합니다." => "Starting from these questions pet parents ask, we research Jeju ingredients and the right format for each use.",
     "제품 라인업 보기" => "View the Lineup",
     "상품소개" => "Product",
+    "활동 사진" => "Activity photo",
     "이전 슬라이드" => "Previous slide",
     "다음 슬라이드" => "Next slide",
     "한라산의 생명력이 웰니스의 가능성으로" => "Hallasan's vitality becomes the promise of wellness",

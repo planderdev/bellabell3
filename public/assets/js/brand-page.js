@@ -70,7 +70,35 @@ function initBrandSlider(panel) {
     }, { passive: false });
 }
 
+// Photo gallery on a slide: thumbnails pick the large photo, the arrow steps through and loops.
+function initBrandGalleries() {
+    document.querySelectorAll('[data-brand-gallery]').forEach(gallery => {
+        const main = gallery.querySelector('.brand-gallery-main');
+        const strip = gallery.querySelector('.brand-gallery-thumbs');
+        const thumbs = [...strip.querySelectorAll('.brand-gallery-thumb')];
+        const label = main.alt.replace(/\s*\d+$/, '');
+        let current = 0;
+        const show = index => {
+            current = index;
+            main.src = thumbs[index].querySelector('img').getAttribute('src');
+            main.alt = `${label} ${index + 1}`;
+            thumbs.forEach((thumb, i) => {
+                thumb.classList.toggle('is-active', i === index);
+                if (i === index) thumb.setAttribute('aria-current', 'true');
+                else thumb.removeAttribute('aria-current');
+            });
+            // Scroll the strip itself; scrollIntoView would also move the page and the slider.
+            const thumb = thumbs[index];
+            if (thumb.offsetLeft < strip.scrollLeft) strip.scrollLeft = thumb.offsetLeft;
+            else if (thumb.offsetLeft + thumb.offsetWidth > strip.scrollLeft + strip.clientWidth) strip.scrollLeft = thumb.offsetLeft + thumb.offsetWidth - strip.clientWidth;
+        };
+        thumbs.forEach((thumb, index) => thumb.addEventListener('click', () => show(index)));
+        gallery.querySelector('.brand-gallery-next')?.addEventListener('click', () => show((current + 1) % thumbs.length));
+    });
+}
+
 function initBrandPage() {
+    initBrandGalleries();
     const tabs = [...document.querySelectorAll('.brand-tab')];
     if (!tabs.length) return;
 

@@ -29,6 +29,22 @@ declare(strict_types=1);
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>
+<?php $gallery = array_values(array_filter(array_column($slide['gallery'] ?? [], 'image'), 'strlen')); ?>
+<?php if ($gallery): ?>
+<div class="brand-gallery" data-brand-gallery>
+<img class="brand-gallery-main" src="<?= e($gallery[0]) ?>" alt="<?= e(t('활동 사진')) ?> 1" decoding="async"/>
+<div class="brand-gallery-row">
+<div class="brand-gallery-thumbs">
+<?php foreach ($gallery as $galleryIndex => $galleryImage): ?>
+<button class="brand-gallery-thumb<?= $galleryIndex === 0 ? ' is-active' : '' ?>" type="button" aria-label="<?= e(t('활동 사진')) ?> <?= $galleryIndex + 1 ?>"<?= $galleryIndex === 0 ? ' aria-current="true"' : '' ?>><img src="<?= e($galleryImage) ?>" alt="" decoding="async"/></button>
+<?php endforeach; ?>
+</div>
+<?php if (count($gallery) > 1): ?>
+<button class="brand-gallery-next" type="button" aria-label="<?= e(t('다음 사진')) ?>"><i data-lucide="chevron-right" class="site-icon" aria-hidden="true" focusable="false"></i></button>
+<?php endif; ?>
+</div>
+</div>
+<?php endif; ?>
 <div class="brand-slide-text">
 <?php if (!empty($slide['stats'])): ?>
 <ul class="brand-stats">
