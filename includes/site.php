@@ -193,6 +193,27 @@ function site_research_items(array $content): array
     ], $rows);
 }
 
+function site_brand_gallery_rows(\PDO $pdo): array
+{
+    return $pdo->query('SELECT id, image FROM brand_gallery_items ORDER BY position, id')->fetchAll(\PDO::FETCH_ASSOC);
+}
+
+// Activity photos on the brand slide, managed at /admin/gallery. Until then the files listed in content.php show.
+function site_brand_gallery(array $fallback): array
+{
+    $pdo = db_connection();
+    if (!$pdo instanceof \PDO) {
+        return $fallback;
+    }
+    try {
+        $rows = site_brand_gallery_rows($pdo);
+    } catch (\Throwable $exception) {
+        error_log('Brand gallery query failed (' . get_class($exception) . ').');
+        return $fallback;
+    }
+    return $rows ? array_column($rows, 'image') : $fallback;
+}
+
 function site_ingredient_icons(): array
 {
     static $icons = null;

@@ -1002,6 +1002,14 @@
     background: var(--grey-100, #f2f3f5);
 }
 
+.admin-gallery .admin-slide-frame {
+    aspect-ratio: 11 / 10;
+}
+
+.admin-gallery .admin-slide-frame img {
+    object-fit: cover;
+}
+
 .admin-research-tags {
     display: grid;
     grid-column: 1 / -1;

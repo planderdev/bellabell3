@@ -131,6 +131,7 @@ function admin_navigation(): array
             ['label' => '페이지 편집', 'items' => $pages],
             ['label' => '미디어', 'items' => [
                 ['href' => '/admin/slides', 'label' => '연구·기술 슬라이드', 'icon' => 'images'],
+                ['href' => '/admin/gallery', 'label' => '브랜드 활동 사진', 'icon' => 'images'],
             ]],
         ]],
     ];
@@ -339,7 +340,7 @@ function handle_admin_request(string $action): void
     $cookieOptions = ['path' => '/admin', 'secure' => $isHttps, 'httponly' => true, 'samesite' => 'Strict'];
     $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
-    if (!in_array($action, ['', 'login', 'logout', 'handle', 'inbox', 'slides', 'menu', 'sections', 'ingredients', 'research'], true)) {
+    if (!in_array($action, ['', 'login', 'logout', 'handle', 'inbox', 'slides', 'menu', 'sections', 'ingredients', 'research', 'gallery'], true)) {
         admin_layout('찾을 수 없음', '<main class="admin-shell"><h1>페이지를 찾을 수 없습니다.</h1><p><a href="/admin">관리자 홈으로</a></p></main>', 404);
     }
     if (admin_password_hash() === '' || !inquiry_ready()) {
@@ -488,6 +489,27 @@ function handle_admin_request(string $action): void
             admin_redirect('/admin/ingredients' . ($error !== '' ? '?error=' . $error : '?saved=1') . ($focus > 0 ? '#item-' . $focus : ''));
         }
         admin_ingredients_page($pdo, $formToken);
+    }
+
+    if ($action === 'gallery') {
+        if ($method === 'POST') {
+            $wantsJson = ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'fetch';
+            if (!$_POST && (int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+                admin_redirect('/admin/gallery?error=too-large');
+            }
+            if (!$formTokenValid()) {
+                admin_layout('세션 만료', '<main class="admin-shell"><h1>세션이 만료되었습니다.</h1><p><a href="/admin/gallery">다시 열기</a></p></main>', 419);
+            }
+            $error = admin_gallery_action($pdo, inquiry_value($_POST, 'op'));
+            if ($wantsJson) {
+                http_response_code($error === '' ? 200 : 422);
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode(['error' => $error === '' ? null : (admin_site_messages()[$error] ?? $error)], JSON_UNESCAPED_UNICODE);
+                exit;
+            }
+            admin_redirect('/admin/gallery' . ($error !== '' ? '?error=' . $error : '?saved=1'));
+        }
+        admin_gallery_page($pdo, $formToken);
     }
 
     if ($action === 'research') {
