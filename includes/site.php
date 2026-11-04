@@ -134,6 +134,34 @@ function site_menu(array $content): array
     return $menu;
 }
 
+function site_ingredient_rows(\PDO $pdo): array
+{
+    return $pdo->query('SELECT id, name_ko, name_en, name_zh, body_ko, body_en, body_zh, image FROM ingredient_items ORDER BY position, id')->fetchAll(\PDO::FETCH_ASSOC);
+}
+
+// Ingredients for the current language: the admin's once any exist, otherwise content.php's.
+function site_ingredients(array $content): array
+{
+    $rows = [];
+    $pdo = db_connection();
+    if ($pdo instanceof \PDO) {
+        try {
+            $rows = site_ingredient_rows($pdo);
+        } catch (\Throwable $exception) {
+            error_log('Ingredients query failed (' . get_class($exception) . ').');
+        }
+    }
+    if (!$rows) {
+        return $content['ingredients'];
+    }
+    return array_map(fn (array $row): array => [
+        'id' => 'ingredient-' . (int)$row['id'],
+        'name' => (string)($row['name_' . locale()] ?: $row['name_ko']),
+        'body' => (string)($row['body_' . locale()] ?: $row['body_ko']),
+        'image' => (string)$row['image'],
+    ], $rows);
+}
+
 function site_href(string $href): string
 {
     return str_starts_with($href, '/') ? page_url($href) : $href;

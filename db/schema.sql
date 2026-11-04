@@ -75,6 +75,19 @@ create table if not exists site_menu_items (
     position  integer not null default 0
 );
 
+-- Ingredients on /ingredients, managed at /admin/ingredients. Empty until that page is first opened.
+create table if not exists ingredient_items (
+    id       bigserial primary key,
+    name_ko  text    not null,
+    name_en  text    not null default '',
+    name_zh  text    not null default '',
+    body_ko  text    not null default '',
+    body_en  text    not null default '',
+    body_zh  text    not null default '',
+    image    text    not null default '',
+    position integer not null default 0
+);
+
 alter table contact_attempts   enable row level security;
 alter table business_inquiries enable row level security;
 alter table research_slides    enable row level security;
@@ -91,3 +104,6 @@ alter table site_images owner to bellabell_app;
 alter table site_menu_items owner to bellabell_app;
 grant usage, select on sequence site_images_id_seq to bellabell_app;
 grant usage, select on sequence site_menu_items_id_seq to bellabell_app;
+alter table ingredient_items enable row level security;
+alter table ingredient_items owner to bellabell_app;
+grant usage, select on sequence ingredient_items_id_seq to bellabell_app;

@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require __DIR__ . '/../includes/common.php';
 $content = site_content();
+$ingredients = site_ingredients($content);
 $pageTitle = $content['ingredients_title'] . ' | ' . t('벨아벨팜');
 ?>
 <!doctype html><html lang="<?= e(LOCALES[locale()]['html']) ?>">
@@ -13,7 +14,7 @@ $pageTitle = $content['ingredients_title'] . ' | ' . t('벨아벨팜');
 <div class="ingredients-side">
 <h2 class="ingredients-title"><?= e($content['ingredients_title']) ?></h2>
 <ul class="ingredients-nav">
-<?php foreach ($content['ingredients'] as $item): ?>
+<?php foreach ($ingredients as $item): ?>
 <li><a href="#<?= e($item['id']) ?>"><?= e($item['name']) ?></a></li>
 <?php endforeach; ?>
 </ul>
@@ -26,7 +27,7 @@ $pageTitle = $content['ingredients_title'] . ' | ' . t('벨아벨팜');
 <p><?= nl2br(e($content['ingredients_intro_body']), false) ?></p>
 </section>
 <ol class="ingredients-list">
-<?php foreach ($content['ingredients'] as $index => $item): ?>
+<?php foreach ($ingredients as $index => $item): ?>
 <li class="ingredient-item" id="<?= e($item['id']) ?>">
 <div class="ingredient-photo"<?= $item['image'] === '' ? ' data-media-state="missing"' : '' ?>>
 <?php if ($item['image'] !== ''): ?>
