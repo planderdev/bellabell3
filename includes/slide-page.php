@@ -60,6 +60,9 @@ declare(strict_types=1);
 <?php if (($slide['body_after'] ?? '') !== ''): ?>
 <p class="brand-slide-body brand-slide-body--after"><?= e($slide['body_after']) ?></p>
 <?php endif; ?>
+<?php if (!empty($slide['figure'])): ?>
+<figure class="brand-slide-figure"><img src="<?= e($slide['figure']['image']) ?>" alt="<?= e($slide['figure']['caption']) ?>" width="386" height="403" loading="lazy" decoding="async"/><figcaption><?= e($slide['figure']['caption']) ?></figcaption></figure>
+<?php endif; ?>
 <?php if (!empty($slide['logo'])): ?>
 <img class="brand-slide-logo" src="<?= e($slide['logo']) ?>" alt="<?= e(t('벨아벨팜')) ?>" width="418" height="183" decoding="async"/>
 <?php endif; ?>

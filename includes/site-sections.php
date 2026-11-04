@@ -123,11 +123,15 @@ return [
                 $text("brand_slides.bellabelfarm.3.certificates.$i.caption", "슬라이드 4 인증서 $n 이름"),
             ]),
         ]],
-        'fromhalla' => ['label' => '프롬한라', 'anchor' => '#fromhalla', 'fields' => $repeat(6, fn (int $i, int $n): array => [
-            $long("brand_slides.fromhalla.$i.title", "슬라이드 $n 제목"),
-            $long("brand_slides.fromhalla.$i.body", "슬라이드 $n 본문"),
-            $image("brand_slides.fromhalla.$i.image", "슬라이드 $n 배경"),
-        ])],
+        'fromhalla' => ['label' => '프롬한라', 'anchor' => '#fromhalla', 'fields' => [
+            ...$repeat(6, fn (int $i, int $n): array => [
+                $long("brand_slides.fromhalla.$i.title", "슬라이드 $n 제목"),
+                $long("brand_slides.fromhalla.$i.body", "슬라이드 $n 본문"),
+                $image("brand_slides.fromhalla.$i.image", "슬라이드 $n 배경"),
+            ]),
+            $image('brand_slides.fromhalla.1.figure.image', '슬라이드 2 캐릭터 이미지'),
+            $text('brand_slides.fromhalla.1.figure.caption', '슬라이드 2 캐릭터 설명'),
+        ]],
         'awoo' => ['label' => '아우아우', 'anchor' => '#awoo', 'fields' => $repeat(3, fn (int $i, int $n): array => [
             $long("brand_slides.awoo.$i.title", "슬라이드 $n 제목"),
             $long("brand_slides.awoo.$i.body", "슬라이드 $n 본문"),
