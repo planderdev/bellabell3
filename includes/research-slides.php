@@ -16,12 +16,13 @@ function research_slide_src(array $row): string
 
 function research_slides_uploaded(\PDO $pdo): array
 {
-    return $pdo->query('SELECT id, src, width, height, alt FROM research_slides ORDER BY position, id')->fetchAll(\PDO::FETCH_ASSOC);
+    return $pdo->query('SELECT id, src, width, height, alt, hidden_home::int AS hidden_home FROM research_slides ORDER BY position, id')->fetchAll(\PDO::FETCH_ASSOC);
 }
 
 // Slides for the home page. A missing database or table must never break the page.
 function research_slides(array $fallback): array
 {
+    $fallback = array_values(array_filter($fallback, fn (array $slide): bool => empty($slide['hidden'])));
     $pdo = db_connection();
     if (!$pdo instanceof \PDO) {
         return $fallback;
@@ -32,6 +33,7 @@ function research_slides(array $fallback): array
         error_log('Research slides query failed (' . get_class($exception) . ').');
         return $fallback;
     }
+    $rows = array_filter($rows, fn (array $row): bool => !(int)$row['hidden_home']);
     if (!$rows) {
         return $fallback;
     }
@@ -70,10 +72,10 @@ function research_slides_seed(\PDO $pdo, array $defaults): void
     if ((int)$pdo->query('SELECT count(*) FROM research_slides')->fetchColumn() > 0) {
         return;
     }
-    $statement = $pdo->prepare("INSERT INTO research_slides (src, mime, width, height, alt, position) VALUES (:src, 'image/webp', :width, :height, :alt, :position)");
+    $statement = $pdo->prepare("INSERT INTO research_slides (src, mime, width, height, alt, hidden_home, position) VALUES (:src, 'image/webp', :width, :height, :alt, :hidden, :position)");
     $pdo->beginTransaction();
     foreach ($defaults as $index => $slide) {
-        $statement->execute(['src' => $slide['src'], 'width' => $slide['width'], 'height' => $slide['height'], 'alt' => $slide['alt'], 'position' => $index + 1]);
+        $statement->execute(['src' => $slide['src'], 'width' => $slide['width'], 'height' => $slide['height'], 'alt' => $slide['alt'], 'hidden' => empty($slide['hidden']) ? 'false' : 'true', 'position' => $index + 1]);
     }
     $pdo->commit();
 }

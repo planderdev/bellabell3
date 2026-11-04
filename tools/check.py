@@ -31,7 +31,7 @@ def fetch(path):
 checks=[]
 def check(name,ok,detail=''):checks.append({'check':name,'pass':bool(ok),'detail':detail})
 for prefix,lang,label in (('/en','en','ENG'),('/zh','zh-CN','中文')):
-    for page in ('','/brand','/product','/ingredients'):
+    for page in ('','/brand','/product','/ingredients','/research','/research'):
         code,body,_=fetch(prefix+page);text=body.decode()
         check('Localized page returns 200',code==200,prefix+page)
         check('Localized page sets html lang',f'<html lang="{lang}">' in text,prefix+page)
@@ -40,7 +40,7 @@ for prefix,lang,label in (('/en','en','ENG'),('/zh','zh-CN','中文')):
         check('Language switcher shows current language',f'<span class="language-current">{label}</span>' in text,prefix+page)
         check('Language switcher links this page in every language',all(f'href="{p or "/"}"' in text for p in (page,'/en'+page,'/zh'+page)),prefix+page)
 check('Robots hides admin and points to the sitemap',all(x in fetch('/robots.txt')[1].decode() for x in ('Disallow: /admin','Sitemap: https://www.jejubellabell.com/sitemap.xml')))
-check('Sitemap lists every page in every language',fetch('/sitemap.xml')[1].decode().count('<loc>')==12)
+check('Sitemap lists every page in every language',fetch('/sitemap.xml')[1].decode().count('<loc>')==15)
 for page,canonical in (('/','https://www.jejubellabell.com/'),('/en/brand','https://www.jejubellabell.com/en/brand'),('/zh','https://www.jejubellabell.com/zh')):check('Page declares its canonical address',f'rel="canonical" href="{canonical}"' in fetch(page)[1].decode(),page)
 for path in ('/media/research/999999','/media/research/abc','/en/media/research/1'):check('Missing slide image is 404',fetch(path)[0]==404,path)
 for path in ('/en/admin','/zh/api/contact','/en/assets/css/base.css','/en/nope'):check('Language prefix serves only pages',fetch(path)[0]==404,path)
@@ -54,7 +54,7 @@ for c,count in [('technology-item',0),('standard-card',4),('product-item',2),('p
 for section,c,count in [('care-section','care-item',5)]:check('Card structure count',sum(n.has(c) for n in byclass(section)[0].descendants())==count,section)
 gnb=byclass('gnb')[0];depths=[n for n in gnb.descendants() if n.has('gnb-depth')]
 check('Four confirmed menu items with dropdowns only on pages',[a.text() for a in gnb.descendants() if a.tag=='a' and a.parent.tag=='li']==['브랜드','상품소개','연구기술','제안&협업'] and [len([a for a in d.children if a.tag=='a']) for d in depths]==[3,4])
-check('Menu links open the finished pages and sections',[a.a.get('href') for a in gnb.descendants() if a.tag=='a' and a.parent.tag=='li']==['/brand','/product','#research','#partner'])
+check('Menu links open the finished pages and sections',[a.a.get('href') for a in gnb.descendants() if a.tag=='a' and a.parent.tag=='li']==['/brand','/product','/research','#partner'])
 check('Pillar labels keep the supplied wording',[n.children[0].text() for n in byclass('pillars-label')]==['Global K-PET FOOD','PET SKINCARE','Sustainability'])
 check('Pillar videos start paused until a button is pressed',[n.a.get('id') for n in nodes if n.tag=='video' and 'autoplay' not in n.a]==['pillar-video','pillar-skin-video','pillar-sustain-video'] and [n.a.get('aria-controls') for n in byclass('pillars-label')]==['pillar-video','pillar-skin-video','pillar-sustain-video'])
 check('Deleted global selectors removed',not byclass('form-select-menu'))
@@ -96,7 +96,7 @@ footer_sns=[
     ('https://pf.kakao.com/_JTnxks','/assets/icons/kakaoch.svg'),
 ]
 confirmed_destinations={
-    'tel:0648030060','mailto:partner@jejubellabell.com','https://fromhalla.com','/','/en','/zh','/brand','/brand#bellabelfarm','/brand#fromhalla','/brand#awoo','/product','/ingredients','/product#stick','/product#biotics','/product#nanotreat',
+    'tel:0648030060','mailto:partner@jejubellabell.com','https://fromhalla.com','/','/en','/zh','/brand','/brand#bellabelfarm','/brand#fromhalla','/brand#awoo','/product','/ingredients','/research','/product#stick','/product#biotics','/product#nanotreat',
     'https://m.fromhalla.com/article/%EB%B3%B4%EB%8F%84%EC%9E%90%EB%A3%8C/2/13641/#',
     *(url for url,icon in footer_sns),
 }

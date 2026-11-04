@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
             body.set("op", "order");
             body.set("ids", [...list.children].map(item => item.dataset.ingredientId).join(","));
             try {
-                const response = await fetch("/admin/ingredients", { method:"POST", body, headers:{ "X-Requested-With":"fetch" }, credentials:"same-origin" });
+                const response = await fetch(page.dataset.action || "/admin/ingredients", { method:"POST", body, headers:{ "X-Requested-With":"fetch" }, credentials:"same-origin" });
                 const data = await response.json();
                 if (data.error) throw new Error(data.error);
                 say("순서를 저장했습니다.");

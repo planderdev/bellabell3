@@ -126,6 +126,7 @@ function admin_navigation(): array
             ['label' => '구성', 'items' => [
                 ['href' => '/admin/menu', 'label' => '메뉴 관리', 'icon' => 'menu'],
                 ['href' => '/admin/ingredients', 'label' => '원료 관리', 'icon' => 'leaf'],
+                ['href' => '/admin/research', 'label' => '연구기술 자료', 'icon' => 'images'],
             ]],
             ['label' => '페이지 편집', 'items' => $pages],
             ['label' => '미디어', 'items' => [
@@ -224,6 +225,7 @@ function admin_home_page(\PDO $pdo, string $formToken): never
 function admin_slide_messages(): array
 {
     return [
+        'last-visible' => '메인에 슬라이드가 최소 1장은 나와야 합니다.',
         'no-file' => '이미지 파일을 선택해 주세요.',
         'too-large' => '이미지가 너무 큽니다. 3MB 이하로 줄여서 올려 주세요.',
         'bad-type' => 'JPG, PNG, WEBP 이미지만 올릴 수 있습니다.',
@@ -253,6 +255,13 @@ function admin_slide_action(\PDO $pdo, string $op, ?int &$created = null): strin
             research_slide_move($pdo, $id, $op === 'up' ? -1 : 1);
         } elseif ($op === 'order') {
             research_slides_order($pdo, array_map('intval', array_filter(explode(',', inquiry_value($_POST, 'ids')), 'ctype_digit')));
+        } elseif ($op === 'visibility') {
+            $hide = inquiry_value($_POST, 'hide') === '1';
+            $visible = array_filter(research_slides_uploaded($pdo), fn (array $row): bool => !(int)$row['hidden_home'] && (int)$row['id'] !== $id);
+            if ($hide && !$visible) {
+                return 'last-visible';
+            }
+            $pdo->prepare('UPDATE research_slides SET hidden_home = :hidden WHERE id = :id')->execute(['hidden' => $hide ? 'true' : 'false', 'id' => $id]);
         } elseif ($op === 'delete') {
             if (count(research_slides_uploaded($pdo)) <= 1) {
                 return 'last-one';
@@ -273,11 +282,13 @@ function admin_slide_card(array $slide, string $formToken, int $number, int $tot
 {
     $id = (int)$slide['id'];
     $hidden = fn (string $op): string => admin_hidden($formToken, ['op' => $op, 'id' => $id]);
-    return '<li class="admin-card admin-slide-card" data-slide-id="' . $id . '">'
+    $isHidden = (int)($slide['hidden_home'] ?? 0) === 1;
+    return '<li class="admin-card admin-slide-card' . ($isHidden ? ' is-hidden-home' : '') . '" data-slide-id="' . $id . '">'
         . '<div class="admin-slide-top"><button class="admin-slide-handle" type="button" title="끌어서 순서 변경" aria-label="' . $number . '번 슬라이드, 끌어서 순서 변경">' . admin_icon('grip') . '</button><span class="admin-slide-number">' . $number . '</span>'
         . '<form method="post" action="/admin/slides" data-slide-form data-confirm="이 이미지를 삭제할까요?">' . $hidden('delete') . '<button class="admin-slide-delete" type="submit">삭제</button></form></div>'
         . '<div class="admin-slide-frame"><img src="' . e(research_slide_src($slide)) . '" alt="" width="' . (int)$slide['width'] . '" height="' . (int)$slide['height'] . '" loading="lazy" draggable="false"></div>'
         . '<form class="admin-slide-alt" method="post" action="/admin/slides" data-slide-form data-slide-alt>' . $hidden('alt') . '<label class="admin-label" for="slide-alt-' . $id . '">이미지 설명</label><input class="admin-input" type="text" id="slide-alt-' . $id . '" name="alt" value="' . e((string)$slide['alt']) . '" maxlength="200"></form>'
+        . '<form class="admin-slide-visibility" method="post" action="/admin/slides">' . admin_hidden($formToken, ['op' => 'visibility', 'id' => $id, 'hide' => $isHidden ? '0' : '1']) . '<span>' . ($isHidden ? '메인에서 숨김' : '메인에 표시 중') . '</span><button class="admin-button admin-button--outline" type="submit">' . ($isHidden ? '다시 보이기' : '숨기기') . '</button></form>'
         . '<div class="admin-slide-moves">'
         . '<form method="post" action="/admin/slides" data-slide-form>' . $hidden('up') . '<button class="admin-button admin-button--outline" type="submit" data-move="up"' . ($number === 1 ? ' disabled' : '') . '>앞으로</button></form>'
         . '<form method="post" action="/admin/slides" data-slide-form>' . $hidden('down') . '<button class="admin-button admin-button--outline" type="submit" data-move="down"' . ($number === $total ? ' disabled' : '') . '>뒤로</button></form>'
@@ -328,7 +339,7 @@ function handle_admin_request(string $action): void
     $cookieOptions = ['path' => '/admin', 'secure' => $isHttps, 'httponly' => true, 'samesite' => 'Strict'];
     $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
-    if (!in_array($action, ['', 'login', 'logout', 'handle', 'inbox', 'slides', 'menu', 'sections', 'ingredients'], true)) {
+    if (!in_array($action, ['', 'login', 'logout', 'handle', 'inbox', 'slides', 'menu', 'sections', 'ingredients', 'research'], true)) {
         admin_layout('찾을 수 없음', '<main class="admin-shell"><h1>페이지를 찾을 수 없습니다.</h1><p><a href="/admin">관리자 홈으로</a></p></main>', 404);
     }
     if (admin_password_hash() === '' || !inquiry_ready()) {
@@ -477,6 +488,28 @@ function handle_admin_request(string $action): void
             admin_redirect('/admin/ingredients' . ($error !== '' ? '?error=' . $error : '?saved=1') . ($focus > 0 ? '#item-' . $focus : ''));
         }
         admin_ingredients_page($pdo, $formToken);
+    }
+
+    if ($action === 'research') {
+        if ($method === 'POST') {
+            $wantsJson = ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'fetch';
+            if (!$_POST && (int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+                admin_redirect('/admin/research?error=too-large');
+            }
+            if (!$formTokenValid()) {
+                admin_layout('세션 만료', '<main class="admin-shell"><h1>세션이 만료되었습니다.</h1><p><a href="/admin/research">다시 열기</a></p></main>', 419);
+            }
+            $focus = 0;
+            $error = admin_research_action($pdo, inquiry_value($_POST, 'op'), $focus);
+            if ($wantsJson) {
+                http_response_code($error === '' ? 200 : 422);
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode(['error' => $error === '' ? null : (admin_site_messages()[$error] ?? $error)], JSON_UNESCAPED_UNICODE);
+                exit;
+            }
+            admin_redirect('/admin/research' . ($error !== '' ? '?error=' . $error : '?saved=1') . ($focus > 0 ? '#item-' . $focus : ''));
+        }
+        admin_research_page($pdo, $formToken);
     }
 
     if ($action === 'sections') {

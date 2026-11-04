@@ -163,6 +163,36 @@ function site_ingredients(array $content): array
     ], $rows);
 }
 
+function site_research_rows(\PDO $pdo): array
+{
+    return $pdo->query('SELECT id, tag_ko, tag_en, tag_zh, title_ko, title_en, title_zh, body_ko, body_en, body_zh, image FROM research_items ORDER BY position, id')->fetchAll(\PDO::FETCH_ASSOC);
+}
+
+// Cards for /research. A missing database or table falls back to content.php.
+function site_research_items(array $content): array
+{
+    $rows = [];
+    $pdo = db_connection();
+    if ($pdo instanceof \PDO) {
+        try {
+            $rows = site_research_rows($pdo);
+        } catch (\Throwable $exception) {
+            error_log('Research items query failed (' . get_class($exception) . ').');
+        }
+    }
+    if (!$rows) {
+        return $content['research_items'];
+    }
+    $code = locale();
+    $pick = fn (array $row, string $field): string => (string)($row[$field . '_' . $code] ?: $row[$field . '_ko']);
+    return array_map(fn (array $row): array => [
+        'tag' => $pick($row, 'tag'),
+        'title' => $pick($row, 'title'),
+        'body' => $pick($row, 'body'),
+        'image' => (string)$row['image'],
+    ], $rows);
+}
+
 function site_ingredient_icons(): array
 {
     static $icons = null;

@@ -3,7 +3,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../includes/i18n.php';
 $urlPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/';
 // /en and /zh serve the same pages as Korean; anything else under those prefixes stays a 404.
-if (preg_match('~^/(en|zh)(/brand|/product|/ingredients)?/?$~', $urlPath, $localeMatch)) {
+if (preg_match('~^/(en|zh)(/brand|/product|/ingredients|/research)?/?$~', $urlPath, $localeMatch)) {
     locale($localeMatch[1]);
     $urlPath = $localeMatch[2] ?? '/';
 }
@@ -24,6 +24,10 @@ if ($urlPath === '/ingredients') {
     require __DIR__ . '/ingredients.php';
     return true;
 }
+if ($urlPath === '/research') {
+    require __DIR__ . '/research.php';
+    return true;
+}
 if ($urlPath === '/robots.txt') {
     header('Content-Type: text/plain; charset=utf-8');
     echo "User-agent: *\nDisallow: /admin\nDisallow: /api/\n\nSitemap: " . SITE_URL . "/sitemap.xml\n";
@@ -32,7 +36,7 @@ if ($urlPath === '/robots.txt') {
 if ($urlPath === '/sitemap.xml') {
     header('Content-Type: application/xml; charset=utf-8');
     echo '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-    foreach (['/', '/brand', '/product', '/ingredients'] as $page) {
+    foreach (['/', '/brand', '/product', '/ingredients', '/research'] as $page) {
         foreach (array_keys(LOCALES) as $code) {
             echo '<url><loc>' . SITE_URL . page_url($page, $code) . '</loc></url>';
         }

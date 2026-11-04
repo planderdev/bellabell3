@@ -12,6 +12,8 @@ function admin_site_messages(): array
         'bad-link' => '주소는 /brand, #research, https://... 형식으로 적어 주세요.',
         'no-label' => '한국어 메뉴 이름을 입력해 주세요.',
         'no-name' => '한국어 원료 이름을 입력해 주세요.',
+        'no-title' => '한국어 제목을 입력해 주세요.',
+        'last-research' => '자료는 최소 1개가 있어야 합니다. 새 자료를 먼저 추가해 주세요.',
         'last-ingredient' => '원료는 최소 1개가 있어야 합니다. 새 원료를 먼저 추가해 주세요.',
     ];
 }
@@ -363,6 +365,171 @@ function admin_ingredients_page(\PDO $pdo, string $formToken): never
 </main>
 <?php
     admin_layout('원료 관리', admin_header('원료 관리', '/admin/ingredients', $formToken) . ob_get_clean(), 200, ['/assets/js/vendor/Sortable.min.js', '/assets/js/admin-ingredient-board.js']);
+}
+
+// ---- Research items ----
+
+// The first visit copies the default documents into the table, so editing starts from what the site shows.
+function research_items_seed(\PDO $pdo): void
+{
+    if ((int)$pdo->query('SELECT count(*) FROM research_items')->fetchColumn() > 0) {
+        return;
+    }
+    $current = locale();
+    $sets = [];
+    foreach (array_keys(LOCALES) as $code) {
+        locale($code);
+        $sets[$code] = site_content()['research_items'];
+    }
+    locale($current);
+    $insert = $pdo->prepare('INSERT INTO research_items (tag_ko, tag_en, tag_zh, title_ko, title_en, title_zh, body_ko, body_en, body_zh, image, position) VALUES (:tk, :te, :tz, :nk, :ne, :nz, :bk, :be, :bz, :image, :position)');
+    $pdo->beginTransaction();
+    foreach ($sets['ko'] as $index => $item) {
+        $insert->execute([
+            'tk' => $item['tag'], 'te' => $sets['en'][$index]['tag'], 'tz' => $sets['zh'][$index]['tag'],
+            'nk' => $item['title'], 'ne' => $sets['en'][$index]['title'], 'nz' => $sets['zh'][$index]['title'],
+            'bk' => $item['body'], 'be' => $sets['en'][$index]['body'], 'bz' => $sets['zh'][$index]['body'],
+            'image' => $item['image'], 'position' => $index + 1,
+        ]);
+    }
+    $pdo->commit();
+}
+
+function research_item_image(\PDO $pdo, int $id): string
+{
+    $statement = $pdo->prepare('SELECT image FROM research_items WHERE id = :id');
+    $statement->execute(['id' => $id]);
+    return (string)$statement->fetchColumn();
+}
+
+// POST /admin/research. Returns an error code from admin_site_messages(), or '' on success. $focus is the item to scroll back to.
+function admin_research_action(\PDO $pdo, string $op, int &$focus): string
+{
+    $id = (int)inquiry_value($_POST, 'id');
+    $focus = $id;
+    $line = fn (string $key, int $max): string => mb_substr(trim(inquiry_value($_POST, $key)), 0, $max);
+    $body = function (string $key): string {
+        $value = $_POST[$key] ?? '';
+        return is_string($value) ? mb_substr(trim(str_replace("\r\n", "\n", $value)), 0, ADMIN_TEXT_MAX) : '';
+    };
+    try {
+        if ($op === 'add') {
+            if ($line('title_ko', 120) === '') {
+                return 'no-title';
+            }
+            $statement = $pdo->prepare('INSERT INTO research_items (tag_ko, title_ko, title_en, title_zh, position) VALUES (:tag, :ko, :en, :zh, (SELECT coalesce(max(position), 0) + 1 FROM research_items)) RETURNING id');
+            $statement->execute(['tag' => $line('tag_ko', 30), 'ko' => $line('title_ko', 120), 'en' => $line('title_en', 120), 'zh' => $line('title_zh', 120)]);
+            $focus = (int)$statement->fetchColumn();
+        } elseif ($op === 'save') {
+            if ($line('title_ko', 120) === '') {
+                return 'no-title';
+            }
+            $pdo->prepare('UPDATE research_items SET tag_ko = :tk, tag_en = :te, tag_zh = :tz, title_ko = :nk, title_en = :ne, title_zh = :nz, body_ko = :bk, body_en = :be, body_zh = :bz WHERE id = :id')->execute([
+                'tk' => $line('tag_ko', 30), 'te' => $line('tag_en', 30), 'tz' => $line('tag_zh', 30),
+                'nk' => $line('title_ko', 120), 'ne' => $line('title_en', 120), 'nz' => $line('title_zh', 120),
+                'bk' => $body('body_ko'), 'be' => $body('body_en'), 'bz' => $body('body_zh'), 'id' => $id,
+            ]);
+        } elseif ($op === 'image') {
+            $image = research_slide_read_upload($_FILES['image'] ?? []);
+            if (is_string($image)) {
+                return $image;
+            }
+            [$bytes, $mime, $width, $height] = $image;
+            $pdo->beginTransaction();
+            ingredient_image_discard($pdo, research_item_image($pdo, $id));
+            $statement = $pdo->prepare('INSERT INTO site_images (image, mime, width, height) VALUES (:image, :mime, :width, :height) RETURNING id');
+            $statement->bindValue('image', $bytes, \PDO::PARAM_LOB);
+            $statement->bindValue('mime', $mime);
+            $statement->bindValue('width', $width, \PDO::PARAM_INT);
+            $statement->bindValue('height', $height, \PDO::PARAM_INT);
+            $statement->execute();
+            $pdo->prepare('UPDATE research_items SET image = :image WHERE id = :id')->execute(['image' => '/media/site/' . (int)$statement->fetchColumn(), 'id' => $id]);
+            $pdo->commit();
+        } elseif ($op === 'image-remove') {
+            ingredient_image_discard($pdo, research_item_image($pdo, $id));
+            $pdo->prepare("UPDATE research_items SET image = '' WHERE id = :id")->execute(['id' => $id]);
+        } elseif ($op === 'delete') {
+            if ((int)$pdo->query('SELECT count(*) FROM research_items')->fetchColumn() <= 1) {
+                return 'last-research';
+            }
+            ingredient_image_discard($pdo, research_item_image($pdo, $id));
+            $pdo->prepare('DELETE FROM research_items WHERE id = :id')->execute(['id' => $id]);
+            $focus = 0;
+        } elseif ($op === 'order') {
+            $ids = array_map('intval', array_filter(explode(',', inquiry_value($_POST, 'ids')), 'ctype_digit'));
+            $statement = $pdo->prepare('UPDATE research_items SET position = :position WHERE id = :id');
+            $pdo->beginTransaction();
+            foreach (array_values($ids) as $index => $itemId) {
+                $statement->execute(['position' => $index + 1, 'id' => $itemId]);
+            }
+            $pdo->commit();
+        }
+    } catch (\Throwable $exception) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        error_log('Admin research action failed (' . get_class($exception) . ').');
+        return 'failed';
+    }
+    return '';
+}
+
+function admin_research_page(\PDO $pdo, string $formToken): never
+{
+    try {
+        research_items_seed($pdo);
+        $rows = site_research_rows($pdo);
+    } catch (\Throwable $exception) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        error_log('Admin research query failed (' . get_class($exception) . ').');
+        admin_layout('데이터베이스 오류', admin_header('연구기술 자료', '/admin/research', $formToken) . '<main class="admin-shell"><h1>자료 목록을 불러오지 못했습니다.</h1><p><code>db/schema.sql</code>이 최신으로 적용되었는지 확인해 주세요.</p></main>', 502);
+    }
+    ob_start();
+    ?>
+<main class="admin-shell" data-ingredient-board data-action="/admin/research" data-token="<?= e($formToken) ?>">
+<?= admin_notice() ?>
+<p class="admin-slide-status" id="ingredient-status" role="status" aria-live="polite" hidden></p>
+<div class="admin-section-head"><p class="admin-help">추가한 자료는 연구기술 페이지의 카드로 바로 나옵니다. 사진과 문구를 넣고, 같은 분류끼리 위쪽 버튼으로 모아 볼 수 있습니다. 영문·중문을 비워 두면 한국어가 나옵니다.</p><a class="admin-button admin-button--outline" href="/research" target="_blank" rel="noopener">홈페이지에서 보기</a></div>
+<form class="admin-card admin-menu-add" method="post" action="/admin/research">
+<?= admin_hidden($formToken, ['op' => 'add']) ?>
+<h2>자료 추가</h2>
+<div class="admin-ingredient-add">
+<div><label class="admin-label" for="add-ko">한국어 제목</label><input class="admin-input" id="add-ko" name="title_ko" maxlength="120" required></div>
+<div><label class="admin-label" for="add-en">영문 제목</label><input class="admin-input" id="add-en" name="title_en" maxlength="120"></div>
+<div><label class="admin-label" for="add-zh">중문 제목</label><input class="admin-input" id="add-zh" name="title_zh" maxlength="120"></div>
+<div><label class="admin-label" for="add-tag">분류</label><input class="admin-input" id="add-tag" name="tag_ko" maxlength="30" placeholder="예: 특허"></div>
+<button class="admin-button" type="submit">추가</button>
+</div>
+</form>
+<ol class="admin-ingredient-list" id="ingredient-list">
+<?php foreach ($rows as $index => $row): $id = (int)$row['id']; $last = $index === count($rows) - 1; ?>
+<li class="admin-card admin-ingredient" id="item-<?= $id ?>" data-ingredient-id="<?= $id ?>">
+<div class="admin-slide-top"><button class="admin-slide-handle" type="button" title="끌어서 순서 변경" aria-label="<?= e((string)$row['title_ko']) ?>, 끌어서 순서 변경"><?= admin_icon('grip') ?></button><span class="admin-slide-number"><?= sprintf('%02d', $index + 1) ?></span>
+<form method="post" action="/admin/research" data-confirm="이 자료를 삭제할까요? 연구기술 페이지에서 사라집니다."><?= admin_hidden($formToken, ['op' => 'delete', 'id' => $id]) ?><button class="admin-slide-delete" type="submit">삭제</button></form></div>
+<div class="admin-ingredient-body">
+<div class="admin-ingredient-media">
+<?php if ($row['image'] !== ''): ?><img src="<?= e((string)$row['image']) ?>" alt="" loading="lazy"><?php else: ?><div class="admin-image-empty">사진 없음</div><?php endif; ?>
+<form method="post" action="/admin/research" enctype="multipart/form-data" data-slide-upload><?= admin_hidden($formToken, ['op' => 'image', 'id' => $id]) ?><label class="admin-label" for="image-<?= $id ?>">사진</label><input class="admin-input" type="file" id="image-<?= $id ?>" name="image" accept="image/jpeg,image/png,image/webp,image/heic" required><button class="admin-button admin-button--block" type="submit" data-busy-label="올리는 중...">사진 올리기</button></form>
+<?php if ($row['image'] !== ''): ?><form method="post" action="/admin/research" data-confirm="이 사진을 지울까요?"><?= admin_hidden($formToken, ['op' => 'image-remove', 'id' => $id]) ?><button class="admin-button admin-button--outline admin-button--block" type="submit">사진 지우기</button></form><?php endif; ?>
+</div>
+<form class="admin-ingredient-fields" method="post" action="/admin/research">
+<?= admin_hidden($formToken, ['op' => 'save', 'id' => $id]) ?>
+<div class="admin-research-tags"><?php foreach (['ko' => '한국어', 'en' => '영문', 'zh' => '중문'] as $code => $label): ?><div><label class="admin-label" for="tag-<?= $code ?>-<?= $id ?>"><?= $label ?> 분류</label><input class="admin-input" id="tag-<?= $code ?>-<?= $id ?>" name="tag_<?= $code ?>" value="<?= e((string)$row['tag_' . $code]) ?>" maxlength="30"></div><?php endforeach; ?></div>
+<?php foreach (['ko' => '한국어', 'en' => '영문', 'zh' => '중문'] as $code => $label): ?>
+<div><label class="admin-label" for="title-<?= $code ?>-<?= $id ?>"><?= $label ?> 제목</label><input class="admin-input" id="title-<?= $code ?>-<?= $id ?>" name="title_<?= $code ?>" value="<?= e((string)$row['title_' . $code]) ?>" maxlength="120"<?= $code === 'ko' ? ' required' : '' ?>></div>
+<div><label class="admin-label" for="body-<?= $code ?>-<?= $id ?>"><?= $label ?> 설명</label><textarea class="admin-input" id="body-<?= $code ?>-<?= $id ?>" name="body_<?= $code ?>" rows="3" maxlength="<?= ADMIN_TEXT_MAX ?>"><?= e((string)$row['body_' . $code]) ?></textarea></div>
+<?php endforeach; ?>
+<button class="admin-button admin-button--block" type="submit">저장</button>
+</form>
+</div>
+</li>
+<?php endforeach; ?>
+</ol>
+</main>
+<?php
+    admin_layout('연구기술 자료', admin_header('연구기술 자료', '/admin/research', $formToken) . ob_get_clean(), 200, ['/assets/js/vendor/Sortable.min.js', '/assets/js/admin-ingredient-board.js']);
 }
 
 // ---- Sections ----
