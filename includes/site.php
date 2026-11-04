@@ -193,6 +193,40 @@ function site_research_items(array $content): array
     ], $rows);
 }
 
+function site_product_rows(\PDO $pdo): array
+{
+    return $pdo->query('SELECT id, category, name_ko, name_en, name_zh, detail_ko, detail_en, detail_zh, size_ko, size_en, size_zh, image, url FROM product_items ORDER BY position, id')->fetchAll(\PDO::FETCH_ASSOC);
+}
+
+// Products for /product, grouped in category order. A missing database or table falls back to content.php.
+function site_products(array $content): array
+{
+    $rows = [];
+    $pdo = db_connection();
+    if ($pdo instanceof \PDO) {
+        try {
+            $rows = site_product_rows($pdo);
+        } catch (\Throwable $exception) {
+            error_log('Products query failed (' . get_class($exception) . ').');
+        }
+    }
+    $order = array_flip(array_column($content['product_categories'], 'id'));
+    $code = locale();
+    $pick = fn (array $row, string $field): string => (string)($row[$field . '_' . $code] ?: $row[$field . '_ko']);
+    $products = $rows ? array_map(fn (array $row): array => [
+        'category' => (string)$row['category'],
+        'name' => $pick($row, 'name'),
+        'detail' => $pick($row, 'detail'),
+        'size' => $pick($row, 'size'),
+        'image' => $row['image'] === '' ? null : ['src' => (string)$row['image'], 'alt' => trim($pick($row, 'name') . ' ' . $pick($row, 'detail'))],
+        'url' => (string)$row['url'],
+    ], $rows) : $content['products'];
+    $products = array_values(array_filter($products, fn (array $product): bool => isset($order[$product['category']])));
+    $positions = array_keys($products);
+    array_multisort(array_map(fn (array $product): int => $order[$product['category']], $products), SORT_ASC, $positions, SORT_ASC, $products);
+    return $products;
+}
+
 function site_brand_gallery_rows(\PDO $pdo): array
 {
     return $pdo->query('SELECT id, image FROM brand_gallery_items ORDER BY position, id')->fetchAll(\PDO::FETCH_ASSOC);

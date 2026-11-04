@@ -12,9 +12,12 @@ return [
             ['label' => '아우아우', 'href' => '/brand#awoo', 'children' => []],
         ]],
         ['label' => '상품소개', 'href' => '/product', 'children' => [
+            ['label' => '전체', 'href' => '/product', 'children' => []],
             ['label' => '프롬한라스틱', 'href' => '/product#stick', 'children' => []],
-            ['label' => '바이오틱스', 'href' => '/product#biotics', 'children' => []],
-            ['label' => '나노트릿', 'href' => '/product#nanotreat', 'children' => []],
+            ['label' => '프롬한라골드유산균', 'href' => '/product#biotics', 'children' => []],
+            ['label' => '프롬한라나노트릿', 'href' => '/product#nanotreat', 'children' => []],
+            ['label' => '프롬한라티티패드', 'href' => '/product#ttpad', 'children' => []],
+            ['label' => '프롬한라펫샴푸바', 'href' => '/product#shampoo', 'children' => []],
             ['label' => '원료소개', 'href' => '/ingredients', 'children' => []],
         ]],
         ['label' => '연구기술', 'href' => '/research', 'children' => []],
@@ -130,11 +133,13 @@ return [
         '한국에서 재배되는 다양한 로컬 원료를 사용하고 한국에서 전 제품 제조함으로서 탄소배출을 최소화 하고 지역 농어민의 소득창출에 기여합니다.',
         '길위의 동물들, 사람의 손길이 필요한 동물들을 위해 인식개선 및 입양 홍보활동에 함께하며 동물권 향상을 위해 노력합니다.',
     ],
-    // Names and sizes come from the real packaging. Lorem ipsum marks copy that is not confirmed yet.
+    // Default products; once /admin/products is opened the database list takes over.
     'product_categories' => [
-        ['id' => 'stick', 'name' => '짜먹는 간식', 'menu' => '프롬한라스틱'],
-        ['id' => 'biotics', 'name' => '유산균', 'menu' => '바이오틱스'],
-        ['id' => 'nanotreat', 'name' => '동결건조 간식', 'menu' => '나노트릿'],
+        ['id' => 'stick', 'name' => '프롬한라스틱'],
+        ['id' => 'biotics', 'name' => '프롬한라골드유산균'],
+        ['id' => 'nanotreat', 'name' => '프롬한라나노트릿'],
+        ['id' => 'ttpad', 'name' => '프롬한라티티패드'],
+        ['id' => 'shampoo', 'name' => '프롬한라펫샴푸바'],
     ],
     'products' => [
         ['category' => 'stick', 'name' => '프롬한라스틱', 'detail' => '제주 딱새우 & 연어순살', 'size' => '9g × 10개입', 'image' => ['src' => '/assets/media/product/stick-shrimp.webp', 'alt' => '프롬한라스틱 제주 딱새우와 연어순살 패키지']],

@@ -13,6 +13,7 @@ function admin_site_messages(): array
         'no-label' => '한국어 메뉴 이름을 입력해 주세요.',
         'no-name' => '한국어 원료 이름을 입력해 주세요.',
         'no-title' => '한국어 제목을 입력해 주세요.',
+        'no-product' => '한국어 상품 이름을 입력해 주세요.',
         'last-gallery' => '사진은 최소 1장이 있어야 합니다. 새 사진을 먼저 올려 주세요.',
         'gallery-full' => '사진은 최대 30장까지 올릴 수 있습니다.',
         'last-research' => '자료는 최소 1개가 있어야 합니다. 새 자료를 먼저 추가해 주세요.',
@@ -645,6 +646,207 @@ function admin_gallery_page(\PDO $pdo, string $formToken): never
 </main>
 <?php
     admin_layout('브랜드 활동 사진', admin_header('브랜드 활동 사진', '/admin/gallery', $formToken) . ob_get_clean(), 200, ['/assets/js/vendor/Sortable.min.js', '/assets/js/admin-ingredient-board.js', '/assets/js/admin-gallery.js']);
+}
+
+// ---- Products ----
+
+function product_categories(): array
+{
+    return array_column(site_content()['product_categories'], 'name', 'id');
+}
+
+// The first visit copies the current products into the table, per language.
+function product_items_seed(\PDO $pdo): void
+{
+    if ((int)$pdo->query('SELECT count(*) FROM product_items')->fetchColumn() > 0) {
+        return;
+    }
+    $current = locale();
+    $sets = [];
+    foreach (array_keys(LOCALES) as $code) {
+        locale($code);
+        $sets[$code] = site_content()['products'];
+    }
+    locale($current);
+    $insert = $pdo->prepare('INSERT INTO product_items (category, name_ko, name_en, name_zh, detail_ko, detail_en, detail_zh, size_ko, size_en, size_zh, image, position) VALUES (:category, :nk, :ne, :nz, :dk, :de, :dz, :sk, :se, :sz, :image, :position)');
+    $pdo->beginTransaction();
+    foreach ($sets['ko'] as $index => $item) {
+        $insert->execute([
+            'category' => $item['category'],
+            'nk' => $item['name'], 'ne' => $sets['en'][$index]['name'], 'nz' => $sets['zh'][$index]['name'],
+            'dk' => $item['detail'], 'de' => $sets['en'][$index]['detail'], 'dz' => $sets['zh'][$index]['detail'],
+            'sk' => (string)$item['size'], 'se' => (string)$sets['en'][$index]['size'], 'sz' => (string)$sets['zh'][$index]['size'],
+            'image' => (string)($item['image']['src'] ?? ''), 'position' => $index + 1,
+        ]);
+    }
+    $pdo->commit();
+}
+
+function product_item_image(\PDO $pdo, int $id): string
+{
+    $statement = $pdo->prepare('SELECT image FROM product_items WHERE id = :id');
+    $statement->execute(['id' => $id]);
+    return (string)$statement->fetchColumn();
+}
+
+// POST /admin/products. Returns an error code from admin_site_messages(), or '' on success.
+function admin_product_action(\PDO $pdo, string $op, int &$focus, string &$category): string
+{
+    $id = (int)inquiry_value($_POST, 'id');
+    $focus = $id;
+    $categories = product_categories();
+    $posted = inquiry_value($_POST, 'category');
+    $line = fn (string $key, int $max = 120): string => mb_substr(trim(inquiry_value($_POST, $key)), 0, $max);
+    try {
+        product_items_seed($pdo);
+        if (isset($categories[$posted])) {
+            $category = $posted;
+        }
+        if ($op === 'add' || $op === 'save') {
+            if ($line('name_ko') === '') {
+                return 'no-product';
+            }
+            $url = $line('url', 500);
+            if ($url !== '' && !admin_link_valid($url)) {
+                return 'bad-link';
+            }
+            $values = [
+                'category' => $category,
+                'nk' => $line('name_ko'), 'ne' => $line('name_en'), 'nz' => $line('name_zh'),
+                'dk' => $line('detail_ko', 300), 'de' => $line('detail_en', 300), 'dz' => $line('detail_zh', 300),
+                'sk' => $line('size_ko', 60), 'se' => $line('size_en', 60), 'sz' => $line('size_zh', 60),
+                'url' => $url,
+            ];
+            if ($op === 'add') {
+                $statement = $pdo->prepare('INSERT INTO product_items (category, name_ko, name_en, name_zh, detail_ko, detail_en, detail_zh, size_ko, size_en, size_zh, url, position) VALUES (:category, :nk, :ne, :nz, :dk, :de, :dz, :sk, :se, :sz, :url, (SELECT coalesce(max(position), 0) + 1 FROM product_items WHERE category = :category2)) RETURNING id');
+                $statement->execute($values + ['category2' => $category]);
+                $focus = (int)$statement->fetchColumn();
+            } else {
+                $pdo->prepare('UPDATE product_items SET category = :category, name_ko = :nk, name_en = :ne, name_zh = :nz, detail_ko = :dk, detail_en = :de, detail_zh = :dz, size_ko = :sk, size_en = :se, size_zh = :sz, url = :url WHERE id = :id')->execute($values + ['id' => $id]);
+            }
+        } elseif ($op === 'image') {
+            $image = research_slide_read_upload($_FILES['image'] ?? []);
+            if (is_string($image)) {
+                return $image;
+            }
+            [$bytes, $mime, $width, $height] = $image;
+            $old = product_item_image($pdo, $id);
+            $pdo->beginTransaction();
+            $statement = $pdo->prepare('INSERT INTO site_images (image, mime, width, height) VALUES (:image, :mime, :width, :height) RETURNING id');
+            $statement->bindValue('image', $bytes, \PDO::PARAM_LOB);
+            $statement->bindValue('mime', $mime);
+            $statement->bindValue('width', $width, \PDO::PARAM_INT);
+            $statement->bindValue('height', $height, \PDO::PARAM_INT);
+            $statement->execute();
+            $pdo->prepare('UPDATE product_items SET image = :image WHERE id = :id')->execute(['image' => '/media/site/' . (int)$statement->fetchColumn(), 'id' => $id]);
+            ingredient_image_discard($pdo, $old);
+            $pdo->commit();
+        } elseif ($op === 'image-remove') {
+            $old = product_item_image($pdo, $id);
+            $pdo->prepare("UPDATE product_items SET image = '' WHERE id = :id")->execute(['id' => $id]);
+            ingredient_image_discard($pdo, $old);
+        } elseif ($op === 'delete') {
+            $old = product_item_image($pdo, $id);
+            $pdo->prepare('DELETE FROM product_items WHERE id = :id')->execute(['id' => $id]);
+            ingredient_image_discard($pdo, $old);
+            $focus = 0;
+        } elseif ($op === 'order') {
+            $ids = array_map('intval', array_filter(explode(',', inquiry_value($_POST, 'ids')), 'ctype_digit'));
+            $statement = $pdo->prepare('UPDATE product_items SET position = :position WHERE id = :id');
+            $pdo->beginTransaction();
+            foreach (array_values($ids) as $index => $itemId) {
+                $statement->execute(['position' => $index + 1, 'id' => $itemId]);
+            }
+            $pdo->commit();
+        }
+    } catch (\Throwable $exception) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        error_log('Admin product action failed (' . get_class($exception) . ').');
+        return 'failed';
+    }
+    return '';
+}
+
+function admin_product_category_select(string $id, string $selected): string
+{
+    $options = '';
+    foreach (product_categories() as $key => $name) {
+        $options .= '<option value="' . e($key) . '"' . ($key === $selected ? ' selected' : '') . '>' . e($name) . '</option>';
+    }
+    return '<select class="admin-input" id="' . e($id) . '" name="category">' . $options . '</select>';
+}
+
+function admin_products_page(\PDO $pdo, string $formToken): never
+{
+    try {
+        product_items_seed($pdo);
+        $all = site_product_rows($pdo);
+    } catch (\Throwable $exception) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        error_log('Admin products query failed (' . get_class($exception) . ').');
+        admin_layout('데이터베이스 오류', admin_header('상품 관리', '/admin/products', $formToken) . '<main class="admin-shell"><h1>상품 목록을 불러오지 못했습니다.</h1><p><code>db/schema.sql</code>이 최신으로 적용되었는지 확인해 주세요.</p></main>', 502);
+    }
+    $categories = product_categories();
+    $category = (string)($_GET['category'] ?? '');
+    $category = isset($categories[$category]) ? $category : (string)array_key_first($categories);
+    $rows = array_values(array_filter($all, fn (array $row): bool => $row['category'] === $category));
+    $counts = array_count_values(array_column($all, 'category'));
+    $languages = ['ko' => '한국어', 'en' => '영문', 'zh' => '중문'];
+    ob_start();
+    ?>
+<main class="admin-shell" data-ingredient-board data-action="/admin/products" data-token="<?= e($formToken) ?>">
+<?= admin_notice() ?>
+<p class="admin-slide-status" id="ingredient-status" role="status" aria-live="polite" hidden></p>
+<div class="admin-section-head"><p class="admin-help">카테고리를 고르고 상품을 추가하면 상품소개 페이지의 해당 분류에 바로 나옵니다. 영문·중문을 비워 두면 한국어가 나옵니다.</p><a class="admin-button admin-button--outline" href="/product#<?= e($category) ?>" target="_blank" rel="noopener">홈페이지에서 보기</a></div>
+<nav class="admin-tabs admin-section-nav admin-section-nav--sub" aria-label="상품 카테고리">
+<?php foreach ($categories as $key => $name): ?>
+<a class="admin-chip<?= $key === $category ? ' is-active' : '' ?>" href="/admin/products?category=<?= e($key) ?>"<?= $key === $category ? ' aria-current="page"' : '' ?>><?= e($name) ?> (<?= (int)($counts[$key] ?? 0) ?>)</a>
+<?php endforeach; ?>
+</nav>
+<form class="admin-card admin-menu-add" method="post" action="/admin/products">
+<h2><?= e($categories[$category]) ?>에 상품 추가</h2>
+<?= admin_hidden($formToken, ['op' => 'add', 'category' => $category]) ?>
+<div class="admin-menu-fields admin-product-add">
+<div><label class="admin-label" for="add-name">상품 이름 (한국어)</label><input class="admin-input" id="add-name" name="name_ko" maxlength="120" required></div>
+<div><label class="admin-label" for="add-detail">설명</label><input class="admin-input" id="add-detail" name="detail_ko" maxlength="300"></div>
+<div><label class="admin-label" for="add-size">용량</label><input class="admin-input" id="add-size" name="size_ko" maxlength="60" placeholder="예: 9g × 10개입"></div>
+<button class="admin-button" type="submit">추가</button>
+</div>
+</form>
+<?php if (!$rows): ?><p class="admin-help admin-product-none">이 카테고리에는 아직 상품이 없습니다. 홈페이지에는 "준비 중인 상품입니다."로 나옵니다.</p><?php endif; ?>
+<ol class="admin-ingredient-list" id="ingredient-list">
+<?php foreach ($rows as $index => $row): $id = (int)$row['id']; ?>
+<li class="admin-card admin-ingredient" id="item-<?= $id ?>" data-ingredient-id="<?= $id ?>">
+<div class="admin-slide-top"><button class="admin-slide-handle" type="button" title="끌어서 순서 변경" aria-label="<?= e((string)$row['name_ko']) ?>, 끌어서 순서 변경"><?= admin_icon('grip') ?></button><span class="admin-slide-number"><?= sprintf('%02d', $index + 1) ?></span>
+<form method="post" action="/admin/products" data-confirm="이 상품을 삭제할까요? 상품소개 페이지에서 사라집니다."><?= admin_hidden($formToken, ['op' => 'delete', 'id' => $id, 'category' => $category]) ?><button class="admin-slide-delete" type="submit">삭제</button></form></div>
+<div class="admin-ingredient-body">
+<div class="admin-ingredient-media">
+<?php if ($row['image'] !== ''): ?><img src="<?= e((string)$row['image']) ?>" alt="" loading="lazy"><?php else: ?><div class="admin-image-empty">사진 없음</div><?php endif; ?>
+<form method="post" action="/admin/products" enctype="multipart/form-data" data-slide-upload><?= admin_hidden($formToken, ['op' => 'image', 'id' => $id, 'category' => $category]) ?><label class="admin-label" for="image-<?= $id ?>">사진</label><input class="admin-input" type="file" id="image-<?= $id ?>" name="image" accept="image/jpeg,image/png,image/webp,image/heic" required><button class="admin-button admin-button--outline admin-button--block" type="submit" data-busy-label="올리는 중...">사진 올리기</button></form>
+<?php if ($row['image'] !== ''): ?><form method="post" action="/admin/products" data-confirm="이 사진을 지울까요?"><?= admin_hidden($formToken, ['op' => 'image-remove', 'id' => $id, 'category' => $category]) ?><button class="admin-button admin-button--outline admin-button--block" type="submit">사진 지우기</button></form><?php endif; ?>
+</div>
+<form class="admin-product-fields" method="post" action="/admin/products">
+<?= admin_hidden($formToken, ['op' => 'save', 'id' => $id]) ?>
+<div class="admin-product-wide"><label class="admin-label" for="category-<?= $id ?>">카테고리</label><?= admin_product_category_select('category-' . $id, (string)$row['category']) ?></div>
+<?php foreach ($languages as $code => $label): ?>
+<div><label class="admin-label" for="name-<?= $code ?>-<?= $id ?>"><?= $label ?> 이름</label><input class="admin-input" id="name-<?= $code ?>-<?= $id ?>" name="name_<?= $code ?>" value="<?= e((string)$row['name_' . $code]) ?>" maxlength="120"<?= $code === 'ko' ? ' required' : '' ?>></div>
+<div><label class="admin-label" for="detail-<?= $code ?>-<?= $id ?>"><?= $label ?> 설명</label><input class="admin-input" id="detail-<?= $code ?>-<?= $id ?>" name="detail_<?= $code ?>" value="<?= e((string)$row['detail_' . $code]) ?>" maxlength="300"></div>
+<div><label class="admin-label" for="size-<?= $code ?>-<?= $id ?>"><?= $label ?> 용량</label><input class="admin-input" id="size-<?= $code ?>-<?= $id ?>" name="size_<?= $code ?>" value="<?= e((string)$row['size_' . $code]) ?>" maxlength="60"></div>
+<?php endforeach; ?>
+<div class="admin-product-wide"><label class="admin-label" for="url-<?= $id ?>">상품 보기 주소 (비우면 기본 스토어)</label><input class="admin-input" id="url-<?= $id ?>" name="url" value="<?= e((string)$row['url']) ?>" maxlength="500" placeholder="https://"></div>
+<button class="admin-button admin-button--block admin-product-wide" type="submit">저장</button>
+</form>
+</div>
+</li>
+<?php endforeach; ?>
+</ol>
+</main>
+<?php
+    admin_layout('상품 관리', admin_header('상품 관리', '/admin/products', $formToken) . ob_get_clean(), 200, ['/assets/js/vendor/Sortable.min.js', '/assets/js/admin-ingredient-board.js']);
 }
 
 // ---- Sections ----

@@ -10,6 +10,8 @@ function initProductFilters() {
             button.setAttribute('aria-pressed', String(active));
         });
         cards.forEach(card => { card.hidden = filter !== 'all' && card.dataset.category !== filter; });
+        const empty = document.querySelector('.product-empty');
+        if (empty) empty.hidden = cards.some(card => !card.hidden);
     }
 
     filters.forEach(button => button.addEventListener('click', () => {
