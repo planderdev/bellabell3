@@ -587,7 +587,7 @@ html[lang="en"] .about-reveal-line {
     stroke: var(--black, #000);
     stroke-width: 12px;
     stroke-linejoin: round;
-    font-family: "Poppins", sans-serif;
+    font-family: var(--font-family-title);
     font-size: 180px;
     font-weight: var(--fw-700);
 }
@@ -610,7 +610,7 @@ html[lang="en"] .about-reveal-line {
     stroke: var(--black, #000);
     stroke-width: 12px;
     stroke-linejoin: round;
-    font-family: "Poppins", sans-serif;
+    font-family: var(--font-family-title);
     font-size: 180px;
     font-weight: var(--fw-700);
 }
@@ -3085,7 +3085,7 @@ html[lang="en"] .about-reveal-line {
 
 .ingredients-title {
     margin-bottom: clamp(14px, 1.11vw, 20px);
-    font-family: "GodoB", var(--font-family-base);
+    font-family: var(--font-family-title);
     font-size: clamp(36px, 3.13vw, 60px);
     font-weight: 700;
     line-height: 1.2;
@@ -3102,7 +3102,7 @@ html[lang="en"] .about-reveal-line {
 
 .ingredients-nav a {
     color: var(--text-sub);
-    font-family: "GodoB", var(--font-family-base);
+    font-family: var(--font-family-title);
     font-size: clamp(18px, 1.32vw, 24px);
     font-weight: 700;
     line-height: 1.4;
@@ -3211,7 +3211,7 @@ html[lang="en"] .about-reveal-line {
 }
 
 .ingredient-copy h3 span {
-    font-family: "GodoB", var(--font-family-base);
+    font-family: var(--font-family-title);
     font-weight: 700;
 }
 
@@ -3721,4 +3721,15 @@ html[lang="en"] .about-reveal-line {
     .product-page * {
         transition: none !important;
     }
+}
+
+/* Titles: Godo B, with Back Groove for English letters and numbers (see fonts.css). */
+:is(h1, h2, h3, h4, h5, h6),
+.section-category p,
+.pillars-label span,
+.products-bg-title,
+.product-hero-label,
+.brand-slide-group {
+    font-family: var(--font-family-title);
+    font-synthesis: none;
 }

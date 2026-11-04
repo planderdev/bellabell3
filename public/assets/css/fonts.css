@@ -1,4 +1,14 @@
-/* Godo B (NHN Commerce free font), Korean and Latin subset. Used for ingredient names on /ingredients. */
+/* Godo B (NHN Commerce free font), Korean and Latin subset. Used for titles. */
+/* Back Groove (Gatype), Latin only. Listed before Godo B, so English letters and numbers in a title use it and Hangul falls through. */
+@font-face {
+    font-family: "BackGroove";
+    src: url("/assets/fonts/BackGroove.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0021-007E, U+00A1-00FF, U+2010-2027;
+}
+
 @font-face {
     font-family: "GodoB";
     src: url("/assets/fonts/GodoB.woff2") format("woff2");
