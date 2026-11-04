@@ -1,3 +1,12 @@
+/* Godo B (NHN Commerce free font), Korean and Latin subset. Used for ingredient names on /ingredients. */
+@font-face {
+    font-family: "GodoB";
+    src: url("/assets/fonts/GodoB.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 @font-face {
     font-family: "Pretendard";
     src: url("/assets/fonts/PretendardVariable.woff2") format("woff2");
