@@ -141,7 +141,7 @@ brand_status,brand_raw,_=fetch('/brand');brand_nodes=list(Tree(brand_raw.decode(
 field_probe=subprocess.run(['php','-r',"require 'includes/common.php';$d=site_defaults();echo json_encode(array_values(array_filter(array_keys(site_fields()),fn($k)=>site_get($d,$k)===null)));"],capture_output=True,text=True,cwd=ROOT)
 check('Editable fields all exist in content.php',json.loads(field_probe.stdout[field_probe.stdout.index('['):])==['products.8.size','products.8.image.src','products.8.image.alt'],field_probe.stdout[-300:])
 ingredient_status,ingredient_raw,_=fetch('/ingredients');ingredient_nodes=list(Tree(ingredient_raw.decode()).root.descendants())
-check('Ingredients page lists the supplied items with icons',ingredient_status==200 and [n.text() for n in ingredient_nodes if n.parent and n.parent.has('ingredients-nav') for n in n.children]==['전복','조릿대','김치','딱새우','제주그린티','연어','북어','닭','오리','성게','갈치'] and len([n for n in ingredient_nodes if n.has('ingredient-item')])==11 and len([n for n in ingredient_nodes if n.has('ingredient-icon')])==11)
+check('Ingredients page lists the supplied items with icons',ingredient_status==200 and [n.text() for n in ingredient_nodes if n.parent and n.parent.has('ingredients-nav') for n in n.children]==['전복','조릿대','김치','딱새우','제주그린티','광어','연어','북어','닭','오리','성게','갈치'] and len([n for n in ingredient_nodes if n.has('ingredient-item')])==12 and len([n for n in ingredient_nodes if n.has('ingredient-icon')])==12)
 check('Brand page returns 200',brand_status==200)
 check('Brand page has three tabs in order',[n.text() for n in brand_nodes if n.has('brand-tab')]==['벨아벨팜','프롬한라','아우아우'])
 check('Brand page shows only the first panel',[('hidden' in n.a) for n in brand_nodes if n.has('brand-panel')]==[False,True,True])
