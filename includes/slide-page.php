@@ -51,6 +51,10 @@ declare(strict_types=1);
 </div>
 </div>
 <?php if (count($slides) > 1): ?>
+<div class="brand-slide-arrows">
+<button class="brand-slide-arrow" type="button" data-move="prev" aria-label="<?= e(t('이전 슬라이드')) ?>" disabled><i data-lucide="chevron-left" class="site-icon" aria-hidden="true" focusable="false"></i></button>
+<button class="brand-slide-arrow" type="button" data-move="next" aria-label="<?= e(t('다음 슬라이드')) ?>"><i data-lucide="chevron-right" class="site-icon" aria-hidden="true" focusable="false"></i></button>
+</div>
 <div class="brand-slide-nav">
 <?php foreach ($slides as $slideIndex => $slide): ?>
 <button class="brand-slide-dot<?= $slideIndex === 0 ? ' is-active' : '' ?>" type="button" data-slide="<?= $slideIndex ?>" aria-label="<?= e($brand['name']) ?> <?= $slideIndex + 1 ?>"<?= $slideIndex === 0 ? ' aria-current="true"' : '' ?>></button>

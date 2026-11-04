@@ -21,6 +21,8 @@ function runBrandCounters(slide, reducedMotion) {
 function initBrandSlider(panel) {
     const slider = panel.querySelector('.brand-slider');
     const dots = [...panel.querySelectorAll('.brand-slide-dot')];
+    const prev = panel.querySelector('[data-move="prev"]');
+    const next = panel.querySelector('[data-move="next"]');
     if (slider.swiper || !dots.length || typeof Swiper === 'undefined') return;
 
     const slides = [...slider.querySelectorAll('.brand-slide')];
@@ -33,6 +35,8 @@ function initBrandSlider(panel) {
             if (active) dot.setAttribute('aria-current', 'true');
             else dot.removeAttribute('aria-current');
         });
+        prev.disabled = swiper.isBeginning;
+        next.disabled = swiper.isEnd;
         runBrandCounters(slides[swiper.activeIndex], reducedMotion);
     };
     const swiper = new Swiper(slider, {
@@ -43,6 +47,8 @@ function initBrandSlider(panel) {
     });
 
     dots.forEach((dot, index) => dot.addEventListener('click', () => swiper.slideTo(index)));
+    prev.addEventListener('click', () => swiper.slidePrev());
+    next.addEventListener('click', () => swiper.slideNext());
     slider.querySelectorAll('.brand-slide-group').forEach(button => {
         button.addEventListener('click', () => swiper.slideTo(Number(button.dataset.slide)));
     });
