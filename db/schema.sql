@@ -106,6 +106,13 @@ create table if not exists research_items (
     position integer not null default 0
 );
 
+-- Activity photos on the fifth BellaBellFarm brand slide, managed at /admin/gallery. Empty until that page is first opened.
+create table if not exists brand_gallery_items (
+    id       bigserial primary key,
+    image    text not null,
+    position integer not null default 0
+);
+
 alter table contact_attempts   enable row level security;
 alter table business_inquiries enable row level security;
 alter table research_slides    enable row level security;
@@ -124,7 +131,10 @@ grant usage, select on sequence site_images_id_seq to bellabell_app;
 grant usage, select on sequence site_menu_items_id_seq to bellabell_app;
 alter table ingredient_items enable row level security;
 alter table research_items enable row level security;
+alter table brand_gallery_items enable row level security;
 alter table ingredient_items owner to bellabell_app;
 alter table research_items owner to bellabell_app;
+alter table brand_gallery_items owner to bellabell_app;
 grant usage, select on sequence ingredient_items_id_seq to bellabell_app;
 grant usage, select on sequence research_items_id_seq to bellabell_app;
+grant usage, select on sequence brand_gallery_items_id_seq to bellabell_app;

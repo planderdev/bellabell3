@@ -13,6 +13,8 @@ function admin_site_messages(): array
         'no-label' => '한국어 메뉴 이름을 입력해 주세요.',
         'no-name' => '한국어 원료 이름을 입력해 주세요.',
         'no-title' => '한국어 제목을 입력해 주세요.',
+        'last-gallery' => '사진은 최소 1장이 있어야 합니다. 새 사진을 먼저 올려 주세요.',
+        'gallery-full' => '사진은 최대 30장까지 올릴 수 있습니다.',
         'last-research' => '자료는 최소 1개가 있어야 합니다. 새 자료를 먼저 추가해 주세요.',
         'last-ingredient' => '원료는 최소 1개가 있어야 합니다. 새 원료를 먼저 추가해 주세요.',
     ];
@@ -530,6 +532,119 @@ function admin_research_page(\PDO $pdo, string $formToken): never
 </main>
 <?php
     admin_layout('연구기술 자료', admin_header('연구기술 자료', '/admin/research', $formToken) . ob_get_clean(), 200, ['/assets/js/vendor/Sortable.min.js', '/assets/js/admin-ingredient-board.js']);
+}
+
+// ---- Brand activity photos ----
+
+const BRAND_GALLERY_MAX = 30;
+
+// The first visit copies the default photos into the table, so they can be reordered and deleted too.
+function brand_gallery_seed(\PDO $pdo): void
+{
+    if ((int)$pdo->query('SELECT count(*) FROM brand_gallery_items')->fetchColumn() > 0) {
+        return;
+    }
+    $defaults = [];
+    foreach (site_defaults('ko')['brand_slides']['bellabelfarm'] as $slide) {
+        $defaults = $slide['gallery'] ?? $defaults;
+    }
+    $insert = $pdo->prepare('INSERT INTO brand_gallery_items (image, position) VALUES (:image, :position)');
+    $pdo->beginTransaction();
+    foreach ($defaults as $index => $image) {
+        $insert->execute(['image' => $image, 'position' => $index + 1]);
+    }
+    $pdo->commit();
+}
+
+// POST /admin/gallery. Returns an error code from admin_site_messages(), or '' on success.
+function admin_gallery_action(\PDO $pdo, string $op): string
+{
+    $id = (int)inquiry_value($_POST, 'id');
+    try {
+        brand_gallery_seed($pdo);
+        $count = (int)$pdo->query('SELECT count(*) FROM brand_gallery_items')->fetchColumn();
+        if ($op === 'upload') {
+            if ($count >= BRAND_GALLERY_MAX) {
+                return 'gallery-full';
+            }
+            $image = research_slide_read_upload($_FILES['image'] ?? []);
+            if (is_string($image)) {
+                return $image;
+            }
+            [$bytes, $mime, $width, $height] = $image;
+            $pdo->beginTransaction();
+            $statement = $pdo->prepare('INSERT INTO site_images (image, mime, width, height) VALUES (:image, :mime, :width, :height) RETURNING id');
+            $statement->bindValue('image', $bytes, \PDO::PARAM_LOB);
+            $statement->bindValue('mime', $mime);
+            $statement->bindValue('width', $width, \PDO::PARAM_INT);
+            $statement->bindValue('height', $height, \PDO::PARAM_INT);
+            $statement->execute();
+            $pdo->prepare('INSERT INTO brand_gallery_items (image, position) VALUES (:image, (SELECT coalesce(max(position), 0) + 1 FROM brand_gallery_items))')->execute(['image' => '/media/site/' . (int)$statement->fetchColumn()]);
+            $pdo->commit();
+        } elseif ($op === 'delete') {
+            if ($count <= 1) {
+                return 'last-gallery';
+            }
+            $statement = $pdo->prepare('SELECT image FROM brand_gallery_items WHERE id = :id');
+            $statement->execute(['id' => $id]);
+            ingredient_image_discard($pdo, (string)$statement->fetchColumn());
+            $pdo->prepare('DELETE FROM brand_gallery_items WHERE id = :id')->execute(['id' => $id]);
+        } elseif ($op === 'order') {
+            $ids = array_map('intval', array_filter(explode(',', inquiry_value($_POST, 'ids')), 'ctype_digit'));
+            $statement = $pdo->prepare('UPDATE brand_gallery_items SET position = :position WHERE id = :id');
+            $pdo->beginTransaction();
+            foreach (array_values($ids) as $index => $itemId) {
+                $statement->execute(['position' => $index + 1, 'id' => $itemId]);
+            }
+            $pdo->commit();
+        }
+    } catch (\Throwable $exception) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        error_log('Admin gallery action failed (' . get_class($exception) . ').');
+        return 'failed';
+    }
+    return '';
+}
+
+function admin_gallery_page(\PDO $pdo, string $formToken): never
+{
+    try {
+        brand_gallery_seed($pdo);
+        $rows = site_brand_gallery_rows($pdo);
+    } catch (\Throwable $exception) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        error_log('Admin gallery query failed (' . get_class($exception) . ').');
+        admin_layout('데이터베이스 오류', admin_header('브랜드 활동 사진', '/admin/gallery', $formToken) . '<main class="admin-shell"><h1>사진 목록을 불러오지 못했습니다.</h1><p><code>db/schema.sql</code>이 최신으로 적용되었는지 확인해 주세요.</p></main>', 502);
+    }
+    ob_start();
+    ?>
+<main class="admin-shell admin-gallery" data-ingredient-board data-action="/admin/gallery" data-token="<?= e($formToken) ?>">
+<?= admin_notice() ?>
+<p class="admin-slide-status" id="ingredient-status" role="status" aria-live="polite" hidden></p>
+<div class="admin-section-head"><p class="admin-help">브랜드 소개 벨아벨팜 5번 슬라이드에 나오는 사진입니다. 맨 앞 사진이 큰 사진으로 먼저 보이고, 끌어서 순서를 바꿀 수 있습니다.</p><a class="admin-button admin-button--outline" href="/brand#bellabelfarm" target="_blank" rel="noopener">홈페이지에서 보기</a></div>
+<form class="admin-slide-drop" method="post" action="/admin/gallery" enctype="multipart/form-data" data-gallery-upload>
+<?= admin_hidden($formToken, ['op' => 'upload']) ?>
+<label for="gallery-image"><?= admin_icon('upload') ?><strong>사진 추가</strong><span>여기로 끌어다 놓거나 눌러서 선택하세요. 여러 장도 됩니다. JPG, PNG, WEBP</span></label>
+<input type="file" id="gallery-image" name="image" accept="image/jpeg,image/png,image/webp,image/heic" multiple>
+<noscript><button class="admin-button" type="submit">올리기</button></noscript>
+</form>
+<div class="admin-slide-head"><h2>사진 목록 <span><?= count($rows) ?></span>장</h2></div>
+<ol class="admin-slide-board" id="ingredient-list">
+<?php foreach ($rows as $index => $row): $id = (int)$row['id']; ?>
+<li class="admin-card admin-slide-card" data-ingredient-id="<?= $id ?>">
+<div class="admin-slide-top"><button class="admin-slide-handle" type="button" title="끌어서 순서 변경" aria-label="<?= $index + 1 ?>번 사진, 끌어서 순서 변경"><?= admin_icon('grip') ?></button><span class="admin-slide-number"><?= sprintf('%02d', $index + 1) ?></span>
+<form method="post" action="/admin/gallery" data-confirm="이 사진을 삭제할까요?"><?= admin_hidden($formToken, ['op' => 'delete', 'id' => $id]) ?><button class="admin-slide-delete" type="submit">삭제</button></form></div>
+<div class="admin-slide-frame"><img src="<?= e((string)$row['image']) ?>" alt="" loading="lazy" draggable="false"></div>
+</li>
+<?php endforeach; ?>
+</ol>
+</main>
+<?php
+    admin_layout('브랜드 활동 사진', admin_header('브랜드 활동 사진', '/admin/gallery', $formToken) . ob_get_clean(), 200, ['/assets/js/vendor/Sortable.min.js', '/assets/js/admin-ingredient-board.js', '/assets/js/admin-gallery.js']);
 }
 
 // ---- Sections ----

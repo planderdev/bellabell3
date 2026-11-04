@@ -29,14 +29,14 @@ declare(strict_types=1);
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>
-<?php $gallery = array_values(array_filter(array_column($slide['gallery'] ?? [], 'image'), 'strlen')); ?>
+<?php $gallery = isset($slide['gallery']) ? site_brand_gallery($slide['gallery']) : []; ?>
 <?php if ($gallery): ?>
 <div class="brand-gallery" data-brand-gallery>
-<img class="brand-gallery-main" src="<?= e($gallery[0]) ?>" alt="<?= e(t('활동 사진')) ?> 1" decoding="async"/>
+<img class="brand-gallery-main" src="<?= e($gallery[0]) ?>" alt="<?= e(t('활동 사진')) ?> 1" loading="lazy" decoding="async"/>
 <div class="brand-gallery-row">
 <div class="brand-gallery-thumbs">
 <?php foreach ($gallery as $galleryIndex => $galleryImage): ?>
-<button class="brand-gallery-thumb<?= $galleryIndex === 0 ? ' is-active' : '' ?>" type="button" aria-label="<?= e(t('활동 사진')) ?> <?= $galleryIndex + 1 ?>"<?= $galleryIndex === 0 ? ' aria-current="true"' : '' ?>><img src="<?= e($galleryImage) ?>" alt="" decoding="async"/></button>
+<button class="brand-gallery-thumb<?= $galleryIndex === 0 ? ' is-active' : '' ?>" type="button" aria-label="<?= e(t('활동 사진')) ?> <?= $galleryIndex + 1 ?>"<?= $galleryIndex === 0 ? ' aria-current="true"' : '' ?>><img src="<?= e($galleryImage) ?>" alt="" loading="lazy" decoding="async"/></button>
 <?php endforeach; ?>
 </div>
 <?php if (count($gallery) > 1): ?>
