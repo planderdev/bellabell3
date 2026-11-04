@@ -31,7 +31,7 @@ $pageTitle = $content['ingredients_title'] . ' | ' . t('벨아벨팜');
 <li class="ingredient-item" id="<?= e($item['id']) ?>">
 <div class="ingredient-photo"<?= $item['image'] === '' ? ' data-media-state="missing"' : '' ?>>
 <?php if ($item['image'] !== ''): ?>
-<img src="<?= e($item['image']) ?>" alt="" loading="lazy" decoding="async"/>
+<img src="<?= e($item['image']) ?>" alt="" width="1200" height="900" decoding="async"/>
 <?php else: ?>
 <?= site_ingredient_icon((string)($item['icon'] ?? ''), 'ingredient-photo-icon') ?>
 <?php endif; ?>

@@ -3131,7 +3131,7 @@ html[lang="en"] .about-reveal-line {
     color: var(--primary);
 }
 
-.ingredient-photo {
+.ingredient-photo[data-media-state="missing"] {
     display: grid;
     place-items: center;
 }
