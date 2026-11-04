@@ -36,6 +36,8 @@ return [
     "보호자의 질문에서 시작해, 제주의 원료와 쓰임에 맞는 제형을 연구합니다." => "Starting from these questions pet parents ask, we research Jeju ingredients and the right format for each use.",
     "제품 라인업 보기" => "View the Lineup",
     "상품소개" => "Product",
+    "청정 제주를 담아\n제주 해녀와 약초꾼이 전하는" => "Pure Jeju, delivered by\nits haenyeo divers and herb gatherers",
+    "잠수 안경을 쓴 흰 고양이와 테왁, 물고기 떼가 있는 제주 바다" => "A white cat in diving goggles with a haenyeo float and a school of fish in the Jeju sea",
     "활동 사진" => "Activity photo",
     "이전 슬라이드" => "Previous slide",
     "다음 슬라이드" => "Next slide",
