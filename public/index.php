@@ -28,24 +28,10 @@ $content = site_content();
 </div>
 </section>
 <section class="about-reveal-section" data-section="about-reveal" id="about-reveal" aria-labelledby="about-reveal-title">
-<?php if (is_file(__DIR__ . '/assets/media/about-hallasan-1080.mp4')): ?>
-<div class="about-reveal-media" aria-hidden="true">
-<video id="about-video" autoplay muted loop playsinline preload="metadata">
-<source src="/assets/media/about-hallasan-1080.mp4" type="video/mp4"/>
-</video>
-</div>
-<?php endif; ?>
-<div class="about-reveal-backdrops" aria-hidden="true">
-<?php foreach ($content['about_links'] as $aboutLink): ?>
-<img class="about-reveal-backdrop" src="<?= e($aboutLink['image']) ?>" alt="" loading="lazy" decoding="async"/>
-<?php endforeach; ?>
-</div>
+<img class="about-reveal-art" src="<?= e($content['about_image']) ?>" alt="<?= e(t('잠수 안경을 쓴 흰 고양이와 테왁, 물고기 떼가 있는 제주 바다')) ?>" decoding="async"/>
 <div class="about-reveal-stage">
-<h2 class="about-reveal-title" id="about-reveal-title" data-copy="about-title"><?php foreach (explode("\n", $content['about_title']) as $lineIndex => $line): ?><?= $lineIndex > 0 ? "<br>\n" : '' ?><span class="about-reveal-line"><?= str_replace(array_map('e', $content['about_accents']), array_map(fn($accent) => '<strong class="about-reveal-accent">' . e($accent) . '</strong>', $content['about_accents']), e($line)) ?></span><?php endforeach; ?></h2>
-<div class="about-reveal-foot">
-<div class="about-reveal-body">
-<p data-copy="about-body"><?= nl2br(e($content['about_body']), false) ?></p>
-</div>
+<h2 class="about-reveal-title" id="about-reveal-title" data-copy="about-title"><?php foreach (explode("\n", $content['about_title']) as $lineIndex => $line): ?><?= $lineIndex > 0 ? "<br>\n" : '' ?><span class="about-reveal-line"><?= str_replace(array_map('e', $content['about_accents']), array_map(fn($accent) => '<strong class="about-reveal-accent">' . e($accent) . '</strong>', $content['about_accents']), e($line)) ?></span><?php endforeach; ?><br>
+<span class="about-reveal-line about-reveal-highlight" lang="en"><?= e($content['about_highlight']) ?></span></h2>
 <div class="about-reveal-links">
 <?php foreach ($content['about_links'] as $aboutLink): ?>
 <a class="about-reveal-link" href="<?= e(str_starts_with($aboutLink['href'], '/') ? page_url($aboutLink['href']) : $aboutLink['href']) ?>"<?= str_starts_with($aboutLink['href'], 'http') ? ' target="_blank" rel="noopener noreferrer"' : '' ?>>
@@ -53,7 +39,6 @@ $content = site_content();
 <i data-lucide="arrow-right" class="site-icon" width="16" height="16" stroke-width="2" aria-hidden="true" focusable="false"></i>
 </a>
 <?php endforeach; ?>
-</div>
 </div>
 </div>
 </section>

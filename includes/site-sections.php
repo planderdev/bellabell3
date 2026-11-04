@@ -22,11 +22,11 @@ return [
         ]],
         'about' => ['label' => '브랜드 소개 링크', 'anchor' => '#about-reveal', 'fields' => [
             $long('about_title', '제목'),
-            $long('about_body', '설명'),
+            $text('about_highlight', '강조 문구'),
+            $image('about_image', '배경 이미지'),
             ...$repeat(4, fn (int $i, int $n): array => [
                 $text("about_links.$i.label", "링크 $n 문구"),
                 $link("about_links.$i.href", "링크 $n 주소"),
-                $image("about_links.$i.image", "링크 $n 배경 이미지"),
             ]),
         ]],
         'pillars' => ['label' => '사업 분야', 'anchor' => '#pillars', 'note' => '영상은 용량 제한으로 여기서 바꿀 수 없습니다.', 'fields' => [
