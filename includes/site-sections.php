@@ -141,14 +141,7 @@ return [
             $text('product.family_heading', '제목'),
             $text('product.card_link', '상품 보기 문구'),
             $link('product.store_url', '상품 보기 주소'),
-            ...$repeat(3, fn (int $i, int $n): array => [$text("product_categories.$i.name", "분류 $n 이름")]),
-            ...$repeat(9, fn (int $i, int $n): array => [
-                $text("products.$i.name", "제품 $n 이름"),
-                $text("products.$i.detail", "제품 $n 설명"),
-                $text("products.$i.size", "제품 $n 용량"),
-                $image("products.$i.image.src", "제품 $n 사진"),
-                $text("products.$i.image.alt", "제품 $n 사진 설명"),
-            ]),
+            ...$repeat(5, fn (int $i, int $n): array => [$text("product_categories.$i.name", "분류 $n 이름")]),
         ]],
         'notes' => ['label' => '카드 4개', 'fields' => [
             $text('product.notes_heading', '제목'),

@@ -113,6 +113,24 @@ create table if not exists brand_gallery_items (
     position integer not null default 0
 );
 
+-- Products on /product, managed at /admin/products. Empty until that page is first opened.
+create table if not exists product_items (
+    id        bigserial primary key,
+    category  text not null,
+    name_ko   text not null,
+    name_en   text not null default '',
+    name_zh   text not null default '',
+    detail_ko text not null default '',
+    detail_en text not null default '',
+    detail_zh text not null default '',
+    size_ko   text not null default '',
+    size_en   text not null default '',
+    size_zh   text not null default '',
+    image     text not null default '',
+    url       text not null default '',
+    position  integer not null default 0
+);
+
 alter table contact_attempts   enable row level security;
 alter table business_inquiries enable row level security;
 alter table research_slides    enable row level security;
@@ -132,9 +150,12 @@ grant usage, select on sequence site_menu_items_id_seq to bellabell_app;
 alter table ingredient_items enable row level security;
 alter table research_items enable row level security;
 alter table brand_gallery_items enable row level security;
+alter table product_items enable row level security;
 alter table ingredient_items owner to bellabell_app;
 alter table research_items owner to bellabell_app;
 alter table brand_gallery_items owner to bellabell_app;
+alter table product_items owner to bellabell_app;
 grant usage, select on sequence ingredient_items_id_seq to bellabell_app;
 grant usage, select on sequence research_items_id_seq to bellabell_app;
 grant usage, select on sequence brand_gallery_items_id_seq to bellabell_app;
+grant usage, select on sequence product_items_id_seq to bellabell_app;

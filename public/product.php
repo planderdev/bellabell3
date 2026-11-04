@@ -5,7 +5,8 @@ $content = site_content();
 $productCopy = $content['product'];
 $pageTitle = 'Product | ' . t('벨아벨팜');
 $categoryNames = array_column($content['product_categories'], 'name', 'id');
-$marqueeItems = ['From HALLA, For PET', ...array_column($content['product_categories'], 'menu')];
+$marqueeItems = ['From HALLA, For PET', ...array_column($content['product_categories'], 'name')];
+$products = site_products($content);
 ?>
 <!doctype html><html lang="<?= e(LOCALES[locale()]['html']) ?>">
 <?php require __DIR__ . '/../includes/head.php'; ?>
@@ -47,7 +48,7 @@ $marqueeItems = ['From HALLA, For PET', ...array_column($content['product_catego
 <?php endforeach; ?>
 </div>
 <ul class="product-grid">
-<?php foreach ($content['products'] as $index => $product): ?>
+<?php foreach ($products as $index => $product): ?>
 <li class="product-card" data-category="<?= e($product['category']) ?>">
 <div class="product-card-media"<?= $product['image'] === null ? ' data-media-state="missing" role="img" aria-label="' . e($product['name']) . ' ' . e(t('사진 미확보')) . '"' : '' ?>>
 <?php if ($product['image'] !== null): ?>
@@ -62,11 +63,12 @@ $marqueeItems = ['From HALLA, For PET', ...array_column($content['product_catego
 <?php if ((string)$product['size'] !== ''): ?>
 <p class="product-card-size"><?= e($product['size']) ?></p>
 <?php endif; ?>
-<a class="product-card-link" href="<?= e($productCopy['store_url']) ?>" target="_blank" rel="noopener noreferrer"><span><?= e($productCopy['card_link']) ?></span><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a>
+<a class="product-card-link" href="<?= e(($product['url'] ?? '') ?: $productCopy['store_url']) ?>" target="_blank" rel="noopener noreferrer"><span><?= e($productCopy['card_link']) ?></span><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a>
 </div>
 </li>
 <?php endforeach; ?>
 </ul>
+<p class="product-empty" hidden><?= e(t('준비 중인 상품입니다.')) ?></p>
 </div>
 </section>
 <section class="product-section is-tinted" aria-labelledby="product-notes-title">

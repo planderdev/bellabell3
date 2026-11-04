@@ -53,7 +53,7 @@ check('History follows social and global immediately precedes contact',len(secti
 for c,count in [('technology-item',0),('standard-card',4),('product-item',2),('products-photo-slide',4),('products-shape',0),('products-spec',0),('form-field',0),('contact-item',0)]:check('Component structure count',len(byclass(c))==count,c)
 for section,c,count in [('care-section','care-item',5)]:check('Card structure count',sum(n.has(c) for n in byclass(section)[0].descendants())==count,section)
 gnb=byclass('gnb')[0];depths=[n for n in gnb.descendants() if n.has('gnb-depth')]
-check('Four confirmed menu items with dropdowns only on pages',[a.text() for a in gnb.descendants() if a.tag=='a' and a.parent.tag=='li']==['브랜드','상품소개','연구기술','제안&협업'] and [len([a for a in d.children if a.tag=='a']) for d in depths]==[3,4])
+check('Four confirmed menu items with dropdowns only on pages',[a.text() for a in gnb.descendants() if a.tag=='a' and a.parent.tag=='li']==['브랜드','상품소개','연구기술','제안&협업'] and [len([a for a in d.children if a.tag=='a']) for d in depths]==[3,7])
 check('Menu links open the finished pages and sections',[a.a.get('href') for a in gnb.descendants() if a.tag=='a' and a.parent.tag=='li']==['/brand','/product','/research','#partner'])
 check('Pillar labels keep the supplied wording',[n.children[0].text() for n in byclass('pillars-label')]==['Global K-PET FOOD','PET SKINCARE','Sustainability'])
 check('Pillar videos start paused until a button is pressed',[n.a.get('id') for n in nodes if n.tag=='video' and 'autoplay' not in n.a]==['pillar-video','pillar-skin-video','pillar-sustain-video'] and [n.a.get('aria-controls') for n in byclass('pillars-label')]==['pillar-video','pillar-skin-video','pillar-sustain-video'])
@@ -95,7 +95,7 @@ footer_sns=[
     ('https://pf.kakao.com/_JTnxks','/assets/icons/kakaoch.svg'),
 ]
 confirmed_destinations={
-    'tel:0648030060','mailto:partner@jejubellabell.com','https://fromhalla.com','/','/en','/zh','/brand','/brand#bellabelfarm','/brand#fromhalla','/brand#awoo','/product','/ingredients','/research','/product#stick','/product#biotics','/product#nanotreat',
+    'tel:0648030060','mailto:partner@jejubellabell.com','https://fromhalla.com','/','/en','/zh','/brand','/brand#bellabelfarm','/brand#fromhalla','/brand#awoo','/product','/ingredients','/research','/product#stick','/product#ttpad','/product#shampoo','/product#biotics','/product#nanotreat',
     'https://m.fromhalla.com/article/%EB%B3%B4%EB%8F%84%EC%9E%90%EB%A3%8C/2/13641/#',
     *(url for url,icon in footer_sns),
 }
@@ -138,7 +138,7 @@ for path in ['/includes/common.php','/includes/head.php','/includes/header.php',
 brand_status,brand_raw,_=fetch('/brand');brand_nodes=list(Tree(brand_raw.decode()).root.descendants())
 # Every admin field must point at real content, or an edit would silently change nothing. Nanotreat has no photo yet.
 field_probe=subprocess.run(['php','-r',"require 'includes/common.php';$d=site_defaults();echo json_encode(array_values(array_filter(array_keys(site_fields()),fn($k)=>site_get($d,$k)===null)));"],capture_output=True,text=True,cwd=ROOT)
-check('Editable fields all exist in content.php',json.loads(field_probe.stdout[field_probe.stdout.index('['):])==['products.8.size','products.8.image.src','products.8.image.alt'],field_probe.stdout[-300:])
+check('Editable fields all exist in content.php',json.loads(field_probe.stdout[field_probe.stdout.index('['):])==[],field_probe.stdout[-300:])
 ingredient_status,ingredient_raw,_=fetch('/ingredients');ingredient_nodes=list(Tree(ingredient_raw.decode()).root.descendants())
 check('Ingredients page lists the supplied items with icons',ingredient_status==200 and [n.text() for n in ingredient_nodes if n.parent and n.parent.has('ingredients-nav') for n in n.children]==['전복','조릿대','김치','딱새우','제주그린티','광어','연어','북어','닭','오리','성게','갈치'] and len([n for n in ingredient_nodes if n.has('ingredient-item')])==12 and len([n for n in ingredient_nodes if n.has('ingredient-icon')])==12)
 check('Brand page returns 200',brand_status==200)
@@ -151,7 +151,7 @@ check('Product page returns 200',product_status==200)
 product_title=[n for n in product_nodes if n.has('product-hero-title')]
 check('Product hero uses the supplied copy',len(product_title)==1 and product_title[0].text()=='먹는 건귀엽게,만드는 건진지하게!')
 check('Product page lists nine products',len([n for n in product_nodes if n.has('product-card')])==9)
-check('Product filters cover all and three categories',[n.a.get('data-filter') for n in product_nodes if 'data-filter' in n.a]==['all','stick','biotics','nanotreat'])
+check('Product filters cover all and five categories',[n.a.get('data-filter') for n in product_nodes if 'data-filter' in n.a]==['all','stick','biotics','nanotreat','ttpad','shampoo'])
 check('Product stories have three tabs and panels',len([n for n in product_nodes if n.has('product-story-tab')])==3 and len([n for n in product_nodes if n.has('product-story-panel')])==3)
 product_images=[n.a.get('src') for n in product_nodes if n.tag=='img' and n.a.get('src','').startswith('/assets/media/product/')]
 check('Product images respond 200',len(product_images)==11 and all(fetch(u)[0]==200 for u in product_images))

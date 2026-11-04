@@ -3466,6 +3466,12 @@ html[lang="en"] .about-reveal-line {
     list-style: none;
 }
 
+.product-empty {
+    padding: clamp(48px, 6vw, 96px) 0;
+    color: var(--text-sub);
+    text-align: center;
+}
+
 .product-card {
     display: flex;
     flex-direction: column;

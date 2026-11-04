@@ -125,6 +125,7 @@ function admin_navigation(): array
         'site' => ['label' => '사이트 관리', 'icon' => 'site', 'href' => '/admin/menu', 'blocks' => [
             ['label' => '구성', 'items' => [
                 ['href' => '/admin/menu', 'label' => '메뉴 관리', 'icon' => 'menu'],
+                ['href' => '/admin/products', 'label' => '상품 관리', 'icon' => 'package'],
                 ['href' => '/admin/ingredients', 'label' => '원료 관리', 'icon' => 'leaf'],
                 ['href' => '/admin/research', 'label' => '연구기술 자료', 'icon' => 'images'],
             ]],
@@ -340,7 +341,7 @@ function handle_admin_request(string $action): void
     $cookieOptions = ['path' => '/admin', 'secure' => $isHttps, 'httponly' => true, 'samesite' => 'Strict'];
     $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
-    if (!in_array($action, ['', 'login', 'logout', 'handle', 'inbox', 'slides', 'menu', 'sections', 'ingredients', 'research', 'gallery'], true)) {
+    if (!in_array($action, ['', 'login', 'logout', 'handle', 'inbox', 'slides', 'menu', 'sections', 'ingredients', 'research', 'gallery', 'products'], true)) {
         admin_layout('찾을 수 없음', '<main class="admin-shell"><h1>페이지를 찾을 수 없습니다.</h1><p><a href="/admin">관리자 홈으로</a></p></main>', 404);
     }
     if (admin_password_hash() === '' || !inquiry_ready()) {
@@ -489,6 +490,29 @@ function handle_admin_request(string $action): void
             admin_redirect('/admin/ingredients' . ($error !== '' ? '?error=' . $error : '?saved=1') . ($focus > 0 ? '#item-' . $focus : ''));
         }
         admin_ingredients_page($pdo, $formToken);
+    }
+
+    if ($action === 'products') {
+        if ($method === 'POST') {
+            $wantsJson = ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'fetch';
+            if (!$_POST && (int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+                admin_redirect('/admin/products?error=too-large');
+            }
+            if (!$formTokenValid()) {
+                admin_layout('세션 만료', '<main class="admin-shell"><h1>세션이 만료되었습니다.</h1><p><a href="/admin/products">다시 열기</a></p></main>', 419);
+            }
+            $focus = 0;
+            $category = '';
+            $error = admin_product_action($pdo, inquiry_value($_POST, 'op'), $focus, $category);
+            if ($wantsJson) {
+                http_response_code($error === '' ? 200 : 422);
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode(['error' => $error === '' ? null : (admin_site_messages()[$error] ?? $error)], JSON_UNESCAPED_UNICODE);
+                exit;
+            }
+            admin_redirect('/admin/products?' . http_build_query(['category' => $category] + ($error !== '' ? ['error' => $error] : ['saved' => 1])) . ($focus > 0 ? '#item-' . $focus : ''));
+        }
+        admin_products_page($pdo, $formToken);
     }
 
     if ($action === 'gallery') {
