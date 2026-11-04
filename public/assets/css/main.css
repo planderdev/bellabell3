@@ -2875,11 +2875,14 @@ html[lang="en"] .about-reveal-line {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(16px, 1.67vw, 32px);
-    margin: clamp(20px, 1.67vw, 32px) 0;
-    padding: clamp(16px, 1.25vw, 24px) 0;
-    border-top: 1px solid color-mix(in srgb, var(--white) 35%, var(--transparent));
+    margin: 0 0 clamp(20px, 1.67vw, 32px);
+    padding: 0 0 clamp(16px, 1.25vw, 24px);
     border-bottom: 1px solid color-mix(in srgb, var(--white) 35%, var(--transparent));
     list-style: none;
+}
+
+.brand-slide-body--after {
+    margin-top: 1.75em;
 }
 
 .brand-stat strong {

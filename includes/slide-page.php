@@ -30,10 +30,6 @@ declare(strict_types=1);
 </ul>
 <?php endif; ?>
 <div class="brand-slide-text">
-<h3 class="brand-slide-title"><?= e($slide['title']) ?></h3>
-<?php if ($slide['body'] !== ''): ?>
-<p class="brand-slide-body"><?= e($slide['body']) ?></p>
-<?php endif; ?>
 <?php if (!empty($slide['stats'])): ?>
 <ul class="brand-stats">
 <?php foreach ($slide['stats'] as $stat): ?>
@@ -41,8 +37,12 @@ declare(strict_types=1);
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>
+<h3 class="brand-slide-title"><?= e($slide['title']) ?></h3>
+<?php if ($slide['body'] !== ''): ?>
+<p class="brand-slide-body"><?= e($slide['body']) ?></p>
+<?php endif; ?>
 <?php if (($slide['body_after'] ?? '') !== ''): ?>
-<p class="brand-slide-body"><?= e($slide['body_after']) ?></p>
+<p class="brand-slide-body brand-slide-body--after"><?= e($slide['body_after']) ?></p>
 <?php endif; ?>
 </div>
 </div>
