@@ -2871,6 +2871,59 @@ html[lang="en"] .about-reveal-line {
     white-space: pre-line;
 }
 
+.brand-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 1.67vw, 32px);
+    margin: clamp(20px, 1.67vw, 32px) 0;
+    padding: clamp(16px, 1.25vw, 24px) 0;
+    border-top: 1px solid color-mix(in srgb, var(--white) 35%, var(--transparent));
+    border-bottom: 1px solid color-mix(in srgb, var(--white) 35%, var(--transparent));
+    list-style: none;
+}
+
+.brand-stat strong {
+    display: block;
+    white-space: nowrap;
+    font-size: clamp(36px, 3.13vw, 60px);
+    font-weight: var(--fw-700);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+    letter-spacing: -.02em;
+}
+
+.brand-stat small {
+    margin-left: 4px;
+    font-size: clamp(15px, 1.04vw, 20px);
+    font-weight: var(--fw-500);
+    letter-spacing: 0;
+    vertical-align: baseline;
+}
+
+.brand-stat-label {
+    display: block;
+    margin-top: 8px;
+    font-size: clamp(13px, .83vw, 16px);
+    line-height: 1.45;
+    word-break: keep-all;
+}
+
+@media (max-width: 480px) {
+    .brand-stats {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    .brand-stat strong {
+        font-size: 30px;
+    }
+
+    .brand-stat small {
+        margin-left: 3px;
+        font-size: 14px;
+    }
+}
+
 .brand-slide-nav {
     position: absolute;
     left: 50%;

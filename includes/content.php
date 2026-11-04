@@ -195,12 +195,12 @@ return [
         ['id' => 'hairtail', 'icon' => 'hairtail', 'name' => '갈치', 'body' => '제주를 대표하는 해양 식재료 중 하나인 갈치는 단백질을 함유한 생선 원료입니다. 담백하면서도 고소한 풍미가 특징으로, 잔가시를 충분히 제거해 부드러운 식감과 자연스러운 기호성을 살릴 수 있습니다.', 'image' => '/assets/media/ingredients/hairtail.webp'],
     ],
     'brand_title' => '브랜드 소개',
-    'brand_groups' => ['연구·기술', '사회적 가치'],
+    'brand_groups' => ['우리의 무대, 한라산', '사회적 가치'],
     // Each brand's full-screen slides. "group" marks a slide shown with the large brand_groups list.
     'brand_slides' => [
         'bellabelfarm' => [
             ['title' => "한라산에서 찾은 생명력\n웰니스의 가능성으로", 'body' => "세계적으로도 특별한 생태계를 품은 한라산.\n벨아벨팜은 이 생명력의 원천에서 반려동물 웰니스와 롱제비티의 가능성을 탐구합니다.", 'image' => '/assets/media/brand/bamboo.webp'],
-            ['group' => 0, 'title' => '벨아벨팜만의 특별한 기술력', 'body' => "Safety from JEJU\n치료가 아닌 예방을 위한 펫제품 천연물질 특화기술", 'image' => '/assets/media/brand/research.webp'],
+            ['group' => 0, 'title' => '한라산의 생명력이 웰니스의 가능성으로', 'body' => "난대성 식물부터 온대림, 아한대·고산식물까지 공존하고\n제주에서만 발견되는 고유식물과\n빙하기부터 살아 남은 희귀식물까지 분포한 한라산.", 'stats' => [['value' => '1,800', 'unit' => '여 종', 'label' => '식물종'], ['value' => '4', 'unit' => '개', 'label' => '유네스코가 지정한 주요 식생 생태계'], ['value' => '90', 'unit' => '분류', 'label' => '제주 고유식물']], 'body_after' => '벨아벨팜은 이 한라산의 식물생태계가 장차 우리의 건강한 먹거리 자원으로의 무궁무진한 가능성임을 발견했습니다.', 'image' => '/assets/media/about-bg-summit.webp'],
             ['group' => 1, 'title' => '우리 모두는 지구의 시민입니다', 'body' => "지구의 시민인 우리 모두의 공존을 위한 지속가능한 가치를 지향하며\n제품 개발부터 경영까지 사회적기업으로서의 책임을 다하고 있습니다.", 'image' => '/assets/media/brand/social.webp'],
             ['title' => '로컬 원료 사용', 'body' => '한국에서 재배되는 다양한 로컬 원료를 사용하고 한국에서 전 제품 제조함으로서 탄소배출을 최소화 하고 지역 농어민의 소득창출에 기여합니다.', 'image' => '/assets/media/brand/local.webp'],
             ['title' => '유기동물 사회공헌', 'body' => '길위의 동물들, 사람의 손길이 필요한 동물들을 위해 인식개선 및 입양 홍보활동에 함께하며 동물권 향상을 위해 노력합니다.', 'image' => '/assets/media/brand/dog.webp'],
