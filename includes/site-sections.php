@@ -175,16 +175,11 @@ return [
         ]],
     ]],
     'ingredients' => ['label' => '원료소개', 'url' => '/ingredients', 'sections' => [
-        'intro' => ['label' => '소개', 'note' => '위쪽 영상은 용량 제한으로 여기서 바꿀 수 없습니다.', 'fields' => [
+        'intro' => ['label' => '소개', 'note' => '원료 항목은 원료 관리 메뉴에서 관리합니다. 위쪽 영상은 용량 제한으로 여기서 바꿀 수 없습니다.', 'fields' => [
             $text('ingredients_title', '페이지 제목'),
             $text('ingredients_intro_title', '소개 제목'),
             $long('ingredients_intro_body', '소개 설명'),
         ]],
-        ...array_combine(['kimchi', 'shrimp', 'flounder', 'abalone'], array_map(fn (int $i, string $label, string $anchor): array => ['label' => $label, 'anchor' => $anchor, 'fields' => [
-            $text("ingredients.$i.name", '이름'),
-            $long("ingredients.$i.body", '설명'),
-            $image("ingredients.$i.image", '사진'),
-        ]], [0, 1, 2, 3], ['김치', '딱새우', '광어', '전복'], ['#kimchi', '#shrimp', '#flounder', '#abalone'])),
     ]],
     'footer' => ['label' => '푸터', 'url' => '/', 'sections' => [
         'company' => ['label' => '회사 정보', 'anchor' => '#footer', 'fields' => [

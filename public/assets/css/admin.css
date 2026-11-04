@@ -934,3 +934,77 @@
 .admin-slide-card.is-dragging {
     box-shadow: 0 16px 40px color-mix(in srgb, var(--grey-900) 24%, var(--transparent));
 }
+
+/* Ingredients */
+.admin-ingredient-add {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+    align-items: end;
+    gap: 12px;
+}
+
+.admin-ingredient-list {
+    display: grid;
+    gap: 16px;
+    margin: 16px 0 48px;
+    list-style: none;
+}
+
+.admin-ingredient {
+    display: grid;
+    gap: 12px;
+    scroll-margin-top: 16px;
+}
+
+.admin-ingredient-body {
+    display: grid;
+    grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
+    gap: 20px;
+}
+
+.admin-ingredient-media {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+}
+
+.admin-ingredient-media form {
+    display: grid;
+    gap: 8px;
+}
+
+.admin-ingredient-media img,
+.admin-ingredient-media .admin-image-empty {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 10px;
+    background: var(--grey-100);
+    color: var(--text-sub);
+    object-fit: cover;
+}
+
+.admin-ingredient-fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    align-content: start;
+    gap: 12px;
+}
+
+.admin-ingredient-fields textarea {
+    width: 100%;
+    resize: vertical;
+}
+
+.admin-ingredient-fields > button {
+    grid-column: 1 / -1;
+}
+
+@media (max-width:760px) {
+    .admin-ingredient-add,
+    .admin-ingredient-body,
+    .admin-ingredient-fields {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
