@@ -2823,6 +2823,50 @@ html[lang="en"] .about-reveal-line {
 }
 
 /* Photo gallery: sits left of the copy on wide screens, above it on narrow ones. */
+/* Sits beside the copy, in the space between the tabs and the text. */
+.brand-slide-text:has(.brand-certs, .brand-slide-logo) {
+    position: relative;
+}
+
+.brand-slide-logo {
+    position: absolute;
+    top: max(clamp(70px, 5vw, 96px), calc(50% - 92px));
+    right: calc(100% + clamp(24px, 3vw, 56px));
+    display: block;
+    width: min(calc(50vw - var(--brand-gutter) - clamp(24px, 3vw, 56px) - 170px), 418px);
+    height: auto;
+}
+
+.brand-certs {
+    position: absolute;
+    top: max(clamp(70px, 5vw, 96px), calc(50% - 160px));
+    right: calc(100% + clamp(24px, 3vw, 56px));
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    width: min(calc(50vw - var(--brand-gutter) - clamp(24px, 3vw, 56px) - 170px), 412px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.brand-cert img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 195 / 275;
+    background: var(--white);
+}
+
+.brand-cert span {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: center;
+    color: color-mix(in srgb, var(--white) 80%, var(--transparent));
+}
+
 .brand-gallery {
     position: absolute;
     top: 0;
@@ -3021,6 +3065,18 @@ html[lang="en"] .about-reveal-line {
         position: static;
         width: 100%;
         margin-bottom: 24px;
+    }
+
+    .brand-slide-logo {
+        position: static;
+        width: min(70%, 300px);
+        margin-top: 28px;
+    }
+
+    .brand-certs {
+        position: static;
+        width: min(100%, 412px);
+        margin-top: 28px;
     }
 
     .brand-gallery-main {
