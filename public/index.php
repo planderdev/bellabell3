@@ -65,7 +65,9 @@ $content = site_content();
 <video class="pillars-panel" id="pillar-skin-video" muted loop playsinline preload="none" poster="/assets/media/pillar-bichon-poster.webp" aria-label="<?= e(t('보호자가 비숑의 볼을 티티패드로 닦아 주는 영상')) ?>">
 <source src="/assets/media/pillar-bichon.mp4" type="video/mp4"/>
 </video>
-<img class="pillars-panel" id="pillar-sustain-image" src="<?= e($content['social_image']) ?>" alt="" loading="lazy" decoding="async"/>
+<video class="pillars-panel" id="pillar-sustain-video" muted loop playsinline preload="none" poster="/assets/media/pillar-jeju-poster.webp" aria-label="<?= e(t('보호자와 강아지가 한라산과 제주 바다를 함께 걷는 영상')) ?>">
+<source src="/assets/media/pillar-jeju.mp4" type="video/mp4"/>
+</video>
 </div>
 <div class="pillars-labels" lang="en">
 <button class="pillars-label pillars-label-food is-active" id="pillar-video-toggle" type="button" aria-controls="pillar-video" aria-pressed="true">
@@ -78,8 +80,10 @@ $content = site_content();
 <i data-lucide="play" class="site-icon pillars-icon-play" aria-hidden="true" focusable="false"></i>
 <i data-lucide="pause" class="site-icon pillars-icon-pause" aria-hidden="true" focusable="false"></i>
 </button>
-<button class="pillars-label pillars-label-sustain" type="button" aria-controls="pillar-sustain-image" aria-pressed="false">
+<button class="pillars-label pillars-label-sustain" type="button" aria-controls="pillar-sustain-video" aria-pressed="false">
 <span><?= e($content['pillars'][2]) ?></span>
+<i data-lucide="play" class="site-icon pillars-icon-play" aria-hidden="true" focusable="false"></i>
+<i data-lucide="pause" class="site-icon pillars-icon-pause" aria-hidden="true" focusable="false"></i>
 </button>
 </div>
 </section>

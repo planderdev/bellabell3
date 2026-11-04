@@ -31,7 +31,7 @@ def fetch(path):
 checks=[]
 def check(name,ok,detail=''):checks.append({'check':name,'pass':bool(ok),'detail':detail})
 for prefix,lang,label in (('/en','en','ENG'),('/zh','zh-CN','中文')):
-    for page in ('','/brand','/product'):
+    for page in ('','/brand','/product','/ingredients'):
         code,body,_=fetch(prefix+page);text=body.decode()
         check('Localized page returns 200',code==200,prefix+page)
         check('Localized page sets html lang',f'<html lang="{lang}">' in text,prefix+page)
@@ -40,7 +40,7 @@ for prefix,lang,label in (('/en','en','ENG'),('/zh','zh-CN','中文')):
         check('Language switcher shows current language',f'<span class="language-current">{label}</span>' in text,prefix+page)
         check('Language switcher links this page in every language',all(f'href="{p or "/"}"' in text for p in (page,'/en'+page,'/zh'+page)),prefix+page)
 check('Robots hides admin and points to the sitemap',all(x in fetch('/robots.txt')[1].decode() for x in ('Disallow: /admin','Sitemap: https://www.jejubellabell.com/sitemap.xml')))
-check('Sitemap lists every page in every language',fetch('/sitemap.xml')[1].decode().count('<loc>')==9)
+check('Sitemap lists every page in every language',fetch('/sitemap.xml')[1].decode().count('<loc>')==12)
 for page,canonical in (('/','https://www.jejubellabell.com/'),('/en/brand','https://www.jejubellabell.com/en/brand'),('/zh','https://www.jejubellabell.com/zh')):check('Page declares its canonical address',f'rel="canonical" href="{canonical}"' in fetch(page)[1].decode(),page)
 for path in ('/media/research/999999','/media/research/abc','/en/media/research/1'):check('Missing slide image is 404',fetch(path)[0]==404,path)
 for path in ('/en/admin','/zh/api/contact','/en/assets/css/base.css','/en/nope'):check('Language prefix serves only pages',fetch(path)[0]==404,path)
@@ -53,10 +53,10 @@ check('History follows social and global immediately precedes contact',len(secti
 for c,count in [('technology-item',0),('standard-card',4),('product-item',2),('products-photo-slide',4),('products-shape',0),('products-spec',0),('form-field',0),('contact-item',0)]:check('Component structure count',len(byclass(c))==count,c)
 for section,c,count in [('care-section','care-item',5)]:check('Card structure count',sum(n.has(c) for n in byclass(section)[0].descendants())==count,section)
 gnb=byclass('gnb')[0];depths=[n for n in gnb.descendants() if n.has('gnb-depth')]
-check('Four confirmed menu items with dropdowns only on pages',[a.text() for a in gnb.descendants() if a.tag=='a' and a.parent.tag=='li']==['브랜드','상품소개','연구기술','제안&협업'] and [len([a for a in d.children if a.tag=='a']) for d in depths]==[3,3])
+check('Four confirmed menu items with dropdowns only on pages',[a.text() for a in gnb.descendants() if a.tag=='a' and a.parent.tag=='li']==['브랜드','상품소개','연구기술','제안&협업'] and [len([a for a in d.children if a.tag=='a']) for d in depths]==[3,4])
 check('Menu links open the finished pages and sections',[a.a.get('href') for a in gnb.descendants() if a.tag=='a' and a.parent.tag=='li']==['/brand','/product','#research','#partner'])
 check('Pillar labels keep the supplied wording',[n.children[0].text() for n in byclass('pillars-label')]==['Global K-PET FOOD','PET SKINCARE','Sustainability'])
-check('Pillar videos start paused until a button is pressed',[n.a.get('id') for n in nodes if n.tag=='video' and 'autoplay' not in n.a]==['pillar-video','pillar-skin-video'] and [n.a.get('aria-controls') for n in byclass('pillars-label')]==['pillar-video','pillar-skin-video','pillar-sustain-image'])
+check('Pillar videos start paused until a button is pressed',[n.a.get('id') for n in nodes if n.tag=='video' and 'autoplay' not in n.a]==['pillar-video','pillar-skin-video','pillar-sustain-video'] and [n.a.get('aria-controls') for n in byclass('pillars-label')]==['pillar-video','pillar-skin-video','pillar-sustain-video'])
 check('Deleted global selectors removed',not byclass('form-select-menu'))
 expected_copy={
 'intro-title':'From HALLA, For PET',
@@ -96,7 +96,7 @@ footer_sns=[
     ('https://pf.kakao.com/_JTnxks','/assets/icons/kakaoch.svg'),
 ]
 confirmed_destinations={
-    'tel:0648030060','mailto:partner@jejubellabell.com','https://fromhalla.com','/','/en','/zh','/brand','/brand#bellabelfarm','/brand#fromhalla','/brand#awoo','/product','/product#stick','/product#biotics','/product#nanotreat',
+    'tel:0648030060','mailto:partner@jejubellabell.com','https://fromhalla.com','/','/en','/zh','/brand','/brand#bellabelfarm','/brand#fromhalla','/brand#awoo','/product','/ingredients','/product#stick','/product#biotics','/product#nanotreat',
     'https://m.fromhalla.com/article/%EB%B3%B4%EB%8F%84%EC%9E%90%EB%A3%8C/2/13641/#',
     *(url for url,icon in footer_sns),
 }
@@ -140,10 +140,12 @@ brand_status,brand_raw,_=fetch('/brand');brand_nodes=list(Tree(brand_raw.decode(
 # Every admin field must point at real content, or an edit would silently change nothing. Nanotreat has no photo yet.
 field_probe=subprocess.run(['php','-r',"require 'includes/common.php';$d=site_defaults();echo json_encode(array_values(array_filter(array_keys(site_fields()),fn($k)=>site_get($d,$k)===null)));"],capture_output=True,text=True,cwd=ROOT)
 check('Editable fields all exist in content.php',json.loads(field_probe.stdout[field_probe.stdout.index('['):])==['products.8.size','products.8.image.src','products.8.image.alt'],field_probe.stdout[-300:])
+ingredient_status,ingredient_raw,_=fetch('/ingredients');ingredient_nodes=list(Tree(ingredient_raw.decode()).root.descendants())
+check('Ingredients page lists the four requested tabs',ingredient_status==200 and [n.text() for n in ingredient_nodes if n.has('brand-tab')]==['김치','딱새우','광어','전복'])
 check('Brand page returns 200',brand_status==200)
 check('Brand page has three tabs in order',[n.text() for n in brand_nodes if n.has('brand-tab')]==['벨아벨팜','프롬한라','아우아우'])
 check('Brand page shows only the first panel',[('hidden' in n.a) for n in brand_nodes if n.has('brand-panel')]==[False,True,True])
-check('Brand page has six full-screen slides with existing images',len([n for n in brand_nodes if n.has('brand-slide')])==6 and all((ROOT/'public'/n.a['src'].lstrip('/')).is_file() for n in brand_nodes if n.has('brand-slide-media')))
+check('Brand page has 6, 6 and 3 full-screen slides with existing images',len([n for n in brand_nodes if n.has('brand-slide')])==15 and all((ROOT/'public'/n.a['src'].lstrip('/')).is_file() for n in brand_nodes if n.has('brand-slide-media')))
 check('Brand intro link opens the brand page',[n.a.get('href') for n in byclass('about-reveal-link')][0]=='/brand')
 product_status,product_raw,_=fetch('/product');product_nodes=list(Tree(product_raw.decode()).root.descendants())
 check('Product page returns 200',product_status==200)

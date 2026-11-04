@@ -15,6 +15,7 @@ return [
             ['label' => '프롬한라스틱', 'href' => '/product#stick', 'children' => []],
             ['label' => '바이오틱스', 'href' => '/product#biotics', 'children' => []],
             ['label' => '나노트릿', 'href' => '/product#nanotreat', 'children' => []],
+            ['label' => '원료소개', 'href' => '/ingredients', 'children' => []],
         ]],
         ['label' => '연구기술', 'href' => '#research', 'children' => []],
         ['label' => '제안&협업', 'href' => '#partner', 'children' => []],
@@ -165,6 +166,20 @@ return [
         'closing_lines' => ['From HALLA,', 'For PET'],
         'closing_button' => '프롬한라 상품 보기',
     ],
+    'ingredients_title' => '원료소개',
+    'ingredient_tabs' => [
+        ['id' => 'kimchi', 'name' => '김치'],
+        ['id' => 'shrimp', 'name' => '딱새우'],
+        ['id' => 'flounder', 'name' => '광어'],
+        ['id' => 'abalone', 'name' => '전복'],
+    ],
+    // Only names printed on the packaging so far; descriptions and the missing photos come from the admin.
+    'ingredient_slides' => [
+        'kimchi' => [['title' => '김치', 'body' => '', 'image' => '']],
+        'shrimp' => [['title' => '딱새우', 'body' => '제주 딱새우 & 연어순살', 'image' => '/assets/media/brand/ingredient-shrimp.webp']],
+        'flounder' => [['title' => '광어', 'body' => '제주 광어순살', 'image' => '']],
+        'abalone' => [['title' => '전복', 'body' => '제주 전복 & 오리순살', 'image' => '/assets/media/brand/ingredient-abalone.webp']],
+    ],
     'brand_title' => '브랜드 소개',
     'brand_groups' => ['연구·기술', '사회적 가치'],
     // Each brand's full-screen slides. "group" marks a slide shown with the large brand_groups list.
@@ -173,13 +188,22 @@ return [
             ['title' => "한라산에서 찾은 생명력\n웰니스의 가능성으로", 'body' => "세계적으로도 특별한 생태계를 품은 한라산.\n벨아벨팜은 이 생명력의 원천에서 반려동물 웰니스와 롱제비티의 가능성을 탐구합니다.", 'image' => '/assets/media/brand/bamboo.webp'],
             ['group' => 0, 'title' => '벨아벨팜만의 특별한 기술력', 'body' => "Safety from JEJU\n치료가 아닌 예방을 위한 펫제품 천연물질 특화기술", 'image' => '/assets/media/brand/research.webp'],
             ['group' => 1, 'title' => '우리 모두는 지구의 시민입니다', 'body' => "지구의 시민인 우리 모두의 공존을 위한 지속가능한 가치를 지향하며\n제품 개발부터 경영까지 사회적기업으로서의 책임을 다하고 있습니다.", 'image' => '/assets/media/brand/social.webp'],
+            ['title' => '로컬 원료 사용', 'body' => '한국에서 재배되는 다양한 로컬 원료를 사용하고 한국에서 전 제품 제조함으로서 탄소배출을 최소화 하고 지역 농어민의 소득창출에 기여합니다.', 'image' => '/assets/media/brand/local.webp'],
+            ['title' => '유기동물 사회공헌', 'body' => '길위의 동물들, 사람의 손길이 필요한 동물들을 위해 인식개선 및 입양 홍보활동에 함께하며 동물권 향상을 위해 노력합니다.', 'image' => '/assets/media/brand/dog.webp'],
+            ['title' => '함께할 파트너를 찾습니다', 'body' => "유통·입점, 공동 연구, 해외 비즈니스까지\n벨아벨팜과의 협업을 제안해 주세요.", 'image' => '/assets/media/brand/partner.webp'],
         ],
         'fromhalla' => [
             ['title' => "그 희망의 증거, BongBong\n제주에서 찾은 Health", 'body' => "프롬한라는 시한부 고양이 ‘봉봉이’를 구조하며 탄생하게 되었습니다.\n\n구조 당시 피를 흘리고 있던 봉봉이는 주인에게 버려진 후 차에 치여 횡경막이 터지고 신부전증, 피부염을 앓고 있어 병원에서 수술도 회복도 불가능한 시한부 선고를 받았지만\n\n현재는 제주의 건강한 먹거리를 통해 수술 없이 건강을 되찾았습니다.\n\n제주어로 ‘봉봉하다’는 말은 ‘한가득차다’라는 뜻입니다.\n이 말처럼 제주의 자연을 건강에 봉봉하게 채워드리고 싶습니다.", 'image' => '/assets/media/brand/bongbong.webp'],
             ['title' => 'From HALLA, For PET', 'body' => '제주의 자연과 연구를 담은 반려동물 웰니스 브랜드', 'image' => '/assets/media/brand/fromhalla.webp'],
+            ['title' => "먹는 건 귀엽게,\n만드는 건 진지하게!", 'body' => "잘 먹을까? 매일 써도 좋을까?\n보호자의 질문에서 시작해, 제주의 원료와 쓰임에 맞는 제형을 연구합니다.", 'image' => '/assets/media/product/story-abalone.webp'],
+            ['title' => '프롬한라스틱', 'body' => "제주 딱새우 & 연어순살\n제주 무항생제 닭가슴살\n제주 전복 & 오리순살\n제주 광어순살", 'image' => '/assets/media/brand/fromhalla-stick.webp'],
+            ['title' => '바이오틱스', 'body' => "골드 유산균 반려묘용\n골드 유산균 반려견용\n슬림 유산균 반려묘용\n슬림 유산균 반려견용", 'image' => '/assets/media/product/biotics-lineup.webp'],
+            ['title' => '한라산에서 제주바당까지', 'body' => '보호자의 질문에서 시작해, 제주의 원료와 쓰임에 맞는 제형을 연구합니다.', 'image' => '/assets/media/brand-ingredients.webp'],
         ],
         'awoo' => [
             ['title' => '아우아우', 'body' => '제주 로컬 공간사업', 'image' => '/assets/media/brand/awoo.webp'],
+            ['title' => '아우아우', 'body' => '제주 로컬 공간사업', 'image' => '/assets/media/brand/awoo-house.webp'],
+            ['title' => '아우아우', 'body' => '제주 로컬 공간사업', 'image' => '/assets/media/brand/awoo-eaves.webp'],
         ],
     ],
     'brand_tabs' => [

@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "passed": 305,
-  "total": 305,
+  "passed": 320,
+  "total": 320,
   "checks": [
     {
       "check": "Localized page returns 200",
@@ -81,6 +81,31 @@
     {
       "check": "Localized page returns 200",
       "pass": true,
+      "detail": "/en/ingredients"
+    },
+    {
+      "check": "Localized page sets html lang",
+      "pass": true,
+      "detail": "/en/ingredients"
+    },
+    {
+      "check": "Localized page has no leftover Korean",
+      "pass": true,
+      "detail": "/en/ingredients"
+    },
+    {
+      "check": "Language switcher shows current language",
+      "pass": true,
+      "detail": "/en/ingredients"
+    },
+    {
+      "check": "Language switcher links this page in every language",
+      "pass": true,
+      "detail": "/en/ingredients"
+    },
+    {
+      "check": "Localized page returns 200",
+      "pass": true,
       "detail": "/zh"
     },
     {
@@ -152,6 +177,31 @@
       "check": "Language switcher links this page in every language",
       "pass": true,
       "detail": "/zh/product"
+    },
+    {
+      "check": "Localized page returns 200",
+      "pass": true,
+      "detail": "/zh/ingredients"
+    },
+    {
+      "check": "Localized page sets html lang",
+      "pass": true,
+      "detail": "/zh/ingredients"
+    },
+    {
+      "check": "Localized page has no leftover Korean",
+      "pass": true,
+      "detail": "/zh/ingredients"
+    },
+    {
+      "check": "Language switcher shows current language",
+      "pass": true,
+      "detail": "/zh/ingredients"
+    },
+    {
+      "check": "Language switcher links this page in every language",
+      "pass": true,
+      "detail": "/zh/ingredients"
     },
     {
       "check": "Robots hides admin and points to the sitemap",
@@ -491,6 +541,11 @@
     {
       "check": "Link uses a real section or confirmed destination",
       "pass": true,
+      "detail": "/ingredients"
+    },
+    {
+      "check": "Link uses a real section or confirmed destination",
+      "pass": true,
       "detail": "#research"
     },
     {
@@ -667,6 +722,11 @@
       "check": "Link uses a real section or confirmed destination",
       "pass": true,
       "detail": "https://pf.kakao.com/_JTnxks"
+    },
+    {
+      "check": "Video sources are local files",
+      "pass": true,
+      "detail": ""
     },
     {
       "check": "Video sources are local files",
@@ -957,6 +1017,11 @@
       "check": "Asset is local or the pinned Lucide library",
       "pass": true,
       "detail": "/assets/media/pillar-bichon-poster.webp"
+    },
+    {
+      "check": "Asset is local or the pinned Lucide library",
+      "pass": true,
+      "detail": "/assets/media/pillar-jeju-poster.webp"
     },
     {
       "check": "Asset is local or the pinned Lucide library",
@@ -1261,6 +1326,11 @@
     {
       "check": "Local asset responds 200",
       "pass": true,
+      "detail": "/assets/media/pillar-jeju-poster.webp"
+    },
+    {
+      "check": "Local asset responds 200",
+      "pass": true,
       "detail": "/assets/media/pillar-ragdoll-poster.webp"
     },
     {
@@ -1341,7 +1411,7 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Light.woff2"
+      "detail": "/assets/fonts/Poppins-Bold.woff2"
     },
     {
       "check": "CSS asset responds 200",
@@ -1351,12 +1421,12 @@
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Bold.woff2"
+      "detail": "/assets/fonts/Poppins-Medium.woff2"
     },
     {
       "check": "CSS asset responds 200",
       "pass": true,
-      "detail": "/assets/fonts/Poppins-Medium.woff2"
+      "detail": "/assets/fonts/Poppins-Light.woff2"
     },
     {
       "check": "CSS asset responds 200",
@@ -1464,6 +1534,11 @@
       "detail": "[\"products.8.size\",\"products.8.image.src\",\"products.8.image.alt\"]"
     },
     {
+      "check": "Ingredients page lists the four requested tabs",
+      "pass": true,
+      "detail": ""
+    },
+    {
       "check": "Brand page returns 200",
       "pass": true,
       "detail": ""
@@ -1479,7 +1554,7 @@
       "detail": ""
     },
     {
-      "check": "Brand page has six full-screen slides with existing images",
+      "check": "Brand page has 6, 6 and 3 full-screen slides with existing images",
       "pass": true,
       "detail": ""
     },
