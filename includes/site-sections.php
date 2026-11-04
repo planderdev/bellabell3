@@ -106,22 +106,22 @@ return [
         'bellabelfarm' => ['label' => '벨아벨팜', 'anchor' => '#bellabelfarm', 'fields' => [
             $text('brand_groups.0', '큰 제목 1'),
             $text('brand_groups.1', '큰 제목 2'),
-            ...$repeat(3, fn (int $i, int $n): array => [
+            ...$repeat(6, fn (int $i, int $n): array => [
                 $long("brand_slides.bellabelfarm.$i.title", "슬라이드 $n 제목"),
                 $long("brand_slides.bellabelfarm.$i.body", "슬라이드 $n 본문"),
                 $image("brand_slides.bellabelfarm.$i.image", "슬라이드 $n 배경"),
             ]),
         ]],
-        'fromhalla' => ['label' => '프롬한라', 'anchor' => '#fromhalla', 'fields' => $repeat(2, fn (int $i, int $n): array => [
+        'fromhalla' => ['label' => '프롬한라', 'anchor' => '#fromhalla', 'fields' => $repeat(6, fn (int $i, int $n): array => [
             $long("brand_slides.fromhalla.$i.title", "슬라이드 $n 제목"),
             $long("brand_slides.fromhalla.$i.body", "슬라이드 $n 본문"),
             $image("brand_slides.fromhalla.$i.image", "슬라이드 $n 배경"),
         ])],
-        'awoo' => ['label' => '아우아우', 'anchor' => '#awoo', 'fields' => [
-            $long('brand_slides.awoo.0.title', '제목'),
-            $long('brand_slides.awoo.0.body', '본문'),
-            $image('brand_slides.awoo.0.image', '배경'),
-        ]],
+        'awoo' => ['label' => '아우아우', 'anchor' => '#awoo', 'fields' => $repeat(3, fn (int $i, int $n): array => [
+            $long("brand_slides.awoo.$i.title", "슬라이드 $n 제목"),
+            $long("brand_slides.awoo.$i.body", "슬라이드 $n 본문"),
+            $image("brand_slides.awoo.$i.image", "슬라이드 $n 배경"),
+        ])],
     ]],
     'product' => ['label' => '상품소개', 'url' => '/product', 'sections' => [
         'hero' => ['label' => '첫 화면', 'note' => '영상은 용량 제한으로 여기서 바꿀 수 없습니다.', 'fields' => [
@@ -173,6 +173,16 @@ return [
             $text('product.closing_lines.1', '제목 2 줄'),
             $text('product.closing_button', '버튼 문구'),
         ]],
+    ]],
+    'ingredients' => ['label' => '원료소개', 'url' => '/ingredients', 'sections' => [
+        'common' => ['label' => '제목·메뉴', 'fields' => [
+            $text('ingredients_title', '페이지 제목'),
+            ...$repeat(4, fn (int $i, int $n): array => [$text("ingredient_tabs.$i.name", "탭 $n 이름")]),
+        ]],
+        'kimchi' => ['label' => '김치', 'anchor' => '#kimchi', 'fields' => [$long('ingredient_slides.kimchi.0.title', '제목'), $long('ingredient_slides.kimchi.0.body', '설명'), $image('ingredient_slides.kimchi.0.image', '배경')]],
+        'shrimp' => ['label' => '딱새우', 'anchor' => '#shrimp', 'fields' => [$long('ingredient_slides.shrimp.0.title', '제목'), $long('ingredient_slides.shrimp.0.body', '설명'), $image('ingredient_slides.shrimp.0.image', '배경')]],
+        'flounder' => ['label' => '광어', 'anchor' => '#flounder', 'fields' => [$long('ingredient_slides.flounder.0.title', '제목'), $long('ingredient_slides.flounder.0.body', '설명'), $image('ingredient_slides.flounder.0.image', '배경')]],
+        'abalone' => ['label' => '전복', 'anchor' => '#abalone', 'fields' => [$long('ingredient_slides.abalone.0.title', '제목'), $long('ingredient_slides.abalone.0.body', '설명'), $image('ingredient_slides.abalone.0.image', '배경')]],
     ]],
     'footer' => ['label' => '푸터', 'url' => '/', 'sections' => [
         'company' => ['label' => '회사 정보', 'anchor' => '#footer', 'fields' => [
