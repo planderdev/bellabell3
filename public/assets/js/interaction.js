@@ -537,7 +537,7 @@ function initSolutionSection() {
         return {
             title: item.dataset.title || "Lorem ipsum",
             desc: item.dataset.desc || localLorem,
-            image: localGray,
+            image: item.dataset.image || localGray,
             href: localHref(item.dataset.href)
         };
     });
@@ -605,8 +605,9 @@ function initSolutionSection() {
                 imageWrap.className = "solution-card-image";
 
                 const img = document.createElement("img");
-                img.src = localGray;
+                img.src = data.image;
                 img.alt = "";
+                img.loading = "lazy";
 
                 const more = document.createElement("span");
                 more.className = "more-btn";
