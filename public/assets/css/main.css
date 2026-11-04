@@ -2989,6 +2989,7 @@ html[lang="en"] .about-reveal-line {
 
 .ingredients-side {
     margin-bottom: clamp(32px, 3.33vw, 64px);
+    text-align: center;
 }
 
 .ingredients-title {
@@ -3002,6 +3003,7 @@ html[lang="en"] .about-reveal-line {
 .ingredients-nav {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 4px clamp(16px, 1.67vw, 32px);
     list-style: none;
 }

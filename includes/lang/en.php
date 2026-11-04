@@ -36,6 +36,7 @@ return [
     "보호자의 질문에서 시작해, 제주의 원료와 쓰임에 맞는 제형을 연구합니다." => "Starting from these questions pet parents ask, we research Jeju ingredients and the right format for each use.",
     "제품 라인업 보기" => "View the Lineup",
     "상품소개" => "Product",
+    "고양이들이 간식을 먹고 보호자의 케어를 받는 영상" => "Cats enjoying treats and being cared for by their guardians",
     "특허" => "Patent",
     "출원" => "Application",
     "기술이전" => "Technology Transfer",

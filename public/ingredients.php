@@ -20,8 +20,8 @@ $pageTitle = $content['ingredients_title'] . ' | ' . t('벨아벨팜');
 </ul>
 </div>
 <section class="ingredients-intro">
-<video class="ingredients-video" id="ingredients-video" autoplay muted loop playsinline preload="metadata" poster="/assets/media/pillar-jeju-poster.webp" aria-label="<?= e(t('보호자와 강아지가 한라산과 제주 바다를 함께 걷는 영상')) ?>">
-<source src="/assets/media/pillar-jeju.mp4" type="video/mp4"/>
+<video class="ingredients-video" id="ingredients-video" autoplay muted loop playsinline preload="metadata" poster="/assets/media/ingredients-intro-poster.jpg" aria-label="<?= e(t('고양이들이 간식을 먹고 보호자의 케어를 받는 영상')) ?>">
+<source src="/assets/media/ingredients-intro.mp4" type="video/mp4"/>
 </video>
 <h3><?= e($content['ingredients_intro_title']) ?></h3>
 <p><?= nl2br(e($content['ingredients_intro_body']), false) ?></p>
