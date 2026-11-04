@@ -2824,8 +2824,30 @@ html[lang="en"] .about-reveal-line {
 
 /* Photo gallery: sits left of the copy on wide screens, above it on narrow ones. */
 /* Sits beside the copy, in the space between the tabs and the text. */
-.brand-slide-text:has(.brand-certs, .brand-slide-logo) {
+.brand-slide-text:has(.brand-certs, .brand-slide-logo, .brand-slide-figure) {
     position: relative;
+}
+
+.brand-slide-figure {
+    position: absolute;
+    top: calc(clamp(24px, 3.1vw, 48px) * -1);
+    right: calc(100% + clamp(24px, 3vw, 56px));
+    width: min(calc(50vw - var(--brand-gutter) - clamp(24px, 3vw, 56px) - 170px), 386px);
+    margin: 0;
+}
+
+.brand-slide-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.brand-slide-figure figcaption {
+    margin-top: 20px;
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: center;
+    color: color-mix(in srgb, var(--white) 80%, var(--transparent));
 }
 
 .brand-slide-logo {
@@ -3065,6 +3087,12 @@ html[lang="en"] .about-reveal-line {
         position: static;
         width: 100%;
         margin-bottom: 24px;
+    }
+
+    .brand-slide-figure {
+        position: static;
+        width: min(80%, 320px);
+        margin: 28px auto 0;
     }
 
     .brand-slide-logo {
