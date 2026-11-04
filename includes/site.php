@@ -265,6 +265,21 @@ function site_href(string $href): string
     return str_starts_with($href, '/') ? page_url($href) : $href;
 }
 
+// Escaped body text with the first mention of each given phrase turned into a link. An admin can rewrite the
+// text freely: a phrase that is no longer there simply gets no link.
+function site_linked_text(string $text, array $links): string
+{
+    $html = e($text);
+    foreach ($links as $link) {
+        $phrase = e($link['text']);
+        $position = strpos($html, $phrase);
+        if ($position !== false) {
+            $html = substr_replace($html, '<a class="brand-body-link" href="' . e(site_href($link['href'])) . '"><span>' . $phrase . '</span><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a>', $position, strlen($phrase));
+        }
+    }
+    return $html;
+}
+
 function site_link_attributes(string $href): string
 {
     return str_starts_with($href, 'http') ? ' target="_blank" rel="noopener noreferrer"' : '';

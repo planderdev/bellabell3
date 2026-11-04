@@ -55,10 +55,20 @@ declare(strict_types=1);
 <?php endif; ?>
 <h3 class="brand-slide-title"><?= e($slide['title']) ?></h3>
 <?php if ($slide['body'] !== ''): ?>
-<p class="brand-slide-body"><?= e($slide['body']) ?></p>
+<p class="brand-slide-body"><?= site_linked_text($slide['body'], $slide['body_links'] ?? []) ?></p>
 <?php endif; ?>
 <?php if (($slide['body_after'] ?? '') !== ''): ?>
 <p class="brand-slide-body brand-slide-body--after"><?= e($slide['body_after']) ?></p>
+<?php endif; ?>
+<?php if (!empty($slide['lineup'])): ?>
+<div class="brand-lineup">
+<h4 class="brand-lineup-title"><?= e($slide['lineup']['title']) ?></h4>
+<ul>
+<?php foreach ($slide['lineup']['items'] as $lineupItem): ?>
+<li><a href="<?= e(site_href($lineupItem['href'])) ?>"><span><?= e($lineupItem['label']) ?></span><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a></li>
+<?php endforeach; ?>
+</ul>
+</div>
 <?php endif; ?>
 <?php if (!empty($slide['figure'])): ?>
 <figure class="brand-slide-figure"><img src="<?= e($slide['figure']['image']) ?>" alt="<?= e($slide['figure']['caption']) ?>" width="386" height="403" loading="lazy" decoding="async"/><figcaption><?= e($slide['figure']['caption']) ?></figcaption></figure>
