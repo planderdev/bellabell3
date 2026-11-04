@@ -2988,10 +2988,7 @@ html[lang="en"] .about-reveal-line {
 }
 
 .ingredients-side {
-    position: absolute;
-    left: var(--ingredients-gutter);
-    top: clamp(150px, 11.5vw, 220px);
-    z-index: 2;
+    margin-bottom: clamp(32px, 3.33vw, 64px);
 }
 
 .ingredients-title {
@@ -3004,9 +3001,8 @@ html[lang="en"] .about-reveal-line {
 
 .ingredients-nav {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: clamp(4px, .42vw, 8px);
+    flex-wrap: wrap;
+    gap: 4px clamp(16px, 1.67vw, 32px);
     list-style: none;
 }
 
@@ -3026,7 +3022,7 @@ html[lang="en"] .about-reveal-line {
     flex-direction: column;
     align-items: center;
     max-width: 900px;
-    margin: clamp(220px, 17.4vw, 300px) auto clamp(80px, 8.33vw, 160px);
+    margin: 0 auto clamp(80px, 8.33vw, 160px);
     text-align: center;
 }
 
@@ -3111,8 +3107,28 @@ html[lang="en"] .about-reveal-line {
 }
 
 .ingredient-copy h3 {
+    display: flex;
+    align-items: center;
+    gap: 14px;
     font-size: clamp(18px, 1.25vw, 24px);
     font-weight: var(--fw-600);
+}
+
+.ingredient-icon {
+    flex: none;
+    width: clamp(52px, 4.17vw, 72px);
+    height: clamp(52px, 4.17vw, 72px);
+    color: var(--primary);
+}
+
+.ingredient-photo {
+    display: grid;
+    place-items: center;
+}
+
+.ingredient-photo-icon {
+    width: 34%;
+    color: var(--grey-400);
 }
 
 .ingredient-body {
@@ -3126,21 +3142,6 @@ html[lang="en"] .about-reveal-line {
 @media (max-width:970px) {
     .ingredients-page {
         padding-top: 110px;
-    }
-
-    .ingredients-side {
-        position: static;
-        margin-bottom: 24px;
-    }
-
-    .ingredients-nav {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 4px 20px;
-    }
-
-    .ingredients-intro {
-        margin-top: 0;
     }
 
     .ingredients-list:before {

@@ -196,13 +196,13 @@ function ingredient_items_seed(\PDO $pdo): void
         $sets[$code] = site_content()['ingredients'];
     }
     locale($current);
-    $insert = $pdo->prepare('INSERT INTO ingredient_items (name_ko, name_en, name_zh, body_ko, body_en, body_zh, image, position) VALUES (:nk, :ne, :nz, :bk, :be, :bz, :image, :position)');
+    $insert = $pdo->prepare('INSERT INTO ingredient_items (name_ko, name_en, name_zh, body_ko, body_en, body_zh, image, icon, position) VALUES (:nk, :ne, :nz, :bk, :be, :bz, :image, :icon, :position)');
     $pdo->beginTransaction();
     foreach ($sets['ko'] as $index => $item) {
         $insert->execute([
             'nk' => $item['name'], 'ne' => $sets['en'][$index]['name'], 'nz' => $sets['zh'][$index]['name'],
             'bk' => $item['body'], 'be' => $sets['en'][$index]['body'], 'bz' => $sets['zh'][$index]['body'],
-            'image' => $item['image'], 'position' => $index + 1,
+            'image' => $item['image'], 'icon' => $item['icon'], 'position' => $index + 1,
         ]);
     }
     $pdo->commit();
@@ -229,6 +229,10 @@ function admin_ingredient_action(\PDO $pdo, string $op, int &$focus): string
     $id = (int)inquiry_value($_POST, 'id');
     $focus = $id;
     $name = fn (string $key): string => mb_substr(trim(inquiry_value($_POST, $key)), 0, 80);
+    $icon = function (): string {
+        $key = inquiry_value($_POST, 'icon');
+        return isset(site_ingredient_icons()[$key]) ? $key : '';
+    };
     $body = function (string $key): string {
         $value = $_POST[$key] ?? '';
         return is_string($value) ? mb_substr(trim(str_replace("\r\n", "\n", $value)), 0, ADMIN_TEXT_MAX) : '';
@@ -238,16 +242,16 @@ function admin_ingredient_action(\PDO $pdo, string $op, int &$focus): string
             if ($name('name_ko') === '') {
                 return 'no-name';
             }
-            $statement = $pdo->prepare('INSERT INTO ingredient_items (name_ko, name_en, name_zh, position) VALUES (:ko, :en, :zh, (SELECT coalesce(max(position), 0) + 1 FROM ingredient_items)) RETURNING id');
-            $statement->execute(['ko' => $name('name_ko'), 'en' => $name('name_en'), 'zh' => $name('name_zh')]);
+            $statement = $pdo->prepare('INSERT INTO ingredient_items (name_ko, name_en, name_zh, icon, position) VALUES (:ko, :en, :zh, :icon, (SELECT coalesce(max(position), 0) + 1 FROM ingredient_items)) RETURNING id');
+            $statement->execute(['ko' => $name('name_ko'), 'en' => $name('name_en'), 'zh' => $name('name_zh'), 'icon' => $icon()]);
             $focus = (int)$statement->fetchColumn();
         } elseif ($op === 'save') {
             if ($name('name_ko') === '') {
                 return 'no-name';
             }
-            $pdo->prepare('UPDATE ingredient_items SET name_ko = :nk, name_en = :ne, name_zh = :nz, body_ko = :bk, body_en = :be, body_zh = :bz WHERE id = :id')->execute([
+            $pdo->prepare('UPDATE ingredient_items SET name_ko = :nk, name_en = :ne, name_zh = :nz, body_ko = :bk, body_en = :be, body_zh = :bz, icon = :icon WHERE id = :id')->execute([
                 'nk' => $name('name_ko'), 'ne' => $name('name_en'), 'nz' => $name('name_zh'),
-                'bk' => $body('body_ko'), 'be' => $body('body_en'), 'bz' => $body('body_zh'), 'id' => $id,
+                'bk' => $body('body_ko'), 'be' => $body('body_en'), 'bz' => $body('body_zh'), 'icon' => $icon(), 'id' => $id,
             ]);
         } elseif ($op === 'image') {
             $image = research_slide_read_upload($_FILES['image'] ?? []);
@@ -294,6 +298,15 @@ function admin_ingredient_action(\PDO $pdo, string $op, int &$focus): string
     return '';
 }
 
+function admin_ingredient_icon_select(string $id, string $selected): string
+{
+    $options = '<option value="">아이콘 없음</option>';
+    foreach (site_ingredient_icons() as $key => $icon) {
+        $options .= '<option value="' . e($key) . '"' . ($key === $selected ? ' selected' : '') . '>' . e($icon['label']) . '</option>';
+    }
+    return '<select class="admin-input" id="' . e($id) . '" name="icon">' . $options . '</select>';
+}
+
 function admin_ingredients_page(\PDO $pdo, string $formToken): never
 {
     try {
@@ -319,6 +332,7 @@ function admin_ingredients_page(\PDO $pdo, string $formToken): never
 <div><label class="admin-label" for="add-ko">한국어 이름</label><input class="admin-input" id="add-ko" name="name_ko" maxlength="80" required></div>
 <div><label class="admin-label" for="add-en">영문 이름</label><input class="admin-input" id="add-en" name="name_en" maxlength="80"></div>
 <div><label class="admin-label" for="add-zh">중문 이름</label><input class="admin-input" id="add-zh" name="name_zh" maxlength="80"></div>
+<div><label class="admin-label" for="add-icon">아이콘</label><?= admin_ingredient_icon_select('add-icon', '') ?></div>
 <button class="admin-button" type="submit">추가</button>
 </div>
 </form>
@@ -335,6 +349,7 @@ function admin_ingredients_page(\PDO $pdo, string $formToken): never
 </div>
 <form class="admin-ingredient-fields" method="post" action="/admin/ingredients">
 <?= admin_hidden($formToken, ['op' => 'save', 'id' => $id]) ?>
+<div class="admin-ingredient-icon"><label class="admin-label" for="icon-<?= $id ?>">아이콘</label><div><?= site_ingredient_icon((string)$row['icon'], 'admin-ingredient-icon-preview') ?><?= admin_ingredient_icon_select('icon-' . $id, (string)$row['icon']) ?></div></div>
 <?php foreach (['ko' => '한국어', 'en' => '영문', 'zh' => '중문'] as $code => $label): ?>
 <div><label class="admin-label" for="name-<?= $code ?>-<?= $id ?>"><?= $label ?> 이름</label><input class="admin-input" id="name-<?= $code ?>-<?= $id ?>" name="name_<?= $code ?>" value="<?= e((string)$row['name_' . $code]) ?>" maxlength="80"<?= $code === 'ko' ? ' required' : '' ?>></div>
 <div><label class="admin-label" for="body-<?= $code ?>-<?= $id ?>"><?= $label ?> 설명</label><textarea class="admin-input" id="body-<?= $code ?>-<?= $id ?>" name="body_<?= $code ?>" rows="3" maxlength="<?= ADMIN_TEXT_MAX ?>"><?= e((string)$row['body_' . $code]) ?></textarea></div>

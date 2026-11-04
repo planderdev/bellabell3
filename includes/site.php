@@ -136,7 +136,7 @@ function site_menu(array $content): array
 
 function site_ingredient_rows(\PDO $pdo): array
 {
-    return $pdo->query('SELECT id, name_ko, name_en, name_zh, body_ko, body_en, body_zh, image FROM ingredient_items ORDER BY position, id')->fetchAll(\PDO::FETCH_ASSOC);
+    return $pdo->query('SELECT id, name_ko, name_en, name_zh, body_ko, body_en, body_zh, image, icon FROM ingredient_items ORDER BY position, id')->fetchAll(\PDO::FETCH_ASSOC);
 }
 
 // Ingredients for the current language: the admin's once any exist, otherwise content.php's.
@@ -159,7 +159,20 @@ function site_ingredients(array $content): array
         'name' => (string)($row['name_' . locale()] ?: $row['name_ko']),
         'body' => (string)($row['body_' . locale()] ?: $row['body_ko']),
         'image' => (string)$row['image'],
+        'icon' => (string)$row['icon'],
     ], $rows);
+}
+
+function site_ingredient_icons(): array
+{
+    static $icons = null;
+    return $icons ??= require __DIR__ . '/ingredient-icons.php';
+}
+
+function site_ingredient_icon(string $key, string $class): string
+{
+    $icon = site_ingredient_icons()[$key] ?? null;
+    return $icon ? '<svg class="' . e($class) . '" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' . $icon['svg'] . '</svg>' : '';
 }
 
 function site_href(string $href): string

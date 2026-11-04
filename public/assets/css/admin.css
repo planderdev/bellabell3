@@ -938,7 +938,7 @@
 /* Ingredients */
 .admin-ingredient-add {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
     align-items: end;
     gap: 12px;
 }
@@ -995,6 +995,23 @@
 .admin-ingredient-fields textarea {
     width: 100%;
     resize: vertical;
+}
+
+.admin-ingredient-icon {
+    grid-column: 1 / -1;
+}
+
+.admin-ingredient-icon > div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-ingredient-icon-preview {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    color: var(--primary);
 }
 
 .admin-ingredient-fields > button {
