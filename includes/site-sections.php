@@ -164,30 +164,6 @@ return [
             $link('product.store_url', '상품 보기 주소'),
             ...$repeat(5, fn (int $i, int $n): array => [$text("product_categories.$i.name", "분류 $n 이름")]),
         ]],
-        'notes' => ['label' => '카드 4개', 'fields' => [
-            $text('product.notes_heading', '제목'),
-            ...$repeat(4, fn (int $i, int $n): array => [
-                $text("product.notes.$i.title", "카드 $n 제목"),
-                $long("product.notes.$i.body", "카드 $n 설명"),
-            ]),
-        ]],
-        'stories' => ['label' => '제품 이야기', 'fields' => [
-            $text('product.stories_heading', '제목'),
-            ...$repeat(3, fn (int $i, int $n): array => [
-                $text("product_stories.$i.tab", "탭 $n 이름"),
-                $text("product_stories.$i.title", "탭 $n 제목"),
-                $long("product_stories.$i.body", "탭 $n 설명"),
-                $image("product_stories.$i.image.src", "탭 $n 사진"),
-                $text("product_stories.$i.image.alt", "탭 $n 사진 설명"),
-            ]),
-        ]],
-        'points' => ['label' => '카드 3개', 'fields' => [
-            $text('product.points_heading', '제목'),
-            ...$repeat(3, fn (int $i, int $n): array => [
-                $text("product.points.$i.title", "카드 $n 제목"),
-                $long("product.points.$i.body", "카드 $n 설명"),
-            ]),
-        ]],
         'closing' => ['label' => '마지막 문구', 'fields' => [
             $text('product.closing_lines.0', '제목 1 줄'),
             $text('product.closing_lines.1', '제목 2 줄'),

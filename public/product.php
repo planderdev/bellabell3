@@ -71,52 +71,6 @@ $products = site_products($content);
 <p class="product-empty" hidden><?= e(t('준비 중인 상품입니다.')) ?></p>
 </div>
 </section>
-<section class="product-section is-tinted" aria-labelledby="product-notes-title">
-<div class="inner">
-<h2 class="product-heading" id="product-notes-title"><?= e($productCopy['notes_heading']) ?></h2>
-<div class="product-notes">
-<?php foreach ($productCopy['notes'] as $noteIndex => $note): ?>
-<article class="product-note">
-<p class="product-note-number"><?= sprintf('%02d', $noteIndex + 1) ?></p>
-<h3><?= e($note['title']) ?></h3>
-<p><?= nl2br(e($note['body']), false) ?></p>
-</article>
-<?php endforeach; ?>
-</div>
-</div>
-</section>
-<section class="product-section" aria-labelledby="product-stories-title">
-<div class="inner">
-<h2 class="product-heading" id="product-stories-title"><?= e($productCopy['stories_heading']) ?></h2>
-<div class="product-story-tabs" role="tablist" aria-label="<?= e(t('제품 이야기')) ?>">
-<?php foreach ($content['product_stories'] as $index => $story): ?>
-<button class="product-filter product-story-tab<?= $index === 0 ? ' is-active' : '' ?>" type="button" role="tab" id="product-story-tab-<?= $index ?>" aria-controls="product-story-<?= $index ?>" aria-selected="<?= $index === 0 ? 'true' : 'false' ?>" tabindex="<?= $index === 0 ? '0' : '-1' ?>"><?= sprintf('%02d', $index + 1) ?> <?= e($story['tab']) ?></button>
-<?php endforeach; ?>
-</div>
-<?php foreach ($content['product_stories'] as $index => $story): ?>
-<div class="product-story-panel" id="product-story-<?= $index ?>" role="tabpanel" aria-labelledby="product-story-tab-<?= $index ?>"<?= $index === 0 ? '' : ' hidden' ?>>
-<img src="<?= e($story['image']['src']) ?>" alt="<?= e($story['image']['alt']) ?>" loading="lazy" decoding="async"/>
-<div class="product-story-copy">
-<h3><?= e($story['title']) ?></h3>
-<p><?= nl2br(e($story['body']), false) ?></p>
-</div>
-</div>
-<?php endforeach; ?>
-</div>
-</section>
-<section class="product-section is-tinted" aria-labelledby="product-points-title">
-<div class="inner">
-<h2 class="product-heading" id="product-points-title"><?= e($productCopy['points_heading']) ?></h2>
-<div class="product-points">
-<?php foreach ($productCopy['points'] as $point): ?>
-<article class="product-point">
-<h3><?= e($point['title']) ?></h3>
-<p><?= nl2br(e($point['body']), false) ?></p>
-</article>
-<?php endforeach; ?>
-</div>
-</div>
-</section>
 <section class="product-section product-closing" aria-labelledby="product-closing-title">
 <div class="inner">
 <h2 class="product-heading" id="product-closing-title" lang="en"><?= implode('<br/>', array_map('e', $productCopy['closing_lines'])) ?></h2>

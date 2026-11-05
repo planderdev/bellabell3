@@ -155,9 +155,9 @@ product_title=[n for n in product_nodes if n.has('product-hero-title')]
 check('Product hero uses the supplied copy',len(product_title)==1 and product_title[0].text()=='먹는 건귀엽게,만드는 건진지하게!')
 check('Product page lists nine products',len([n for n in product_nodes if n.has('product-card')])==9)
 check('Product filters cover all and five categories',[n.a.get('data-filter') for n in product_nodes if 'data-filter' in n.a]==['all','stick','biotics','nanotreat','ttpad','shampoo'])
-check('Product stories have three tabs and panels',len([n for n in product_nodes if n.has('product-story-tab')])==3 and len([n for n in product_nodes if n.has('product-story-panel')])==3)
+check('Product page has no placeholder sections',b'Lorem ipsum' not in product_raw and not [n for n in product_nodes if n.has('product-note') or n.has('product-story-panel') or n.has('product-point')])
 product_images=[n.a.get('src') for n in product_nodes if n.tag=='img' and n.a.get('src','').startswith('/assets/media/product/')]
-check('Product images respond 200',len(product_images)==11 and all(fetch(u)[0]==200 for u in product_images))
+check('Product images respond 200',len(product_images)==8 and all(fetch(u)[0]==200 for u in product_images))
 product_video=[n for n in product_nodes if n.a.get('id')=='product-hero-video']
 check('Product hero is a muted looping video with a poster',len(product_video)==1 and all(k in product_video[0].a for k in ('muted','loop','playsinline','poster')) and fetch(product_video[0].a['poster'])[0]==200)
 check('Product photos are not AI backdrops',not any('about-bg' in u for u in product_images))
