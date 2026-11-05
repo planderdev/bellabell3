@@ -57,10 +57,10 @@ return [
                 $long("value_descriptions.$i", "카드 $n 설명"),
             ]),
         ]],
-        'history' => ['label' => '연혁', 'anchor' => '#history', 'note' => '날짜는 2025.12.17 형식으로 적어 주세요. 앞 네 자리로 연도를 나눕니다.', 'fields' => [
+        'history' => ['label' => '연혁', 'anchor' => '#history', 'note' => '날짜는 2025.12 형식으로 적어 주세요. 앞 네 자리로 연도를 나눕니다.', 'fields' => [
             $text('labels.history', '영문 라벨'),
             $text('history_title', '제목'),
-            ...$repeat(11, fn (int $i, int $n): array => [
+            ...$repeat(39, fn (int $i, int $n): array => [
                 $text("history.$i.date", "항목 $n 날짜"),
                 $text("history.$i.text", "항목 $n 내용"),
             ]),

@@ -1009,10 +1009,10 @@ function initBongbongStory() {
         id: "bongbong-story",
         trigger: section,
         start: "top top",
-        end: () => "+=" + Math.round(window.innerHeight * 4.8 + overflow()),
+        end: () => "+=" + Math.round(window.innerHeight * 3 + overflow()),
         pin: true,
         pinSpacing: true,
-        scrub: .8,
+        scrub: .4,
         anticipatePin: 1,
         invalidateOnRefresh: true
     } });

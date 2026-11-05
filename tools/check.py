@@ -74,17 +74,11 @@ for key,text in expected_copy.items():check('Confirmed copy is verbatim',copies.
 check('Two brand selectors use confirmed names',[n.a.get('data-name') for n in byclass('product-item-product')]==['프롬한라','아우아우'])
 check('Brand selectors retain confirmed descriptions',[n.a.get('data-description') for n in byclass('product-item-product')]==['펫 웰니스','제주 로컬 공간사업'])
 check('No source business facts',all(x not in html for x in ['KOREA NAKAJO','ICEVAN','5,500','137-81-33044']))
-check('History has three year tabs',[n.text() for n in byclass('history-tab')]==['2025','2024','2022'])
-check('History groups contain eight, two and one events',[len(n.children) for n in byclass('history-events')]==[8,2,1])
-history_copy=[
-('2025-12-17','SVI 우수등급'),('2025-11-05','농심과 제주 펫 산업 협력'),
-('2025-10-28','제주대학교와 반려동물용 기능성 천연물 원료·제품 개발 업무협약'),
-('2025-06-16','대만 30만 달러 수출 계약'),('2025-05-08','싱가포르 박람회 100만 달러 수출 상담'),
-('2025-04-09','펫 샴푸바 싱가포르 수출'),('2025-02-12','개랑과자 싱가포르 수출'),
-('2025-01-16','농촌융복합산업 인증'),('2024-11-13','애월아빠들 MOU'),
-('2024-10-17','대만 Meow Expo 참가'),('2022','제주형 예비사회적기업 선정')]
+check('History has four year tabs',[n.text() for n in byclass('history-tab')]==['2025','2024','2023','2022'])
+check('History groups contain the supplied event counts',[len(n.children) for n in byclass('history-events')]==[15,9,10,5])
+history_copy=[["2025-12", "SVI 우수등급"], ["2025-11", "농심과 제주 펫 산업 협력"], ["2025-10", "제주대학교와 반려동물용 기능성 천연물 원료·제품 개발 업무협약"], ["2025-06", "농촌융복합산업 액셀러레이터 육성지원 사업 선정"], ["2025-06", "대만 수출 계약 체결"], ["2025-05", "창업중심대학 선정 (전북대학교)"], ["2025-04", "싱가포르 수출"], ["2025-04", "aT 반려동물 연관산업 상품 연구개발사업 선정"], ["2025-04", "한국산업기술시험원 첨단바이오소재사업화지원사업 선정"], ["2025-04", "제주테크노파크 제주해양수산창업투자지원사업 선정"], ["2025-03", "그린바이오기업 신고"], ["2025-03", "KOTRA 해외전시회 개별참가지원 사업 선정"], ["2025-02", "aT 반려동물 연관산업 해외수출산업화 박람회 지원사업 선정"], ["2025-01", "제주대학교 총장 ‘감사패’ 수여"], ["2025-01", "한국농어촌공사 6차산업 인증사업자 선정"], ["2024-12", "제주관광공사 ‘자청비상’ 수여"], ["2024-09", "제주관광공사 J스타트업 융복합 프로젝트 선정"], ["2024-08", "2024 글로벌 디딤돌 R&D 사업 선정 (충남창조경제혁신센터)"], ["2024-05", "GS리테일 에코소셜임팩트 프로젝트 7기 선정"], ["2024-05", "마사회 제주본부와 함께하는 사회적경제 성장지원사업 선정"], ["2024-05", "중소기업 혁신바우처, 수출바우처 사업 선정"], ["2024-04", "제주지식재산센터 IP 스타기업 선정"], ["2024-03", "제주특별자치도 지역주력 산업육성(레전드50+) 기업 선정"], ["2024-02", "홍콩 수출"], ["2023-11", "태국 수출 계약 체결"], ["2023-11", "제주관광공사 J스타트업 최우수상 수상"], ["2023-09", "소셜벤처기업 인증 (기술보증기금)"], ["2023-07", "혁신성장형 벤처기업 인증 (중소벤처기업부)"], ["2023-06", "반려견 복합문화공간 ‘아우아우’ 오픈"], ["2023-05", "농림축산식품부 2023 아세안 K-Petfoodfair 참가 기업 선정"], ["2023-05", "제주관광공사 J스타트업 선정"], ["2023-05", "연구개발전담부서 인증"], ["2023-02", "한국농업기술진흥원 농업실용화기술 R&D사업 선정"], ["2023-01", "한국농업기술진흥원 기술이전 7건"], ["2022-12", "한국농어촌공사 6차산업 예비인증사업자 선정"], ["2022-06", "제주형 예비사회적기업 지정 (2022-01호)"], ["2022-06", "‘프롬한라 펫미스트 2종’ 출시"], ["2022-04", "‘프롬한라 펫샴푸바 3종’ 출시"], ["2022-03", "농업회사법인 벨아벨팜(주) 법인 설립"]]
 history_rows=[row for events in byclass('history-events') for row in events.children]
-check('History retains all eleven supplied dates and descriptions',[(row.children[0].a.get('datetime'),row.children[1].text()) for row in history_rows]==history_copy)
+check('History retains all supplied dates and descriptions',[[row.children[0].a.get('datetime'),row.children[1].text()] for row in history_rows]==history_copy)
 check('History has no image area',not byclass('history-photo') and not byclass('history-gallery'))
 check('No source media paths',all(x not in html for x in ['/assets/images/','/assets/video/','/data/product_en/','/data/mainvisual']))
 ids=[n.a['id'] for n in nodes if 'id' in n.a]

@@ -43,7 +43,7 @@ function initCompanyHistory() {
         id: 'company-history',
         trigger: stage,
         start: () => 'top ' + historyStageOffset(),
-        end: () => '+=' + Math.round(window.innerHeight * 1.8),
+        end: () => '+=' + Math.round(window.innerHeight * 2.4),
         pin: true,
         pinSpacing: true,
         anticipatePin: 1,
