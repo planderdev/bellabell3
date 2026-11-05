@@ -40,9 +40,7 @@ function initBrandSlider(panel) {
         runBrandCounters(slides[swiper.activeIndex], reducedMotion);
     };
     const swiper = new Swiper(slider, {
-        effect: 'fade',
-        fadeEffect: { crossFade: true },
-        speed: reducedMotion ? 0 : 1000,
+        speed: reducedMotion ? 0 : 700,
         on: { init: syncSlide, slideChange: syncSlide }
     });
 

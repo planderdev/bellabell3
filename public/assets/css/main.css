@@ -3127,13 +3127,17 @@ html[lang="en"] .about-reveal-line {
     background: color-mix(in srgb, var(--grey-900) 60%, var(--transparent));
 }
 
+/* One arrow on each side. Sticky so they stay at mid-screen while a tall slide scrolls past. */
 .brand-slide-arrows {
-    position: absolute;
-    right: clamp(24px, 3.33vw, 48px);
-    bottom: clamp(24px, 2.78vw, 48px);
+    position: sticky;
+    bottom: 46svh;
     z-index: 2;
     display: flex;
-    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+    height: 0;
+    padding-inline: 16px;
+    pointer-events: none;
 }
 
 .brand-slide-arrow {
@@ -3148,6 +3152,7 @@ html[lang="en"] .about-reveal-line {
     background: color-mix(in srgb, var(--grey-900) 35%, var(--transparent));
     color: var(--white);
     cursor: pointer;
+    pointer-events: auto;
     transition: background-color .2s, color .2s, opacity .2s;
 }
 
@@ -3203,6 +3208,13 @@ html[lang="en"] .about-reveal-line {
     background: var(--white);
 }
 
+@media (max-width:970px) {
+    /* The sitewide section overflow would stop the side arrows from staying at mid-screen. */
+    section.brand-panel {
+        overflow: clip;
+    }
+}
+
 @media (max-width:1024px) {
     .brand-page {
         --brand-top: 110px;
@@ -3225,7 +3237,7 @@ html[lang="en"] .about-reveal-line {
 
     .brand-slider .brand-slide {
         min-height: 100svh;
-        padding: var(--brand-copy-top) 48px var(--brand-bottom) var(--brand-gutter);
+        padding: var(--brand-copy-top) 40px var(--brand-bottom);
     }
 
     .brand-slide-copy {
@@ -3296,37 +3308,27 @@ html[lang="en"] .about-reveal-line {
     }
 
     .brand-slide-arrows {
-        right: 16px;
-        bottom: 16px;
+        padding-inline: 4px;
     }
 
     .brand-slide-arrow {
-        width: 44px;
-        height: 44px;
+        width: 32px;
+        height: 32px;
+    }
+
+    .brand-slide-arrow .site-icon {
+        width: 18px;
+        height: 18px;
     }
 
     .brand-slide-nav {
-        left: auto;
-        right: 12px;
-        top: 50%;
-        bottom: auto;
-        flex-direction: column;
+        bottom: 16px;
         gap: 4px;
-        transform: translateY(-50%);
+        transform: translateX(-50%);
     }
 
     .brand-slide-dot {
         width: 24px;
-        height: 28px;
-    }
-
-    .brand-slide-dot:before {
-        left: 50%;
-        right: auto;
-        top: 0;
-        bottom: 0;
-        width: 3px;
-        height: auto;
     }
 }
 
@@ -3568,12 +3570,18 @@ html[lang="en"] .about-reveal-line {
     word-break: keep-all;
 }
 
+@media (min-width:971px) {
+    .research-page .research-images {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
 .research-page .product-card-media {
     aspect-ratio: 1/1.15;
 }
 
 .research-page .product-card-media img {
-    padding: 48px 20px 28px;
+    padding: 20px;
     object-fit: contain;
 }
 
