@@ -157,17 +157,22 @@ return [
             $text('product.hero_body.0', '설명 1 줄'),
             $text('product.hero_body.1', '설명 2 줄'),
             $text('product.hero_button', '버튼 문구'),
+            $link('product.hero_url', '버튼 주소'),
         ]],
-        'family' => ['label' => '제품 목록', 'anchor' => '#products', 'fields' => [
+        'family' => ['label' => '제품 목록', 'anchor' => '#products', 'note' => '상품 보기 버튼은 상품별 주소, 분류 주소, 기본 주소 순서로 연결됩니다. 상품별 주소는 상품 관리에서 넣습니다. 주소를 국문에 넣으면 영문·중문에도 함께 적용됩니다.', 'fields' => [
             $text('product.family_heading', '제목'),
             $text('product.card_link', '상품 보기 문구'),
-            $link('product.store_url', '상품 보기 주소'),
-            ...$repeat(5, fn (int $i, int $n): array => [$text("product_categories.$i.name", "분류 $n 이름")]),
+            $link('product.store_url', '기본 주소'),
+            ...$repeat(5, fn (int $i, int $n): array => [
+                $text("product_categories.$i.name", "분류 $n 이름"),
+                $link("product_categories.$i.url", "분류 $n 주소 (비우면 기본 주소)"),
+            ]),
         ]],
         'closing' => ['label' => '마지막 문구', 'fields' => [
             $text('product.closing_lines.0', '제목 1 줄'),
             $text('product.closing_lines.1', '제목 2 줄'),
             $text('product.closing_button', '버튼 문구'),
+            $link('product.closing_url', '버튼 주소 (비우면 기본 주소)'),
         ]],
     ]],
     'ingredients' => ['label' => '원료소개', 'url' => '/ingredients', 'sections' => [

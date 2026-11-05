@@ -868,7 +868,7 @@ function admin_products_page(\PDO $pdo, string $formToken): never
 <div><label class="admin-label" for="detail-<?= $code ?>-<?= $id ?>"><?= $label ?> 설명</label><input class="admin-input" id="detail-<?= $code ?>-<?= $id ?>" name="detail_<?= $code ?>" value="<?= e((string)$row['detail_' . $code]) ?>" maxlength="300"></div>
 <div><label class="admin-label" for="size-<?= $code ?>-<?= $id ?>"><?= $label ?> 용량</label><input class="admin-input" id="size-<?= $code ?>-<?= $id ?>" name="size_<?= $code ?>" value="<?= e((string)$row['size_' . $code]) ?>" maxlength="60"></div>
 <?php endforeach; ?>
-<div class="admin-product-wide"><label class="admin-label" for="url-<?= $id ?>">상품 보기 주소 (비우면 기본 스토어)</label><input class="admin-input" id="url-<?= $id ?>" name="url" value="<?= e((string)$row['url']) ?>" maxlength="500" placeholder="https://"></div>
+<div class="admin-product-wide"><label class="admin-label" for="url-<?= $id ?>">상품 보기 주소 (비우면 분류 주소, 그것도 없으면 기본 주소)</label><input class="admin-input" id="url-<?= $id ?>" name="url" value="<?= e((string)$row['url']) ?>" maxlength="500" placeholder="https://"></div>
 <button class="admin-button admin-button--block admin-product-wide" type="submit">저장</button>
 </form>
 </div>
