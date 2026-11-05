@@ -60,6 +60,9 @@ declare(strict_types=1);
 <?php if (($slide['body_after'] ?? '') !== ''): ?>
 <p class="brand-slide-body brand-slide-body--after"><?= e($slide['body_after']) ?></p>
 <?php endif; ?>
+<?php if (!empty($slide['page_link'])): ?>
+<a class="brand-page-link" href="<?= e(site_href($slide['page_link']['href'])) ?>"><span><?= e($slide['page_link']['label']) ?></span><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a>
+<?php endif; ?>
 <?php if (!empty($slide['space_gallery'])): ?>
 <div class="brand-gallery brand-gallery--grid" data-brand-gallery>
 <div class="brand-gallery-thumbs">

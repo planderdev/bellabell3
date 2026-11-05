@@ -384,14 +384,11 @@ html[lang="en"] .about-reveal-line {
     .about-reveal-title {
         position: absolute;
         top: max(96px, 12svh);
-        left: min(calc(var(--art-height) * .74 - var(--art-shift)), 50vw);
-        font-size: min(5.2svh, 3.5vw);
+        right: var(--page-gutter);
+        max-width: 60vw;
+        font-size: min(7.5svh, 5vw);
         line-height: 1.38;
-    }
-
-    html[lang="en"] .about-reveal-title {
-        right: 3vw;
-        font-size: min(4svh, 2.6vw);
+        text-align: right;
     }
 
     /* The menu runs from just past the float to the same right margin as the header. */
@@ -436,8 +433,9 @@ html[lang="en"] .about-reveal-line {
     }
 
     .about-reveal-title {
-        font-size: clamp(24px, 6.4vw, 44px);
+        font-size: clamp(28px, 8.6vw, 60px);
         line-height: 1.35;
+        text-align: right;
     }
 
     .about-reveal-links {
@@ -1369,69 +1367,9 @@ html[lang="en"] .about-reveal-line {
     --history-line: var(--grey-200);
 }
 
-/* Stacked by default: tabs and the single-year view only apply once the pinned stage fits the viewport. */
-.history-tabs {
-    display: none;
-    gap: clamp(24px, 2.5vw, 48px);
-    border-bottom: 1px solid var(--history-line);
-    margin-bottom: clamp(32px, 3.13vw, 60px);
-}
-
-.history-section.is-scroll-stage .history-tabs {
-    display: flex;
-}
-
-.history-stage {
-    background: var(--white);
-}
-
-.history-tab {
-    position: relative;
-    min-height: 52px;
-    padding: 0 2px 20px;
-    border: 0;
-    background: var(--transparent);
-    color: var(--text-sub);
-    font-size: clamp(18px, 1.25vw, 24px);
-    font-weight: var(--fw-500);
-    cursor: pointer;
-    transition: color .3s ease;
-}
-
-.history-tab:after {
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--primary);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform .3s ease;
-}
-
-.history-tab:hover,
-.history-tab.is-active {
-    color: var(--primary);
-}
-
-.history-tab.is-active:after {
-    transform: scaleX(1);
-}
-
 .history-panels {
     display: grid;
     gap: clamp(48px, 5vw, 96px);
-}
-
-.history-section.is-scroll-stage .history-panel {
-    grid-area: 1 / 1;
-    visibility: hidden;
-}
-
-.history-section.is-scroll-stage .history-panel.is-active {
-    visibility: visible;
 }
 
 .history-panel {
@@ -1472,22 +1410,11 @@ html[lang="en"] .about-reveal-line {
     overflow-wrap: anywhere;
 }
 
-/* Pinned years share one screen, so rows stay compact enough for the longest year to fit. */
-.history-section.is-scroll-stage .history-events li {
-    min-height: 0;
-    padding: 8px 0;
-}
-
 .history-event-date {
     color: var(--text-sub);
     font-size: 13px;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
-}
-
-.history-section button:focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 4px;
 }
 
 @media (max-width:970px) {
@@ -1506,15 +1433,6 @@ html[lang="en"] .about-reveal-line {
     .history-panel {
         grid-template-columns: minmax(0, 1fr);
         gap: 16px;
-    }
-
-    .history-tabs {
-        margin-bottom: 24px;
-    }
-
-    .history-tab {
-        min-height: 48px;
-        padding-bottom: 16px;
     }
 
     .history-year {
@@ -2840,6 +2758,57 @@ html[lang="en"] .about-reveal-line {
 /* Sits beside the copy, in the space between the tabs and the text. */
 .brand-slide-text:has(.brand-certs, .brand-slide-logo, .brand-slide-figure) {
     position: relative;
+}
+
+.brand-page-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: clamp(20px, 2vw, 32px);
+    color: var(--white);
+    font-size: clamp(20px, 1.6vw, 28px);
+    font-weight: var(--fw-700);
+    line-height: 1.3;
+    text-decoration: none;
+}
+
+.brand-page-link span {
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--white);
+}
+
+.brand-page-link .site-icon {
+    flex: none;
+    width: 1.1em;
+    height: 1.1em;
+    transition: transform .25s ease;
+}
+
+.brand-page-link:hover .site-icon {
+    transform: translate(3px, -3px);
+}
+
+.brand-page-link:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 4px;
+}
+
+/* Short laptop screens: tighten the text so the link stays on screen. */
+@media (min-width:971px) and (max-height:800px) {
+    .brand-slide-text:has(.brand-page-link) .brand-slide-title {
+        margin-bottom: 10px;
+        font-size: 22px;
+        line-height: 1.3;
+    }
+
+    .brand-slide-text:has(.brand-page-link) .brand-slide-body {
+        line-height: 1.4;
+    }
+
+    .brand-page-link {
+        margin-top: 12px;
+        font-size: 18px;
+    }
 }
 
 .brand-body-link {

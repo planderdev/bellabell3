@@ -224,7 +224,6 @@ $content = site_content();
 </a>
 </div>
 </section>
-<?php require __DIR__ . '/../includes/company-history.php'; ?>
 <section class="products-section" data-section="family" id="family" aria-label="<?= e(t('브랜드 패밀리')) ?>">
 <div class="products-stage">
 <div class="products-bg-title" aria-hidden="true" lang="en">BRAND FAMILY</div>
