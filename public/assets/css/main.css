@@ -444,8 +444,13 @@ html:not([lang^="zh"]) .about-reveal-line:not(.about-reveal-highlight) {
     .about-reveal-title {
         /* Capped so the top line stays on one row inside the 24px page margins. */
         font-size: min(60px, 8.4vw, calc((100vw - 48px) / 10.53));
-        line-height: 1.35;
-        text-align: right;
+        line-height: 1;
+        text-align: center;
+    }
+
+    /* Mobile keeps the two lines close together. */
+    .about-reveal-highlight {
+        margin-top: 0;
     }
 
     html[lang^="zh"] .about-reveal-line:not(.about-reveal-highlight) {
