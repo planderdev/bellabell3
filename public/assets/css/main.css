@@ -323,6 +323,15 @@ html[lang="en"] .about-reveal-line {
     white-space: normal;
 }
 
+/* Both lines share the highlight's size. Chinese copy stays smaller because its lines are far longer. */
+html:not([lang^="zh"]) .about-reveal-line:not(.about-reveal-highlight) {
+    font-size: 1.62em;
+    font-weight: var(--fw-700);
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    white-space: normal;
+}
+
 .about-reveal-word {
     display: inline-block;
     white-space: nowrap;
@@ -437,15 +446,6 @@ html[lang="en"] .about-reveal-line {
         font-size: min(60px, 8.4vw, calc((100vw - 48px) / 10.53));
         line-height: 1.35;
         text-align: right;
-    }
-
-    /* Both lines share the highlight's size. Chinese copy stays smaller because its lines are far longer. */
-    html:not([lang^="zh"]) .about-reveal-line:not(.about-reveal-highlight) {
-        font-size: 1.62em;
-        font-weight: var(--fw-700);
-        line-height: 1.1;
-        letter-spacing: -.01em;
-        white-space: normal;
     }
 
     html[lang^="zh"] .about-reveal-line:not(.about-reveal-highlight) {
@@ -3076,12 +3076,13 @@ html[lang="en"] .about-reveal-line {
     top: 0;
     right: auto;
     display: grid;
-    grid-template-columns: 27.8% minmax(0, 1fr);
+    /* Thumbnails make a square and the large photo a 4:3 frame, so most photos fill it uncropped. */
+    grid-template-columns: 3fr 4fr;
     gap: 11px;
     width: calc(100% + 19vw);
     margin-top: clamp(16px, 1.25vw, 24px);
     margin-left: -19vw;
-    aspect-ratio: 940 / 267;
+    aspect-ratio: 7 / 3;
 }
 
 .brand-gallery--grid .brand-gallery-thumbs {
@@ -3094,7 +3095,7 @@ html[lang="en"] .about-reveal-line {
 .brand-gallery--grid .brand-gallery-thumb {
     min-height: 0;
     border-radius: 0;
-    background: #d9d9d9;
+    opacity: 1;
 }
 
 .brand-gallery--grid .brand-gallery-thumb img {
@@ -3105,7 +3106,7 @@ html[lang="en"] .about-reveal-line {
 .brand-gallery-stage {
     position: relative;
     min-height: 0;
-    background: #d9d9d9;
+    overflow: hidden;
 }
 
 .brand-gallery--grid .brand-gallery-main {
@@ -3115,7 +3116,7 @@ html[lang="en"] .about-reveal-line {
     aspect-ratio: auto;
     border-radius: 0;
     background: none;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .brand-gallery--grid .brand-gallery-next {
