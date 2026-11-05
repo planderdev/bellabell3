@@ -36,7 +36,6 @@ $metaPath = $_SERVER['LOCALE_PAGE'] ?? '/';
 <script defer src="/assets/js/interaction.js"></script>
 <script defer src="/assets/js/brand-gallery.js"></script>
 <script defer src="/assets/js/research-slider.js"></script>
-<script defer src="/assets/js/company-history.js"></script>
 <script defer src="/assets/js/contact-form.js"></script>
 <script defer src="/assets/js/brand-page.js"></script>
 <script defer src="/assets/js/product-page.js"></script>

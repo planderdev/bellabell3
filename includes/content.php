@@ -68,9 +68,12 @@ return [
     'social_body' => "지구의 시민인 우리 모두의 공존을 위한 지속가능한 가치를 지향하며\n제품 개발부터 경영까지 사회적기업으로서의 책임을 다하고 있습니다.",
     'social_image' => '/assets/media/social-earth.webp',
     'history' => [
-        ['date' => '2025.12', 'text' => 'SVI 우수등급'],
-        ['date' => '2025.11', 'text' => '농심과 제주 펫 산업 협력'],
-        ['date' => '2025.10', 'text' => '제주대학교와 반려동물용 기능성 천연물 원료·제품 개발 업무협약'],
+        ['date' => '2026.11.05', 'text' => '2026 중국국제수입박람회(CIIE) 참가'],
+        ['date' => '2026.11.04', 'text' => '2026 사회적가치 비즈니스 모델 공모전 우수상 (한국사회적기업진흥원장상)'],
+        ['date' => '2026.09.15', 'text' => '‘다시 봄 프로젝트’ 민관협의체 (행정안전부) 선정'],
+        ['date' => '2026.07.21', 'text' => '「2026년 글로벌 소상공인(K-소상공인) 육성사업」 선정'],
+        ['date' => '2026.05.18', 'text' => '수출 선도기업 (제주경제통상진흥원) 선정'],
+        ['date' => '2026.01.23', 'text' => '제주대학교 공로패'],
         ['date' => '2025.06', 'text' => '농촌융복합산업 액셀러레이터 육성지원 사업 선정'],
         ['date' => '2025.06', 'text' => '대만 수출 계약 체결'],
         ['date' => '2025.05', 'text' => '창업중심대학 선정 (전북대학교)'],
@@ -233,7 +236,7 @@ return [
     // Each brand's full-screen slides. "group" marks a slide shown with the large brand_groups list.
     'brand_slides' => [
         'bellabelfarm' => [
-            ['title' => "한라산에서 찾은 생명력\n웰니스의 가능성으로", 'body' => "세계적으로도 특별한 생태계를 품은 한라산.\n벨아벨팜은 이 생명력의 원천에서 반려동물 웰니스와 롱제비티의 가능성을 탐구합니다.", 'logo' => '/assets/media/brand/bellabellfarm-logo.webp', 'image' => '/assets/media/brand/bamboo.webp'],
+            ['title' => "한라산에서 찾은 생명력\n웰니스의 가능성으로", 'body' => "세계적으로도 특별한 생태계를 품은 한라산.\n벨아벨팜은 이 생명력의 원천에서 반려동물 웰니스와 롱제비티의 가능성을 탐구합니다.", 'logo' => '/assets/media/brand/bellabellfarm-logo.webp', 'image' => '/assets/media/brand/bamboo.webp', 'page_link' => ['label' => '벨아벨팜이 걸어온 길', 'href' => '/history']],
             ['group' => 0, 'title' => '한라산의 생명력이 웰니스의 가능성으로', 'body' => "난대성 식물부터 온대림, 아한대·고산식물까지 공존하고\n제주에서만 발견되는 고유식물과\n빙하기부터 살아 남은 희귀식물까지 분포한 한라산.", 'stats' => [['value' => '1,800', 'unit' => '여 종', 'label' => '식물종'], ['value' => '4', 'unit' => '개', 'label' => '유네스코가 지정한 주요 식생 생태계'], ['value' => '90', 'unit' => '분류', 'label' => '제주 고유식물']], 'body_after' => '벨아벨팜은 이 한라산의 식물생태계가 장차 우리의 건강한 먹거리 자원으로의 무궁무진한 가능성임을 발견했습니다.', 'image' => '/assets/media/about-bg-summit.webp'],
             ['group' => 1, 'title' => '우리 모두는 지구의 시민입니다', 'body' => "지구의 시민인 우리 모두의 공존을 위한 지속가능한 가치를 지향하며\n제품 개발부터 경영까지 사회적기업으로서의 책임을 다하고 있습니다.", 'image' => '/assets/media/brand/social.webp'],
             ['title' => '로컬 원료 사용', 'body' => '한국에서 재배되는 다양한 로컬 원료를 사용하고 한국에서 전 제품 제조함으로서 탄소배출을 최소화 하고 지역 농어민의 소득창출에 기여합니다.', 'certificates' => [['image' => '/assets/media/brand/certificates/svi.webp', 'caption' => 'SVI사회적가치지표우수'], ['image' => '/assets/media/brand/certificates/iso-9001.webp', 'caption' => 'ISO 품질경영시스템 인증']], 'image' => '/assets/media/brand/local.webp'],

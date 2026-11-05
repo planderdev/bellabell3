@@ -57,14 +57,6 @@ return [
                 $long("value_descriptions.$i", "카드 $n 설명"),
             ]),
         ]],
-        'history' => ['label' => '연혁', 'anchor' => '#history', 'note' => '날짜는 2025.12 형식으로 적어 주세요. 앞 네 자리로 연도를 나눕니다.', 'fields' => [
-            $text('labels.history', '영문 라벨'),
-            $text('history_title', '제목'),
-            ...$repeat(39, fn (int $i, int $n): array => [
-                $text("history.$i.date", "항목 $n 날짜"),
-                $text("history.$i.text", "항목 $n 내용"),
-            ]),
-        ]],
         'family' => ['label' => '브랜드 패밀리', 'anchor' => '#family', 'fields' => [
             $text('family', '제목'),
             $text('brands.0.name', '브랜드 1 이름'),
@@ -96,6 +88,16 @@ return [
             $text('contact_intro.1', '안내 문구 2'),
         ]],
     ]],
+    'history' => ['label' => '연혁', 'url' => '/history', 'sections' => [
+        'history' => ['label' => '연혁', 'note' => '날짜는 2025.12 또는 2026.01.23 형식으로 적어 주세요. 앞 네 자리로 연도를 나눕니다.', 'fields' => [
+            $text('labels.history', '영문 라벨'),
+            $text('history_title', '제목'),
+            ...$repeat(42, fn (int $i, int $n): array => [
+                $text("history.$i.date", "항목 $n 날짜"),
+                $text("history.$i.text", "항목 $n 내용"),
+            ]),
+        ]],
+    ]],
     'brand' => ['label' => '브랜드', 'url' => '/brand', 'sections' => [
         'common' => ['label' => '제목·메뉴', 'fields' => [
             $text('brand_title', '페이지 제목'),
@@ -118,6 +120,7 @@ return [
             ]),
             $long('brand_slides.bellabelfarm.1.body_after', '슬라이드 2 본문 아래 문장'),
             $image('brand_slides.bellabelfarm.0.logo', '슬라이드 1 로고'),
+            $text('brand_slides.bellabelfarm.0.page_link.label', '슬라이드 1 연혁 버튼 문구'),
             ...$repeat(2, fn (int $i, int $n): array => [
                 $image("brand_slides.bellabelfarm.3.certificates.$i.image", "슬라이드 4 인증서 $n 이미지"),
                 $text("brand_slides.bellabelfarm.3.certificates.$i.caption", "슬라이드 4 인증서 $n 이름"),
