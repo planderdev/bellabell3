@@ -13,12 +13,18 @@ $pageTitle = $content['ingredients_title'] . ' | ' . t('벨아벨팜');
 <main class="ingredients-page" id="main">
 <div class="ingredients-side">
 <h2 class="ingredients-title"><?= e($content['ingredients_title']) ?></h2>
-<ul class="ingredients-nav">
+</div>
+<nav class="product-marquee ingredients-marquee" aria-label="<?= e(t('원료 목록')) ?>">
+<div class="product-marquee-track">
+<?php for ($copy = 0; $copy < 4; $copy++): ?>
+<ul<?= $copy === 0 ? ' class="ingredients-nav"' : ' aria-hidden="true"' ?>>
 <?php foreach ($ingredients as $item): ?>
-<li><a href="#<?= e($item['id']) ?>"><?= e($item['name']) ?></a></li>
+<li><a href="#<?= e($item['id']) ?>"<?= $copy === 0 ? '' : ' tabindex="-1"' ?>><?= e($item['name']) ?></a></li>
 <?php endforeach; ?>
 </ul>
+<?php endfor; ?>
 </div>
+</nav>
 <section class="ingredients-intro">
 <video class="ingredients-video" id="ingredients-video" autoplay muted loop playsinline preload="metadata" poster="/assets/media/ingredients-intro-poster.jpg" aria-label="<?= e(t('고양이들이 간식을 먹고 보호자의 케어를 받는 영상')) ?>">
 <source src="/assets/media/ingredients-intro.mp4" type="video/mp4"/>

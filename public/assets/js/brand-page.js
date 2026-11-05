@@ -72,6 +72,19 @@ function initBrandSlider(panel) {
 
 // Photo gallery on a slide: thumbnails pick the large photo, the arrow steps through and loops.
 function initBrandGalleries() {
+    // One large certificate; the small row always offers the others.
+    document.querySelectorAll('[data-cert-gallery]').forEach(gallery => {
+        const main = gallery.querySelector('.brand-cert-main img');
+        const caption = gallery.querySelector('.brand-cert-main figcaption');
+        const thumbs = [...gallery.querySelectorAll('.brand-cert-thumb')];
+        thumbs.forEach(thumb => thumb.addEventListener('click', () => {
+            main.src = thumb.querySelector('img').getAttribute('src');
+            main.alt = caption.textContent = thumb.dataset.caption;
+            thumbs.forEach(other => { other.hidden = other === thumb; });
+            thumbs.find(other => !other.hidden)?.focus({ preventScroll:true });
+        }));
+    });
+
     document.querySelectorAll('[data-brand-gallery]').forEach(gallery => {
         const main = gallery.querySelector('.brand-gallery-main');
         const strip = gallery.querySelector('.brand-gallery-thumbs');

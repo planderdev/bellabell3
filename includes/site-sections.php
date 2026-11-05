@@ -121,7 +121,7 @@ return [
             $long('brand_slides.bellabelfarm.1.body_after', '슬라이드 2 본문 아래 문장'),
             $image('brand_slides.bellabelfarm.0.logo', '슬라이드 1 로고'),
             $text('brand_slides.bellabelfarm.0.page_link.label', '슬라이드 1 연혁 버튼 문구'),
-            ...$repeat(2, fn (int $i, int $n): array => [
+            ...$repeat(4, fn (int $i, int $n): array => [
                 $image("brand_slides.bellabelfarm.3.certificates.$i.image", "슬라이드 4 인증서 $n 이미지"),
                 $text("brand_slides.bellabelfarm.3.certificates.$i.caption", "슬라이드 4 인증서 $n 이름"),
             ]),

@@ -2926,32 +2926,59 @@ html[lang="en"] .about-reveal-line {
 
 .brand-certs {
     position: absolute;
-    top: max(clamp(70px, 5vw, 96px), calc(50% - 160px));
+    top: 0;
     right: calc(100% + clamp(24px, 3vw, 56px));
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 22px;
-    width: min(calc(50vw - var(--brand-gutter) - clamp(24px, 3vw, 56px) - 170px), 412px);
-    margin: 0;
-    padding: 0;
-    list-style: none;
+    width: min(calc(50vw - var(--brand-gutter) - clamp(24px, 3vw, 56px) - 170px), 34svh, 412px);
 }
 
-.brand-cert img {
+.brand-cert-main {
+    margin: 0;
+}
+
+.brand-cert-main img,
+.brand-cert-thumb img {
     display: block;
     width: 100%;
     height: auto;
     aspect-ratio: 195 / 275;
+    object-fit: contain;
     background: var(--white);
 }
 
-.brand-cert span {
-    display: block;
+.brand-cert-main figcaption {
     margin-top: 8px;
     font-size: 13px;
     line-height: 1.4;
     text-align: center;
     color: color-mix(in srgb, var(--white) 80%, var(--transparent));
+}
+
+.brand-cert-thumbs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.brand-cert-thumb {
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    transition: opacity .2s ease;
+}
+
+.brand-cert-thumb[hidden] {
+    display: none;
+}
+
+.brand-cert-thumb:hover {
+    opacity: .75;
+}
+
+.brand-cert-thumb:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 2px;
 }
 
 .brand-gallery {
@@ -3226,7 +3253,7 @@ html[lang="en"] .about-reveal-line {
 
     .brand-certs {
         position: static;
-        width: min(100%, 412px);
+        width: min(100%, 300px);
         margin-top: 28px;
     }
 
@@ -3331,7 +3358,7 @@ html[lang="en"] .about-reveal-line {
 }
 
 .ingredients-side {
-    margin-bottom: clamp(32px, 3.33vw, 64px);
+    margin-bottom: clamp(20px, 2.08vw, 40px);
     text-align: center;
 }
 
@@ -3344,25 +3371,33 @@ html[lang="en"] .about-reveal-line {
     letter-spacing: -.02em;
 }
 
-.ingredients-nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 6px clamp(16px, 1.53vw, 28px);
-    list-style: none;
+/* Full-width strip: the page gutter is pulled back so it runs edge to edge. */
+.ingredients-marquee {
+    margin: 0 calc(var(--ingredients-gutter) * -1) clamp(40px, 4.17vw, 80px);
 }
 
-.ingredients-nav a {
-    color: var(--text-sub);
-    font-family: var(--font-family-title);
-    font-size: clamp(18px, 1.32vw, 24px);
-    font-weight: 700;
-    line-height: 1.4;
+.ingredients-marquee .product-marquee-track {
+    animation-duration: 36s;
 }
 
-.ingredients-nav a:hover,
-.ingredients-nav a:focus-visible {
-    color: var(--primary);
+.ingredients-marquee:hover .product-marquee-track,
+.ingredients-marquee:focus-within .product-marquee-track {
+    animation-play-state: paused;
+}
+
+.ingredients-marquee a {
+    color: inherit;
+    transition: opacity .2s ease;
+}
+
+.ingredients-marquee a:hover,
+.ingredients-marquee a:focus-visible {
+    opacity: .65;
+}
+
+.ingredients-marquee a:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 4px;
 }
 
 .ingredients-intro {
@@ -3876,6 +3911,23 @@ html[lang="en"] .about-reveal-line {
 @media (prefers-reduced-motion:reduce) {
     .product-marquee-track {
         animation: none;
+    }
+
+    /* Without motion the strip must still show every ingredient. */
+    .ingredients-marquee .product-marquee-track {
+        width: auto;
+    }
+
+    .ingredients-marquee ul {
+        flex: 1;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px 32px;
+        white-space: normal;
+    }
+
+    .ingredients-marquee ul[aria-hidden] {
+        display: none;
     }
 
     .product-page * {
