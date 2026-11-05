@@ -3147,24 +3147,33 @@ html[lang="en"] .about-reveal-line {
     width: 48px;
     height: 48px;
     padding: 0;
-    border: 1px solid color-mix(in srgb, var(--white) 60%, var(--transparent));
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--grey-900) 35%, var(--transparent));
+    border: 0;
+    background: var(--transparent);
     color: var(--white);
     cursor: pointer;
     pointer-events: auto;
-    transition: background-color .2s, color .2s, opacity .2s;
+    transition: opacity .2s, transform .2s;
+}
+
+/* Just the chevron: the shadow keeps it visible over bright photos. */
+.brand-slide-arrow .site-icon {
+    width: 32px;
+    height: 32px;
+    filter: drop-shadow(0 1px 3px color-mix(in srgb, var(--grey-900) 70%, var(--transparent)));
 }
 
 .brand-slide-arrow:focus-visible {
-    background: var(--white);
-    color: var(--grey-900);
+    outline: 2px solid var(--white);
+    outline-offset: 2px;
 }
 
 @media (hover: hover) {
-    .brand-slide-arrow:hover:not(:disabled) {
-        background: var(--white);
-        color: var(--grey-900);
+    .brand-slide-arrow[data-move="prev"]:hover:not(:disabled) {
+        transform: translateX(-3px);
+    }
+
+    .brand-slide-arrow[data-move="next"]:hover:not(:disabled) {
+        transform: translateX(3px);
     }
 }
 
@@ -3317,8 +3326,8 @@ html[lang="en"] .about-reveal-line {
     }
 
     .brand-slide-arrow .site-icon {
-        width: 18px;
-        height: 18px;
+        width: 26px;
+        height: 26px;
     }
 
     .brand-slide-nav {
