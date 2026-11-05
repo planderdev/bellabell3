@@ -12,10 +12,12 @@ $content = site_content();
 <section class="main-visual" data-section="intro" id="intro">
 <div class="main-slider">
 <div class="main-slide-media">
-<video id="hero-video" autoplay muted loop playsinline preload="auto" poster="/assets/media/hero-brand-poster.jpg" aria-hidden="true">
-<source src="/assets/media/hero-brand-720.mp4" type="video/mp4" media="(max-width: 970px)"/>
-<source src="/assets/media/hero-brand-1080.mp4" type="video/mp4"/>
+<?php foreach (['haenyeo', 'farmer'] as $heroIndex => $heroVideo): ?>
+<video class="hero-video<?= $heroIndex === 0 ? ' is-active' : '' ?>"<?= $heroIndex === 0 ? ' id="hero-video" autoplay' : '' ?> muted playsinline preload="<?= $heroIndex === 0 ? 'auto' : 'none' ?>" poster="/assets/media/hero-<?= $heroVideo ?>-poster.jpg" aria-hidden="true" data-hero-video>
+<source src="/assets/media/hero-<?= $heroVideo ?>-720.mp4" type="video/mp4" media="(max-width: 970px)"/>
+<source src="/assets/media/hero-<?= $heroVideo ?>-1080.mp4" type="video/mp4"/>
 </video>
+<?php endforeach; ?>
 </div>
 <div class="hero-content inner">
 <div class="hero-logos">

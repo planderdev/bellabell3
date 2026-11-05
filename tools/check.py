@@ -56,7 +56,8 @@ gnb=byclass('gnb')[0];depths=[n for n in gnb.descendants() if n.has('gnb-depth')
 check('Four confirmed menu items with dropdowns only on pages',[a.text() for a in gnb.descendants() if a.tag=='a' and a.parent.tag=='li']==['브랜드','상품소개','연구기술','제안&협업'] and [len([a for a in d.children if a.tag=='a']) for d in depths]==[3,7])
 check('Menu links open the finished pages and sections',[a.a.get('href') for a in gnb.descendants() if a.tag=='a' and a.parent.tag=='li']==['/brand','/product','/research','#partner'])
 check('Pillar labels keep the supplied wording',[n.children[0].text() for n in byclass('pillars-label')]==['Global K-PET FOOD','PET SKINCARE','Sustainability'])
-check('Pillar videos start paused until a button is pressed',[n.a.get('id') for n in nodes if n.tag=='video' and 'autoplay' not in n.a]==['pillar-video','pillar-skin-video','pillar-sustain-video'] and [n.a.get('aria-controls') for n in byclass('pillars-label')]==['pillar-video','pillar-skin-video','pillar-sustain-video'])
+check('Pillar videos start paused until a button is pressed',[n.a.get('id') for n in nodes if n.tag=='video' and 'autoplay' not in n.a and 'data-hero-video' not in n.a]==['pillar-video','pillar-skin-video','pillar-sustain-video'] and [n.a.get('aria-controls') for n in byclass('pillars-label')]==['pillar-video','pillar-skin-video','pillar-sustain-video'])
+check('Hero plays both films in turn',[n.a.get('poster') for n in nodes if n.tag=='video' and 'data-hero-video' in n.a]==['/assets/media/hero-haenyeo-poster.jpg','/assets/media/hero-farmer-poster.jpg'])
 check('Deleted global selectors removed',not byclass('form-select-menu'))
 expected_copy={
 'intro-title':'From HALLA, For PET',

@@ -127,6 +127,9 @@
 
 html {
     overflow-y: scroll;
+    /* Phones must not enlarge text on their own; the layouts are sized to the screen. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 [hidden] {
@@ -153,6 +156,8 @@ body {
     letter-spacing: -.03em;
     color: var(--text);
     background: var(--white);
+    /* Nothing may push the page sideways; clip keeps sticky sections working. */
+    overflow-x: clip;
 }
 
 h1,

@@ -132,6 +132,18 @@ video[data-media-state="missing"] {
     object-fit: cover;
 }
 
+/* Two films play one after the other; the next one fades in over the last. */
+.main-slide-media .hero-video {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity .8s ease;
+}
+
+.main-slide-media .hero-video.is-active {
+    opacity: 1;
+}
+
 .main-slide-media:after {
     content: "";
     position: absolute;
@@ -448,9 +460,23 @@ html:not([lang^="zh"]) .about-reveal-line:not(.about-reveal-highlight) {
         text-align: center;
     }
 
-    /* Mobile keeps the two lines close together. */
+    /* Mobile keeps the two lines close together, each centred on its own row. */
     .about-reveal-highlight {
         margin-top: 0;
+    }
+
+    .about-reveal-line {
+        display: block;
+    }
+
+    .about-reveal-title br {
+        display: none;
+    }
+
+    html:not([lang^="zh"]) .about-reveal-title .about-reveal-line {
+        line-height: .98;
+        letter-spacing: -.03em;
+        word-spacing: -.08em;
     }
 
     html[lang^="zh"] .about-reveal-line:not(.about-reveal-highlight) {
@@ -2047,9 +2073,10 @@ html:not([lang^="zh"]) .about-reveal-line:not(.about-reveal-highlight) {
         height: auto;
     }
 
+    /* Mobile shows the mountain at rest, so the band only needs to hold it (157px tall at 260px wide). */
     .solution-intro {
         position: relative;
-        height: 100svh;
+        height: 220px;
     }
 
     .solution-section .section-head {
