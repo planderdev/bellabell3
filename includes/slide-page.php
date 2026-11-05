@@ -93,11 +93,14 @@ declare(strict_types=1);
 <img class="brand-slide-logo" src="<?= e($slide['logo']) ?>" alt="<?= e(t('벨아벨팜')) ?>" width="418" height="183" decoding="async"/>
 <?php endif; ?>
 <?php if (!empty($slide['certificates'])): ?>
-<ul class="brand-certs">
-<?php foreach ($slide['certificates'] as $certificate): ?>
-<li class="brand-cert"><img src="<?= e($certificate['image']) ?>" alt="<?= e($certificate['caption']) ?>" width="195" height="275" loading="lazy" decoding="async"/><span><?= e($certificate['caption']) ?></span></li>
+<div class="brand-certs" data-cert-gallery>
+<figure class="brand-cert-main"><img src="<?= e($slide['certificates'][0]['image']) ?>" alt="<?= e($slide['certificates'][0]['caption']) ?>" width="195" height="275" loading="lazy" decoding="async"/><figcaption><?= e($slide['certificates'][0]['caption']) ?></figcaption></figure>
+<div class="brand-cert-thumbs">
+<?php foreach ($slide['certificates'] as $certificateIndex => $certificate): ?>
+<button class="brand-cert-thumb" type="button" aria-label="<?= e($certificate['caption']) ?>" data-caption="<?= e($certificate['caption']) ?>"<?= $certificateIndex === 0 ? ' hidden' : '' ?>><img src="<?= e($certificate['image']) ?>" alt="" width="195" height="275" loading="lazy" decoding="async"/></button>
 <?php endforeach; ?>
-</ul>
+</div>
+</div>
 <?php endif; ?>
 </div>
 </div>
