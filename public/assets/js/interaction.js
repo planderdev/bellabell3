@@ -482,6 +482,44 @@ function syncBackgroundVideo(video) {
     else video.pause();
 }
 
+// The hero plays its films in turn and loops back to the first. Only the visible one decodes.
+function initHeroVideos() {
+    const videos = [...document.querySelectorAll("[data-hero-video]")];
+    if (!videos.length) return;
+    const media = videos[0].parentElement;
+    let current = 0;
+    const active = () => videos[current];
+    const sync = () => {
+        const rect = media.getBoundingClientRect();
+        const visible = rect.bottom >= 0 && rect.top <= window.innerHeight;
+        videos.forEach(video => { if (video !== active()) video.pause(); });
+        if (visible && !reducedMotionQuery.matches) active().play().catch(() => {});
+        else active().pause();
+    };
+    const show = index => {
+        current = index;
+        const video = active();
+        // A server without range requests cannot rewind; reloading starts the film over instead.
+        const seekable = video.seekable.length && video.seekable.end(0) > 1;
+        if (seekable) video.currentTime = 0;
+        else video.load();
+        videos.forEach(other => other.classList.toggle("is-active", other === video));
+        sync();
+    };
+    videos.forEach((video, index) => {
+        video.addEventListener("ended", () => show((index + 1) % videos.length));
+        // Start fetching the next film once the current one is under way.
+        video.addEventListener("playing", () => {
+            const next = videos[(index + 1) % videos.length];
+            if (next.preload === "none") { next.preload = "auto"; next.load(); }
+        }, { once: true });
+    });
+    if (videos.length === 1) videos[0].loop = true;
+    new IntersectionObserver(sync).observe(media);
+    reducedMotionQuery.addEventListener("change", sync);
+    sync();
+}
+
 function initPillarVideo() {
     const section = document.querySelector(".pillars-section");
     if (!section) return;
@@ -515,7 +553,8 @@ function initPillarVideo() {
 }
 
 function initBackgroundVideos() {
-    const videos = ["hero-video", "about-video", "product-hero-video", "ingredients-video"].map(id => document.getElementById(id)).filter(Boolean);
+    const videos = ["about-video", "product-hero-video", "ingredients-video"].map(id => document.getElementById(id)).filter(Boolean);
+    initHeroVideos();
     // 화면을 벗어나면 디코딩을 멈춰 다른 섹션의 스크롤 모션을 방해하지 않는다.
     const observer = new IntersectionObserver(entries => entries.forEach(entry => syncBackgroundVideo(entry.target)));
     videos.forEach(video => {
