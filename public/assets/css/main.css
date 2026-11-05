@@ -1472,6 +1472,12 @@ html[lang="en"] .about-reveal-line {
     overflow-wrap: anywhere;
 }
 
+/* Pinned years share one screen, so rows stay compact enough for the longest year to fit. */
+.history-section.is-scroll-stage .history-events li {
+    min-height: 0;
+    padding: 8px 0;
+}
+
 .history-event-date {
     color: var(--text-sub);
     font-size: 13px;
@@ -3536,6 +3542,10 @@ html[lang="en"] .about-reveal-line {
     padding-bottom: 0;
 }
 
+.research-page .product-hero-label {
+    font-size: clamp(15px, .94vw, 18px);
+}
+
 .research-page .product-hero-title {
     word-break: keep-all;
 }
@@ -3592,7 +3602,7 @@ html[lang="en"] .about-reveal-line {
 .product-hero-label {
     margin: 0 0 16px;
     color: var(--primary);
-    font-size: clamp(15px, .94vw, 18px);
+    font-size: 36px;
     font-weight: var(--fw-500);
 }
 
