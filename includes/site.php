@@ -91,6 +91,18 @@ function site_content(): array
             site_set($content, (string)$key, (string)$value);
         }
     }
+    // A link saved in Korean also applies to the other languages unless they have their own.
+    if (locale() !== 'ko') {
+        try {
+            foreach (site_rows($pdo, 'ko') as $key => $value) {
+                if (!isset($rows[$key]) && (site_fields()[$key]['type'] ?? '') === 'link') {
+                    site_set($content, (string)$key, (string)$value);
+                }
+            }
+        } catch (\Throwable $exception) {
+            error_log('Site content query failed (' . get_class($exception) . ').');
+        }
+    }
     return $content;
 }
 

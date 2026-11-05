@@ -5,6 +5,7 @@ $content = site_content();
 $productCopy = $content['product'];
 $pageTitle = 'Product | ' . t('벨아벨팜');
 $categoryNames = array_column($content['product_categories'], 'name', 'id');
+$categoryUrls = array_column($content['product_categories'], 'url', 'id');
 $marqueeItems = ['From HALLA, For PET', ...array_column($content['product_categories'], 'name')];
 $products = site_products($content);
 ?>
@@ -20,7 +21,7 @@ $products = site_products($content);
 <p class="product-hero-label" lang="en"><?= e($productCopy['label']) ?></p>
 <h2 class="product-hero-title" id="product-title"><?= implode('<br/>', array_map('e', $productCopy['hero_lines'])) ?></h2>
 <p class="product-hero-description"><?= implode('<br/>', array_map('e', $productCopy['hero_body'])) ?></p>
-<a class="product-button" href="#products"><span><?= e($productCopy['hero_button']) ?></span><i data-lucide="arrow-down" class="site-icon" aria-hidden="true" focusable="false"></i></a>
+<a class="product-button" href="<?= e(site_href($productCopy['hero_url'])) ?>"<?= site_link_attributes($productCopy['hero_url']) ?>><span><?= e($productCopy['hero_button']) ?></span><i data-lucide="<?= str_starts_with($productCopy['hero_url'], '#') ? 'arrow-down' : 'arrow-up-right' ?>" class="site-icon" aria-hidden="true" focusable="false"></i></a>
 </div>
 <video class="product-hero-image" id="product-hero-video" autoplay muted loop playsinline preload="auto" poster="/assets/media/product/hero-ragdoll-poster.webp" width="960" height="720" aria-label="<?= e(t('랙돌 고양이가 프롬한라스틱 앞에서 입맛을 다시는 영상')) ?>">
 <source src="/assets/media/product/hero-ragdoll.mp4" type="video/mp4"/>
@@ -63,7 +64,8 @@ $products = site_products($content);
 <?php if ((string)$product['size'] !== ''): ?>
 <p class="product-card-size"><?= e($product['size']) ?></p>
 <?php endif; ?>
-<a class="product-card-link" href="<?= e(($product['url'] ?? '') ?: $productCopy['store_url']) ?>" target="_blank" rel="noopener noreferrer"><span><?= e($productCopy['card_link']) ?></span><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a>
+<?php $cardUrl = ($product['url'] ?? '') ?: (($categoryUrls[$product['category']] ?? '') ?: $productCopy['store_url']); ?>
+<a class="product-card-link" href="<?= e(site_href($cardUrl)) ?>"<?= site_link_attributes($cardUrl) ?>><span><?= e($productCopy['card_link']) ?></span><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a>
 </div>
 </li>
 <?php endforeach; ?>
@@ -74,7 +76,8 @@ $products = site_products($content);
 <section class="product-section product-closing" aria-labelledby="product-closing-title">
 <div class="inner">
 <h2 class="product-heading" id="product-closing-title" lang="en"><?= implode('<br/>', array_map('e', $productCopy['closing_lines'])) ?></h2>
-<a class="product-button" href="<?= e($productCopy['store_url']) ?>" target="_blank" rel="noopener noreferrer"><span><?= e($productCopy['closing_button']) ?></span><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a>
+<?php $closingUrl = $productCopy['closing_url'] ?: $productCopy['store_url']; ?>
+<a class="product-button" href="<?= e(site_href($closingUrl)) ?>"<?= site_link_attributes($closingUrl) ?>><span><?= e($productCopy['closing_button']) ?></span><i data-lucide="arrow-up-right" class="site-icon" aria-hidden="true" focusable="false"></i></a>
 </div>
 </section>
 </main>
