@@ -183,11 +183,6 @@ return [
         ['category' => 'biotics', 'name' => 'SLIM BIOTICS', 'detail' => '슬림 유산균 반려견용', 'size' => '60g', 'image' => ['src' => '/assets/media/product/slim-dog.webp', 'alt' => '슬림 유산균 반려견용 패키지']],
         ['category' => 'nanotreat', 'name' => '나노트릿', 'detail' => '동결건조 간식', 'size' => null, 'image' => null],
     ],
-    'product_stories' => [
-        ['tab' => 'Lorem ipsum', 'title' => 'Lorem ipsum dolor sit amet', 'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'image' => ['src' => '/assets/media/product/story-shrimp.webp', 'alt' => '나무 트레이에 담긴 딱새우를 손질하는 모습']],
-        ['tab' => 'Lorem ipsum', 'title' => 'Lorem ipsum dolor sit amet', 'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'image' => ['src' => '/assets/media/product/story-abalone.webp', 'alt' => '전복과 닭가슴살을 손질하는 모습']],
-        ['tab' => 'Lorem ipsum', 'title' => 'Lorem ipsum dolor sit amet', 'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'image' => ['src' => '/assets/media/product/biotics-lineup.webp', 'alt' => '골드·슬림 바이오틱스 제품 패키지']],
-    ],
     'product' => [
         'label' => 'Product',
         'hero_lines' => ['먹는 건', '귀엽게,', '만드는 건', '진지하게!'],
@@ -196,20 +191,6 @@ return [
         'family_heading' => 'Product Family',
         'card_link' => '상품 보기',
         'store_url' => 'https://fromhalla.com',
-        'notes_heading' => 'Lorem ipsum',
-        'notes' => [
-            ['title' => 'Lorem ipsum', 'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
-            ['title' => 'Lorem ipsum', 'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
-            ['title' => 'Lorem ipsum', 'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
-            ['title' => 'Lorem ipsum', 'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
-        ],
-        'stories_heading' => 'Lorem ipsum',
-        'points_heading' => 'Lorem ipsum',
-        'points' => [
-            ['title' => 'Lorem ipsum', 'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
-            ['title' => 'Lorem ipsum', 'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
-            ['title' => 'Lorem ipsum', 'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
-        ],
         'closing_lines' => ['From HALLA,', 'For PET'],
         'closing_button' => '프롬한라 상품 보기',
     ],
