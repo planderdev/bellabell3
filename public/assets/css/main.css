@@ -433,9 +433,23 @@ html[lang="en"] .about-reveal-line {
     }
 
     .about-reveal-title {
-        font-size: clamp(28px, 8.6vw, 60px);
+        /* Capped so the top line stays on one row inside the 24px page margins. */
+        font-size: min(60px, 8.4vw, calc((100vw - 48px) / 10.53));
         line-height: 1.35;
         text-align: right;
+    }
+
+    /* Both lines share the highlight's size. Chinese copy stays smaller because its lines are far longer. */
+    html:not([lang^="zh"]) .about-reveal-line:not(.about-reveal-highlight) {
+        font-size: 1.62em;
+        font-weight: var(--fw-700);
+        line-height: 1.1;
+        letter-spacing: -.01em;
+        white-space: normal;
+    }
+
+    html[lang^="zh"] .about-reveal-line:not(.about-reveal-highlight) {
+        font-size: .8em;
     }
 
     .about-reveal-links {
