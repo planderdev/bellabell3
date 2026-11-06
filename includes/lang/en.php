@@ -53,6 +53,7 @@ return [
     "수출 선도기업 (제주경제통상진흥원) 선정" => "Selected as a Leading Export Company (Jeju Trade & Economic Promotion Agency)",
     "제주대학교 공로패" => "Plaque of Merit from Jeju National University",
     "벨아벨팜이 걸어온 길" => "BellaBellFarm's Journey",
+    "제안/협업 문의하기" => "Contact Us for Partnership",
     "농촌융복합산업 액셀러레이터 육성지원 사업 선정" => "Selected for the Rural Convergence Industry Accelerator Support Program",
     "대만 수출 계약 체결" => "Signed an export contract for Taiwan",
     "창업중심대학 선정 (전북대학교)" => "Selected for the Startup-Centered University program (Jeonbuk National University)",
