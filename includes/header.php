@@ -54,7 +54,7 @@ $pagePath = $_SERVER['LOCALE_PAGE'] ?? '/';
 <div class="all-menu-copy">
 <p><?= e($content['intro_title']) ?> / <br/><?= e($content['intro_body']) ?></p>
 <div class="all-menu-image">
-<img alt="" aria-hidden="true" src="/assets/gray.svg"/>
+<img alt="<?= e(t('프롬한라')) ?>" src="/assets/fromhalla.svg" width="750" height="351"/>
 </div>
 </div>
 

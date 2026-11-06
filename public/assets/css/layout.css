@@ -390,20 +390,17 @@ body:is(.menu-open, .menu-closing) .header .language-wrap {
     letter-spacing: -.05em;
 }
 
+/* The From Halla symbol sits where the menu's picture used to be. */
 .all-menu-image {
     width: 100%;
-    max-width: 375px;
-    aspect-ratio: 375 / 270;
+    max-width: clamp(180px, 13.5vw, 260px);
     margin-top: auto;
-    border-radius: 12px;
-    overflow: hidden;
 }
 
 .all-menu-image img {
     display: block;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
 }
 
 .all-menu-nav {
