@@ -134,7 +134,7 @@ check('Business contact form discloses privacy collection terms',len(byclass('co
 for path in ['/includes/common.php','/includes/head.php','/includes/header.php','/includes/footer.php','/includes/content.php','/includes/site.php','/includes/admin-site.php','/includes/research.php','/includes/contact-form.php','/config/materials.php','/company.php','/en/product/find.php']:
     check('Private and undefined routes return 404',fetch(path)[0]==404,path)
 brand_status,brand_raw,_=fetch('/brand');brand_nodes=list(Tree(brand_raw.decode()).root.descendants())
-check('Brand page links to the history page',[n.a.get('href') for n in brand_nodes if n.has('brand-page-link')]==['/history'])
+check('Brand page links to the history page and the partner form',[n.a.get('href') for n in brand_nodes if n.has('brand-page-link')]==['/history','#partner'])
 # Every admin field must point at real content, or an edit would silently change nothing. Nanotreat has no photo yet.
 field_probe=subprocess.run(['php','-r',"require 'includes/common.php';$d=site_defaults();echo json_encode(array_values(array_filter(array_keys(site_fields()),fn($k)=>site_get($d,$k)===null)));"],capture_output=True,text=True,cwd=ROOT)
 check('Editable fields all exist in content.php',json.loads(field_probe.stdout[field_probe.stdout.index('['):])==[],field_probe.stdout[-300:])

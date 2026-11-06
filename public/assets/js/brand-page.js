@@ -41,6 +41,8 @@ function initBrandSlider(panel) {
     };
     const swiper = new Swiper(slider, {
         speed: reducedMotion ? 0 : 700,
+        // Slides move only with the arrows (and a finger swipe on touch screens), never by scrolling or mouse drag.
+        simulateTouch: false,
         on: { init: syncSlide, slideChange: syncSlide }
     });
 
@@ -51,21 +53,6 @@ function initBrandSlider(panel) {
         button.addEventListener('click', () => swiper.slideTo(Number(button.dataset.slide)));
     });
 
-    // The wheel changes slides while the stage fills the screen, then hands over to page scrolling.
-    let lockedUntil = 0;
-    panel.addEventListener('wheel', event => {
-        if (window.scrollY > 10 || Math.abs(event.deltaY) < 10) return;
-        const forward = event.deltaY > 0;
-        if (performance.now() < lockedUntil) {
-            event.preventDefault();
-            return;
-        }
-        if (forward ? swiper.isEnd : swiper.isBeginning) return;
-        event.preventDefault();
-        lockedUntil = performance.now() + (reducedMotion ? 300 : 1200);
-        if (forward) swiper.slideNext();
-        else swiper.slidePrev();
-    }, { passive: false });
 }
 
 // Photo gallery on a slide: thumbnails pick the large photo, the arrow steps through and loops.
